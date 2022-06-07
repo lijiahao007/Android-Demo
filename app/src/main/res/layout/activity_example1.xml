@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:orientation="vertical"
+        tools:context=".activity.ExampleActivity1">
+
+        <TextView
+            android:id="@+id/lifecycle_activity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity跳转时的生命周期"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/param_pass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity intent 参数传递"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/param_pass1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity intent Serializable 序列化对象传递"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/param_pass2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity intent Parcelable 序列化对象传递"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/return_param"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="从下一个Activity返回结果 （startActivityForResult）"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/return_param1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="从下一个Activity返回结果 （registerForActivityResult）"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/launch_mode1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity singleTask 启动模式"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/launch_mode2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity singleTop 启动模式"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/launch_mode3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity singleInstance 启动模式"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/intent_launch_mode1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="使用Intent Flag设置启动模式"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

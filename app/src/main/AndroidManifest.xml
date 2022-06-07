@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.myapplication">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication"
+        tools:targetApi="31">
+        <service
+            android:name=".service.DemoService1"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".service.ServiceDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.IntentFlagActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".activity.IntentFlagActivity1"
+            android:exported="false"
+            android:launchMode="standard" />
+        <activity
+            android:name=".activity.IntentFlagActivity"
+            android:exported="false"
+            android:launchMode="standard" />
+        <activity
+            android:name=".activity.LaunchModeActivity4"
+            android:exported="false"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.LaunchModeActivity3"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.LaunchModeActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LaunchModeActivity1"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.ExampleActivity4"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ExampleActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ExampleActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ExampleActivity1"
+            android:exported="false" />
+        <activity
+            android:name=".intent.IntentActivity"
+            android:exported="false">
+
+            <!-- 限定了该Activity能够相应的Intent类型 -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActivityDemo1"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
