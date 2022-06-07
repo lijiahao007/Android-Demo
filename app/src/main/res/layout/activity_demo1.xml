@@ -4,40 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     android:orientation="vertical"
-    tools:context=".ActivityDemo1"
-    android:background="@color/gray">
+    tools:context=".ActivityDemo1">
 
     <TextView
         android:id="@+id/intent_filter_demo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
         android:text="intent相关"
-        android:textSize="15sp"
-        android:background="@color/white"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/activity_demo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
         android:text="Activity相关"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/service_demo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
         android:text="Service相关"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/broadcast_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="BroadcastReceiver相关"
+        android:textSize="15sp" />
+
 
 </LinearLayout>

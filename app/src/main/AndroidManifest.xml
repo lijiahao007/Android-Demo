@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -14,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".BroadcastDemoActivity1"
+            android:exported="false" />
+
+        <service
+            android:name=".service.DemoIntentService1"
+            android:exported="false"></service>
         <service
             android:name=".service.DemoService1"
             android:enabled="true"

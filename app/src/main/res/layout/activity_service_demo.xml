@@ -23,5 +23,25 @@
             android:layout_height="wrap_content"
             android:text="bindService"
             android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_stop_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stopService"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btn_unbind_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unbindService"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btn_intent_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="StartIntentService"
+            android:textAllCaps="false"/>
     </LinearLayout>
 </RelativeLayout>
