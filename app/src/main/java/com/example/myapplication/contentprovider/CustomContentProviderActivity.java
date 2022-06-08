@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 
@@ -31,7 +34,52 @@ public class CustomContentProviderActivity extends AppCompatActivity {
             queryData();
         });
 
+        findViewById(R.id.btn_insert).setOnClickListener(view -> {
+            insertData();
+        });
 
+        findViewById(R.id.btn_delete).setOnClickListener(view -> {
+            deleteData();
+        });
+
+        findViewById(R.id.btn_update).setOnClickListener(view -> {
+            updateData();
+        });
+
+
+    }
+
+    private void updateData() {
+        ContentValues values = new ContentValues();
+        values.put(DemoTableContract.DemoEntry.COLUMN_NAME_VALUE, "helloworld");
+        String where = DemoTableContract.DemoEntry.COLUMN_NAME_FIELD + " = ?";
+        String[] args = {"phone"};
+        int update = contentResolver.update(DemoTableContract.DemoEntry.TABLE_URI, values, where, args);
+        logView.addLog("更新" + update + "条记录");
+    }
+
+    @SuppressLint("Range")
+    private void deleteData() {
+
+        try (Cursor query = contentResolver.query(DemoTableContract.DemoEntry.TABLE_URI, new String[]{DemoTableContract.DemoEntry._ID}, null, null, DemoTableContract.DemoEntry._ID + " DESC")) {
+            if (query.getCount() > 0) {
+                query.moveToFirst();
+                long id = query.getLong(query.getColumnIndex(DemoTableContract.DemoEntry._ID));
+                Uri uri = ContentUris.withAppendedId(DemoTableContract.DemoEntry.TABLE_URI, id);
+                int delete = contentResolver.delete(uri, null, null);
+                logView.addLog("删除" + delete + "条记录");
+            } else {
+                logView.addLog("内容已空，无法删除");
+            }
+        }
+    }
+
+    private void insertData() {
+        ContentValues values = new ContentValues();
+        values.put(DemoTableContract.DemoEntry.COLUMN_NAME_FIELD, "phone");
+        values.put(DemoTableContract.DemoEntry.COLUMN_NAME_VALUE, "13535853646");
+        Uri insert = contentResolver.insert(DemoTableContract.DemoEntry.TABLE_URI, values);
+        logView.addLog(insert.toString());
     }
 
     @SuppressLint("Range")
@@ -60,7 +108,5 @@ public class CustomContentProviderActivity extends AppCompatActivity {
             }
             logView.addLog("\n");
         }
-
-
     }
 }

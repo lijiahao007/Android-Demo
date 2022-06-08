@@ -1,8 +1,10 @@
 package com.example.myapplication.recycleview.adaper;
 
+import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationSet;
 import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
@@ -15,7 +17,13 @@ import java.util.ArrayList;
 
 public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder> {
 
-    public ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
+
+    public void submitList(ArrayList<String> newList) {
+        list.clear();
+        list.addAll(newList);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -26,6 +34,11 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder
     @Override
     public void onBindViewHolder(@NonNull DemoViewHolder holder, int position) {
         holder.bind(list.get(position));
+        holder.itemView.setOnClickListener(view -> {
+            ObjectAnimator zoom = ObjectAnimator.ofFloat(view, "scaleY", 0.8f, 1f);
+            zoom.start();
+
+        });
     }
 
     @Override

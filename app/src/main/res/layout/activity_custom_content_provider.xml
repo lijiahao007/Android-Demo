@@ -28,7 +28,7 @@
             android:id="@+id/btn_insert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="插入(待完成)" />
+            android:text="插入" />
 
         <Button
             android:id="@+id/btn_query"
@@ -40,7 +40,7 @@
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="删除(待完成)" />
+            android:text="删除" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更新(待完成)" />
+            android:text="更新" />
 
         <Button
             android:id="@+id/btn_clear_log"

@@ -87,8 +87,6 @@ public class BroadcastDemoActivity1 extends AppCompatActivity {
         localReceiver1 = new LocalBroadcastReceiver1(info);
         IntentFilter localFilter1 = new IntentFilter(LocalBroadcast);
         localBroadcastManager.registerReceiver(localReceiver1, localFilter1);
-
-
     }
 
     @Override
