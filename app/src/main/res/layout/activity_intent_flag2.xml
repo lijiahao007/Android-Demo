@@ -10,7 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cur： IntentFlagActivity2"
+            android:layout_gravity="center_horizontal"
+            />
         <Button
             android:id="@+id/btn_launch_flag1_standard"
             android:layout_width="wrap_content"

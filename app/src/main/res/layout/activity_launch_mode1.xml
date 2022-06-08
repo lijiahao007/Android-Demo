@@ -11,7 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cur :LaunchModeActivity1"
+            android:layout_gravity="center_horizontal"
+            />
         <Button
             android:id="@+id/btn_launch2"
             android:layout_width="wrap_content"

@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.332" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_broadcast_demo1.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_calender_provider.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_content_provider_demo.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_custom_content_provider.xml" value="0.36141304347826086" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_demo1.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_example1.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_example2.xml" value="0.27395833333333336" />
@@ -16,10 +20,15 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_launch_mode2.xml" value="0.309375" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_launch_mode3.xml" value="0.2953125" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_launch_mode4.xml" value="0.2953125" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_linear_layout_recyclerview.xml" value="0.3515625" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_main.xml" value="0.2798913043478261" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_permisson_rationale.xml" value="0.290625" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_recycle_view1.xml" value="0.36141304347826086" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_service_demo.xml" value="0.33" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_sqlite_demo.xml" value="0.36141304347826086" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_start_email.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/item_list.xml" value="0.36141304347826086" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/view_log.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_broadcast_demo1.xml" value="0.19610507246376813" />
       </map>
     </option>

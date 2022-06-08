@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LaunchModeActivity2">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cur :LaunchModeActivity2"
+        android:layout_gravity="center_horizontal"
+        android:layout_above="@+id/btn_launch2"
+        android:layout_centerHorizontal="true"
+        />
     <Button
         android:id="@+id/btn_launch2"
         android:layout_width="wrap_content"

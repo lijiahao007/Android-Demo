@@ -4,6 +4,8 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:name=".MyApplication"
@@ -16,8 +18,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".LinearLayoutRecyclerviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".recycleview.RecyclerViewDemoActivity"
+            android:exported="false" />
 
+        <provider
+            android:name=".contentprovider.DemoContentProvider1"
+            android:authorities="com.example.myapplication.provider"
+            android:enabled="true"
+            android:exported="true" />
 
+        <activity
+            android:name=".contentprovider.CustomContentProviderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contentprovider.SQLiteDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contentprovider.CalenderProviderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contentprovider.ContentProviderDemoActivity"
+            android:exported="false" />
         <activity
             android:name=".broadcast.BroadcastDemoActivity1"
             android:exported="false" />

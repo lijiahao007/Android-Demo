@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -13,6 +14,14 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalTime;
 
 public class OrderBroadcastReceiver2 extends BroadcastReceiver {
+    private TextView textView;
+    public OrderBroadcastReceiver2(TextView textView) {
+        this.textView = textView;
+    }
+
+    public OrderBroadcastReceiver2() {
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -23,15 +32,13 @@ public class OrderBroadcastReceiver2 extends BroadcastReceiver {
         if (resultExtras.containsKey("msg")) {
             msg = (String) resultExtras.get("msg");
         }
-        msg += " fuck";
+        msg += " receiver2";
         resultExtras.putString("msg", msg);
         setResultExtras(resultExtras);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(context, "receive2:" + msg, Toast.LENGTH_SHORT).show();
-        Log.i("DemoBroadcastReceiver1", "收到广播:" + msg + " receiver2" + " time:" + LocalTime.now());
+        String info = textView.getText().toString();
+        info += "receiver2 收到有序广播:" + name  +  "  time: " + LocalTime.now() + "\n";
+        info += "resultExtras:" + msg + "\n";
+        textView.setText(info);
+
     }
 }
