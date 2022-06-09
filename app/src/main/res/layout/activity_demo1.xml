@@ -62,8 +62,6 @@
         android:text="ContentProvider相关"
         android:textSize="15sp" />
 
-
-
     <TextView
         android:id="@+id/recycler_view_demo"
         android:layout_width="match_parent"
@@ -72,8 +70,18 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:text="RecyclerView相关 （未完成）"
+        android:text="RecyclerView相关"
         android:textSize="15sp" />
 
+    <TextView
+        android:id="@+id/tablayout_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="TabLayout &amp; ViewPager2 相关"
+        android:textSize="15sp" />
 
 </LinearLayout>

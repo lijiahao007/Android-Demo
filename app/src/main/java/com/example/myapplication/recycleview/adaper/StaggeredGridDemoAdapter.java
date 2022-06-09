@@ -2,26 +2,21 @@ package com.example.myapplication.recycleview.adaper;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationSet;
 import android.widget.TextView;
 
-import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder> {
+public class StaggeredGridDemoAdapter extends RecyclerView.Adapter<StaggeredGridDemoAdapter.DemoViewHolder> {
 
     private ArrayList<String> list = new ArrayList<>();
     private HashMap<Integer, Long> comeInTime = new HashMap<>();
@@ -46,7 +41,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder
     @NonNull
     @Override
     public DemoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false));
+        return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_staggered_grid, parent, false));
     }
 
     @Override

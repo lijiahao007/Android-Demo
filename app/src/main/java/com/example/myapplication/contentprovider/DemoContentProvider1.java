@@ -20,14 +20,12 @@ public class DemoContentProvider1 extends ContentProvider {
         uriMatcher.addURI("com.example.myapplication.provider", "/" + DemoTableContract.DemoEntry.TABLE_NAME + "/#", 2);
     }
 
-    private DemoTableDbHelper demoTableDbHelper;
     private SQLiteDatabase writableDatabase;
 
     @Override
     public boolean onCreate() {
-        demoTableDbHelper = new DemoTableDbHelper(getContext());
+        DemoTableDbHelper demoTableDbHelper = new DemoTableDbHelper(getContext());
         writableDatabase = demoTableDbHelper.getWritableDatabase();
-
         return false;
     }
 
@@ -51,6 +49,14 @@ public class DemoContentProvider1 extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+        switch (uriMatcher.match(uri)) {
+            case 1: {
+                return "vnd.android.cursor.dir/vnd.com.example.myapplication." + DemoTableContract.DemoEntry.TABLE_NAME;
+            }
+            case 2: {
+                return "vnd.android.cursor.item/vnd.com.example.myapplication." + DemoTableContract.DemoEntry.TABLE_NAME;
+            }
+        }
         return null;
     }
 

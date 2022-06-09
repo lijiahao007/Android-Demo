@@ -17,5 +17,16 @@ public class RecyclerViewDemoActivity extends AppCompatActivity {
             startActivity(new Intent(this, LinearLayoutRecyclerviewActivity.class));
         });
 
+        findViewById(R.id.grid_recycler_view).setOnClickListener(view -> {
+            startActivity(new Intent(this, GridRecyclerviewActivity.class));
+        });
+
+        findViewById(R.id.staggered_recycler_view).setOnClickListener(view -> {
+            startActivity(new Intent(this, StaggeredGridRecyclerviewActivity.class));
+        });
+
+        findViewById(R.id.item_decoration_view).setOnClickListener(view -> {
+            startActivity(new Intent(this, ItemDecorationActivity.class));
+        });
     }
 }

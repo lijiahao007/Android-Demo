@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tablayout.fragment.OneFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tv_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="OneFragment"
+        android:layout_centerInParent="true"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/tv_one"
+        android:layout_centerHorizontal="true"
+        >
+        <Button
+            android:id="@+id/btn_jump_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转2"
+            />
+        <Button
+            android:id="@+id/btn_jump_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转3"
+            />
+        <Button
+            android:id="@+id/btn_jump_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转4"
+            />
+        <Button
+            android:id="@+id/btn_jump_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转5"
+            />
+        <Button
+            android:id="@+id/btn_jump_six"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转6"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

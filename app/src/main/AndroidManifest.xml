@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myapplication">
+    package="com.example.myapplication" >
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -17,7 +17,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".tablayout.TabLayoutDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".recycleview.ItemDecorationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".recycleview.StaggeredGridRecyclerviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".recycleview.GridRecyclerviewActivity"
+            android:exported="false" />
         <activity
             android:name=".recycleview.LinearLayoutRecyclerviewActivity"
             android:exported="false" />
@@ -98,7 +110,7 @@
             android:exported="false" />
         <activity
             android:name=".intent.IntentActivity"
-            android:exported="false">
+            android:exported="false" >
 
             <!-- 限定了该Activity能够相应的Intent类型 -->
             <intent-filter>
@@ -111,7 +123,7 @@
         </activity>
         <activity
             android:name=".ActivityDemo1"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

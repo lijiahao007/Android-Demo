@@ -12,6 +12,7 @@ import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
+import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 
 public class ActivityDemo1 extends AppCompatActivity {
 
@@ -42,6 +43,10 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.recycler_view_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, RecyclerViewDemoActivity.class));
+        });
+
+        findViewById(R.id.tablayout_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, TabLayoutDemoActivity.class));
         });
     }
 }
