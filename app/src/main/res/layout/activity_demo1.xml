@@ -81,7 +81,18 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:text="TabLayout &amp; ViewPager2 相关"
+        android:text="TabLayout &amp; ViewPager2相关"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/permission_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="权限申请相关"
         android:textSize="15sp" />
 
 </LinearLayout>

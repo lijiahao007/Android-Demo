@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.UserDictionary;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.utils.LogView;
@@ -44,17 +45,25 @@ public class CalenderProviderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calender_provider);
         // 权限申请
         boolean flag = true;
+        boolean shouldShowReason = false;
         for (String permission : calenderPermission) {
+            shouldShowReason = shouldShowRequestPermissionRationale(permission);
             int result = checkSelfPermission(permission);
             if (result != PackageManager.PERMISSION_GRANTED) {
                 flag = false;
+                break;
             }
         }
-        if (!flag) {
-            requestPermissions(calenderPermission, CALENDER_PERMISSION_REQUEST_CODE);
+        if (shouldShowReason) {
+            Toast.makeText(this, "shouldShowRequestPermissionRationale=true", Toast.LENGTH_SHORT).show();
         } else {
-            init();
+            if (!flag) {
+                requestPermissions(calenderPermission, CALENDER_PERMISSION_REQUEST_CODE);
+            } else {
+                init();
+            }
         }
+
     }
 
     @Override
@@ -70,6 +79,8 @@ public class CalenderProviderActivity extends AppCompatActivity {
             }
             if (flag) {
                 init();
+            } else {
+                finish();
             }
         }
     }

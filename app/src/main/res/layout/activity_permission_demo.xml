@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".permission.PermissionDemoActivity">
+
+    <com.example.myapplication.utils.LogView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout"
+        android:layout_alignParentTop="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_data_access_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转权限说明页" />
+
+        <Button
+            android:id="@+id/btn_MMS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="彩信权限" />
+
+        <Button
+            android:id="@+id/btn_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定位权限" />
+    </LinearLayout>
+</RelativeLayout>

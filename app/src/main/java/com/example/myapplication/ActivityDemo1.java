@@ -10,6 +10,7 @@ import com.example.myapplication.activity.ExampleActivity1;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
+import com.example.myapplication.permission.PermissionDemoActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
@@ -47,6 +48,10 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.tablayout_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, TabLayoutDemoActivity.class));
+        });
+
+        findViewById(R.id.permission_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, PermissionDemoActivity.class));
         });
     }
 }
