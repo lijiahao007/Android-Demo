@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".permission.PermissionDemoActivity">
-
+    tools:context=".permission.EasyPermissionActivity">
     <com.example.myapplication.utils.LogView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,21 +21,10 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_data_access_reason"
+            android:id="@+id/btn_location_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="跳转权限说明页" />
+            android:text="定位与相机" />
 
-        <Button
-            android:id="@+id/btn_MMS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="彩信权限" />
-
-        <Button
-            android:id="@+id/btn_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="定位&amp;相机权限" />
     </LinearLayout>
 </RelativeLayout>

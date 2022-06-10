@@ -2,53 +2,38 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
-
-    <!--    日历-->
+    <!-- 日历 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.START_VIEW_PERMISSION_USAGE"
+    <uses-permission
+        android:name="android.permission.START_VIEW_PERMISSION_USAGE"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission
         android:name="android.permission.START_VIEW_PERMISSION_USAGE"
-        tools:ignore="ProtectedPermissions" />
-
-    <!--    彩信-->
-<!--    normal-->
-    <uses-permission android:name="android.permission.INTERNET" />
-<!--    dangerous-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--    定位-->
-<!--    dangerous-->
+        tools:ignore="ProtectedPermissions" /> <!-- 彩信 -->
+    <!-- normal -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- dangerous -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 定位 -->
+    <!-- dangerous -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 如果需要精确定位的话请加上此权限 -->
-<!--    dangerous-->
+    <!-- dangerous -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 如果需要粗略定位的话请加上此权限 -->
-
-    <!--    相机-->
+    <!-- 相机 -->
     <uses-feature
         android:name="android.hardware.Camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--    录音-->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 录音 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!--    读写手机存储-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 读写手机存储 -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-<!--    开启、关闭wifi-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-
-<!--    桌面快捷方式 normal-->
-    <uses-permission android:name="android.permission.INSTALL_SHORTCUT"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 开启、关闭wifi -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 桌面快捷方式 normal -->
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
 
     <application
         android:name=".MyApplication"
@@ -61,7 +46,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
-
+        <activity
+            android:name=".permission.PermissionMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".permission.EasyPermissionActivity"
+            android:exported="false" />
         <activity
             android:name=".permission.DataAccessReasonActivity"
             android:exported="true"

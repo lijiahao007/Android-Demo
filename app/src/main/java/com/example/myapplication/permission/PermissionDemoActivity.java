@@ -32,9 +32,9 @@ public class PermissionDemoActivity extends AppCompatActivity {
 
     static final String[] LocationPermission = {
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CAMERA
     };
-    static final int LocationRequestCode = 2;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
 
 
