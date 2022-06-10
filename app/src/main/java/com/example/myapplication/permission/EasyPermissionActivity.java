@@ -75,12 +75,6 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
         for (String perm : perms) {
             Log.i("PermissionActivity", "granted:" + perm);
         }
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this)
-                    .setTitle("somePermissionPermanentlyDenied")
-                    .setRationale("!!!")
-                    .build().show();
-        }
     }
 
     @Override
@@ -88,6 +82,13 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
         // 每个权限拒绝后，会回调该方法
         for (String perm : perms) {
             Log.i("PermissionActivity", "denied:" + perm);
+        }
+
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this)
+                    .setTitle("somePermissionPermanentlyDenied")
+                    .setRationale("!!!")
+                    .build().show();
         }
     }
 
