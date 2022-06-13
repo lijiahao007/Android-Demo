@@ -8,9 +8,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -22,13 +25,15 @@ import pub.devrel.easypermissions.PermissionRequest;
 public class EasyPermissionActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, EasyPermissions.RationaleCallbacks {
 
     private static final int RC_CAMERA_AND_LOCATION = 1;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easy_permission);
 
-        findViewById(R.id.btn_location_camera).setOnClickListener(view -> {
+        btn = findViewById(R.id.btn_location_camera);
+        btn.setOnClickListener(view -> {
             methodRequiresTwoPermission();
         });
 
@@ -56,9 +61,9 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
     }
 
 
-    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
+    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION) // 在权限全部获取后自动调用该注解注释的函数 (只会在全部授权后调用一次)
     private void action () {
-        Toast.makeText(this, "AfterPermissionGranted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(btn, "AfterPermissionGranted", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -96,6 +101,7 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // 对话框的返回值
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
             // Do something after user returned from app settings screen, like showing a Toast.
@@ -115,6 +121,5 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
     public void onRationaleDenied(int requestCode) {
         // 第一次拒绝后再次请求的请求框，点击取消后
         Log.i("PermissionActivity", "onRationaleDenied:" + requestCode);
-
     }
 }

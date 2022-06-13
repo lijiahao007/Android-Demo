@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.example.myapplication.activity.ExampleActivity1;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
+import com.example.myapplication.customview.CustomViewDemoActivity;
+import com.example.myapplication.customview.CustomViewMenuActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.permission.PermissionDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
@@ -53,6 +55,10 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.permission_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, PermissionMenuActivity.class));
+        });
+
+        findViewById(R.id.custom_view_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, CustomViewMenuActivity.class));
         });
     }
 }

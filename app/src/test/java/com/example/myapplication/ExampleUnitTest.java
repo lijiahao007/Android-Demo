@@ -23,5 +23,14 @@ public class ExampleUnitTest {
         System.out.println(list.size());
     }
 
+    @Test
+    public void test() {
+        float[] a = {1,2,3,4};
+        float[] b = a.clone();
+        b[0] = b[0] * 10;
+        for (int i = 0; i < 4; i++) {
+            System.out.println("a:" + a[i] + " b:" + b[i]);
+        }
+    }
 
 }

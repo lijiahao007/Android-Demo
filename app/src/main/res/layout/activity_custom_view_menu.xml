@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context=".customview.CustomViewMenuActivity"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/canvas_normal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="canvas普通绘图操作"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/bessel_two"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="贝塞尔二阶曲线"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/bessel_three"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="贝塞尔三阶曲线"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/elastic_ball"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="弹动的球"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/matrix_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="Matrix变换"
+        android:textSize="15sp" />
+</LinearLayout>

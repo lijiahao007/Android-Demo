@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'pub.devrel:easypermissions:3.0.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 
 }

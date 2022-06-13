@@ -95,4 +95,15 @@
         android:text="权限申请相关"
         android:textSize="15sp" />
 
+    <TextView
+        android:id="@+id/custom_view_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="自定义View相关"
+        android:textSize="15sp" />
+
 </LinearLayout>
