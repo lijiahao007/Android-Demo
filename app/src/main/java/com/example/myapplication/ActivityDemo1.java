@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.activity.ExampleActivity1;
 import com.example.myapplication.album.AlbumActivity;
+import com.example.myapplication.album.PhotoVideoDemoActivity;
 import com.example.myapplication.album.ScreenShotRecordActivity;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
@@ -68,7 +69,7 @@ public class ActivityDemo1 extends AppCompatActivity {
         });
 
         findViewById(R.id.camera_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, ScreenShotRecordActivity.class));
+            startActivity(new Intent(this, PhotoVideoDemoActivity.class));
         });
     }
 }

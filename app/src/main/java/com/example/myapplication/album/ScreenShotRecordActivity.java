@@ -1,10 +1,5 @@
 package com.example.myapplication.album;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -16,16 +11,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.example.myapplication.R;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -119,7 +117,6 @@ public class ScreenShotRecordActivity extends AppCompatActivity implements EasyP
     }
 
 
-
     private void initVideoView() {
         final MediaController mediacontroller = new MediaController(this);
         mediacontroller.setAnchorView(vvShow);
@@ -145,7 +142,7 @@ public class ScreenShotRecordActivity extends AppCompatActivity implements EasyP
         if (data == null && requestCode == PHOTO_REQUEST_CODE) {
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
             ivShow1.setImageBitmap(bitmap);
-            Log.i("ScreenShotRecordActivit", "byteCount:"+ String.valueOf(bitmap.getByteCount()));
+            Log.i("ScreenShotRecordActivit", "byteCount:" + String.valueOf(bitmap.getByteCount()));
             return;
         } else if (data == null) {
             return;
@@ -168,30 +165,21 @@ public class ScreenShotRecordActivity extends AppCompatActivity implements EasyP
 
 
     private void handlePhoto(Intent data) {
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data"); // 缩略图
-        Log.i("ScreenShotRecordActivit", " photo data:" + bitmap);
-        ivShow.setImageBitmap(bitmap);
-
-        Uri data1 = data.getData();
-        Log.i("ScreenShotRecordActivit", " photo uri:" + data1);
-
+        // 如果设置了保存位置，就不会返回缩略图
+//        Bitmap bitmap = (Bitmap) data.getExtras().get("data"); // 缩略图
+//        Log.i("ScreenShotRecordActivit", " photo data:" + bitmap);
+//        ivShow.setImageBitmap(bitmap);
     }
 
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES); // 该路径是系统相册路径
+//        File storageDIr = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // 该路径在应用私有空间内
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-        Log.i("ScreenShotRecordActivit", "createFile:" + currentPhotoPath);
         return image;
     }
 
@@ -209,10 +197,14 @@ public class ScreenShotRecordActivity extends AppCompatActivity implements EasyP
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String perm : perms) {
+            stringBuilder.append(perm).append("\n");
+        }
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this)
                     .setTitle("注意")
-                    .setRationale("需要这些权限才能够正常工作")
+                    .setRationale("需要以下权限：" + stringBuilder.toString())
                     .build().show();
         }
     }
