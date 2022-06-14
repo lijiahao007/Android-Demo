@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.myapplication.activity.ExampleActivity1;
+import com.example.myapplication.album.AlbumActivity;
+import com.example.myapplication.album.ScreenShotRecordActivity;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewDemoActivity;
@@ -59,6 +61,14 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.custom_view_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, CustomViewMenuActivity.class));
+        });
+
+        findViewById(R.id.album_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, AlbumActivity.class));
+        });
+
+        findViewById(R.id.camera_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, ScreenShotRecordActivity.class));
         });
     }
 }

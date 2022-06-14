@@ -19,10 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 如果需要精确定位的话请加上此权限 -->
     <!-- dangerous -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 如果需要粗略定位的话请加上此权限 -->
-    <!-- 相机 -->
-    <uses-feature
-        android:name="android.hardware.Camera"
-        android:required="false" />
+
 
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 录音 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -35,6 +32,12 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 桌面快捷方式 normal -->
     <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
 
+<!--    相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -46,6 +49,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.android.application.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
+
+        <activity
+            android:name=".album.ScreenShotRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".album.AlbumActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".customview.MatrixPolyActivity"
             android:exported="false" />

@@ -8,8 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#F0F0F0</color>
+    <color name="light_gray">#F5F5F5</color>
     <color name="item_decoration">#6300BCD4</color>
     <color name="item_decoration1">#74001CD4</color>
     <color name="item_decoration2">#C4E91E63</color>
-
+    <color name="tab_selected">#C41EA9E9</color>
+    <color name="tab_unselected">#8a8a8a</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

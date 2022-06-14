@@ -84,7 +84,7 @@ public class PolySettingView extends View {
 
             // 根据触控位置改变dst
             for (int i = 0; i < testPoint * 2; i += 2) {
-                if (Math.abs(tempX - dst[i]) <= triggerRadius && Math.abs(tempY - dst[i + 1]) <= triggerRadius) { // 如果两个点比较近，就分开他们，避免重合
+                if (Math.abs(tempX - dst[i]) <= triggerRadius && Math.abs(tempY - dst[i + 1]) <= triggerRadius) { // 重力场，如果触发点距离某个点距离少于180，就可以拖动。
                     dst[i] = tempX - 100;
                     dst[i + 1] = tempY - 100;
                     break;  // 防止两个点的位置重合
@@ -114,6 +114,7 @@ public class PolySettingView extends View {
         canvas.drawBitmap(mBitmap, mPolyMatrix, null);
 
         mPolyMatrix.mapPoints(dst, src);
+
 
         // 绘制触控点
         for (int i = 0; i < testPoint * 2; i += 2) {

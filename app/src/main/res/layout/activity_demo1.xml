@@ -1,109 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:orientation="vertical"
-    tools:context=".ActivityDemo1">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/intent_filter_demo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="intent相关"
-        android:textSize="15sp" />
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:orientation="vertical"
+        tools:context=".ActivityDemo1">
 
-    <TextView
-        android:id="@+id/activity_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Activity相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/intent_filter_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="intent相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/service_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Service相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/activity_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Activity相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/broadcast_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="BroadcastReceiver相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/service_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Service相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/content_provider_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="ContentProvider相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/broadcast_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="BroadcastReceiver相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/recycler_view_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="RecyclerView相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/content_provider_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="ContentProvider相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/tablayout_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="TabLayout &amp; ViewPager2相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/recycler_view_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="RecyclerView相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/permission_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="权限申请相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tablayout_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="TabLayout &amp; ViewPager2相关"
+            android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/custom_view_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="自定义View相关"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/permission_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="权限申请相关"
+            android:textSize="15sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/custom_view_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="自定义View相关"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/album_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="相册"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/camera_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="拍照录像"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
