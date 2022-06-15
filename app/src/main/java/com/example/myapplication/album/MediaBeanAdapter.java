@@ -65,6 +65,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 Glide.with(itemView)
                         .setDefaultRequestOptions(new RequestOptions().frame(0).centerCrop())
                         .load(bean.getUri())
+                        .thumbnail(0.25f)
                         .into(ivPhoto);
                 tvTime.setVisibility(View.VISIBLE);
                 tvTime.setText(getVideoDuration(bean.getDuration()));
@@ -72,6 +73,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
             } else if (bean.getType() == MediaType.IMAGE) {
                 Glide.with(itemView)
                         .load(bean.getUri())
+                        .thumbnail(0.25f)
                         .into(ivPhoto);
 
                 tvTime.setVisibility(View.GONE);

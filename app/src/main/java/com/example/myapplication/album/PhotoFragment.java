@@ -73,10 +73,13 @@ public class PhotoFragment extends Fragment {
                 String uri = query.getString(query.getColumnIndex(MediaBean.Entry.URI));
                 long timeStamp = query.getLong(query.getColumnIndex(MediaBean.Entry.TIMESTAMP));
                 String fileName = query.getString(query.getColumnIndex(MediaBean.Entry.FILENAME));
+                String date = query.getString(query.getColumnIndex(MediaBean.Entry.DATE));
+
                 MediaBean bean = new MediaBean(Uri.parse(uri), fileName, MediaType.IMAGE);
                 bean.setId(id);
                 bean.setTimestamp(timeStamp);
                 res.add(bean);
+                bean.setDate(date);
                 Log.i("PhotoFragment", bean.toString());
             } while (query.moveToNext());
         }

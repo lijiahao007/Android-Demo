@@ -3,6 +3,11 @@ package com.example.myapplication.album;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
+
 public class MediaBean {
     long id;
     Uri uri;
@@ -10,6 +15,7 @@ public class MediaBean {
     String fileName;
     MediaType type;
     int duration = 0; // 视频长度 单位：毫秒
+    String date;
 
     public static class Entry implements BaseColumns {
         public static final String TABLE_NAME = "media_bean";
@@ -18,13 +24,15 @@ public class MediaBean {
         public static final String FILENAME = "filename";
         public static final String TYPE = "type";
         public static final String DURATION = "duration";
+        public static final String DATE = "date";
         public static final String[] ALL_COLUMN = {
                 _ID,
                 URI,
                 TIMESTAMP,
                 FILENAME,
                 TYPE,
-                DURATION
+                DURATION,
+                DATE
         };
     }
 
@@ -33,6 +41,15 @@ public class MediaBean {
         this.fileName = fileName;
         this.type = type;
         this.timestamp = System.currentTimeMillis();
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getDuration() {
