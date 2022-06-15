@@ -58,6 +58,9 @@ public class PhotoFragment extends Fragment {
         }
         mediaBeans = queryPhoto();
         adapter.setList(mediaBeans);
+
+        recyclerView.addItemDecoration(new MediaItemDecoration(getContext()));
+
         return root;
     }
 
