@@ -61,13 +61,28 @@ public class PhotoFragment extends Fragment {
 
         recyclerView.addItemDecoration(new MediaItemDecoration(getContext()));
 
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                boolean lastInDate = adapter.isLastInDate(position);
+                if (lastInDate) {
+                    int dateMediaSize = adapter.getDateMediaSize(position);
+                    if (dateMediaSize % 3 == 1) {
+                        return 3;
+                    } else if (dateMediaSize % 3 == 2) {
+                        return 2;
+                    }
+                }
+                return 1;
+            }
+        });
         return root;
     }
 
     @SuppressLint("Range")
     private ArrayList<MediaBean> queryPhoto() {
         String selection = MediaBean.Entry.TYPE + " = \"IMAGE\"";
-        String orderBy = MediaBean.Entry.TIMESTAMP + " DESC";
+        String orderBy = MediaBean.Entry.DATE + " DESC";
         Cursor query = database.query(MediaBean.Entry.TABLE_NAME, MediaBean.Entry.ALL_COLUMN, selection, null, null, null, orderBy);
         ArrayList<MediaBean> res = new ArrayList<>();
         if (query != null && query.moveToFirst()) {

@@ -9,6 +9,9 @@ import com.example.myapplication.album.MediaType;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Random;
+
+import javax.xml.parsers.SAXParser;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -29,7 +32,7 @@ public class ExampleUnitTest {
 
     @Test
     public void test() {
-        float[] a = {1,2,3,4};
+        float[] a = {1, 2, 3, 4};
         float[] b = a.clone();
         b[0] = b[0] * 10;
         for (int i = 0; i < 4; i++) {
@@ -60,6 +63,17 @@ public class ExampleUnitTest {
         int a = 3;
         String format = String.format("%02d:%02d", a, 5);
         System.out.println(format);
+    }
+
+    @Test
+    public void test4() {
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            System.out.print(random.nextInt(10) + " ");
+            if (i % 10 == 0) {
+                System.out.println();
+            }
+        }
     }
 
 }

@@ -66,7 +66,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
 
     private final String[] permissions = {
             Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     private final int PERMISSION_REQUEST_CODE = 1;
@@ -166,7 +166,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
         }
     });
 
-    // 截屏
+    // 截屏  TODO:Android10以后截屏需要使用一个前台服务。这部分需要进行适配。
     private ImageReader imageReader = null;
     private VirtualDisplay virtualDisplay = null;
     private MediaProjection mediaProjection = null;
@@ -245,6 +245,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
                         boolean compress = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
                         MediaBean bean = new MediaBean(uriForFile, tempFile.getAbsolutePath(), MediaType.IMAGE);
+
                         insertMediaBean(bean);
 
                         runOnUiThread(() -> {
@@ -317,6 +318,8 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
         values.put(MediaBean.Entry.TIMESTAMP, bean.getTimestamp());
         values.put(MediaBean.Entry.FILENAME, bean.getFileName());
         values.put(MediaBean.Entry.TYPE, bean.getType().toString());
+        values.put(MediaBean.Entry.DURATION, bean.getDuration());
+        values.put(MediaBean.Entry.DATE, bean.getDate());
         long res = database.insert(MediaBean.Entry.TABLE_NAME, null, values);
         Log.i(TAG, "插入结果:" + res);
         return res;

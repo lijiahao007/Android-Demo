@@ -2,13 +2,12 @@ package com.example.myapplication.album;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Random;
 
 public class MediaBean {
+    private static final Random random = new Random();
     long id;
     Uri uri;
     long timestamp;
@@ -41,7 +40,9 @@ public class MediaBean {
         this.fileName = fileName;
         this.type = type;
         this.timestamp = System.currentTimeMillis();
-        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+//        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+        this.date = "2022-06-" + String.format("%02d", (random.nextInt(15) + 1));
+        Log.i("MediaBean", date);
     }
 
     public String getDate() {
