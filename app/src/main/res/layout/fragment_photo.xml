@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_album_photo"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3" />
+        app:spanCount="3"
+        android:foregroundGravity="center_horizontal"
+        />
 
 
 </RelativeLayout>

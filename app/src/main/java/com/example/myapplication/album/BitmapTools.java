@@ -22,4 +22,6 @@ public class BitmapTools {
         options.inSampleSize = inSampleSize;  // 通过设置inSampleSize来设置压缩比例，如果inSampleSize = 2, 则输出bitmap的长宽都是原来一半。
         return BitmapFactory.decodeFile(path, options);
     }
+
+
 }

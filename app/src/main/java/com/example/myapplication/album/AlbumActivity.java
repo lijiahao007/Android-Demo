@@ -6,8 +6,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.Activity;
-import android.app.StatusBarManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +20,6 @@ import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-
 public class AlbumActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
@@ -34,6 +30,15 @@ public class AlbumActivity extends AppCompatActivity {
     private ImageView ivEdit;
     private TextView tvSelectAll;
     private TextView tvExitEdit;
+    public static final String EDIT_MODE_CHANGE = "edit_mode_change";
+    public static final String EDIT_MODE = "edit_mode";
+    public static final String SELECT_ALL_CHANGE = "select_all_change";
+    public static final String SELECT_ALL = "select_all";
+    public static final String DELETE = "delete";
+    public static final String SHARE = "share";
+
+    private ImageView ivShare;
+    private ImageView ivDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,29 +111,66 @@ public class AlbumActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.iv_back);
         tvSelectAll = findViewById(R.id.tv_select_all);
         tvExitEdit = findViewById(R.id.tv_exit_edit);
+        ivShare = findViewById(R.id.iv_share);
+        ivDelete = findViewById(R.id.iv_deleter);
 
         ivBack.setOnClickListener(view -> {
             finish();
         });
 
-        // 编辑模式
+        // 1. 编辑模式
         ivEdit.setOnClickListener(view -> {
             ivEdit.setVisibility(View.GONE);
             ivBack.setVisibility(View.GONE);
             editToolsLayout.setVisibility(View.VISIBLE);
             tvSelectAll.setVisibility(View.VISIBLE);
             tvExitEdit.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(EDIT_MODE, true);
+            getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
+            viewPager.setUserInputEnabled(false);
         });
 
-        // 退出编辑模式
+        // 2. 退出编辑模式
         tvExitEdit.setOnClickListener(view -> {
             ivEdit.setVisibility(View.VISIBLE);
             ivBack.setVisibility(View.VISIBLE);
             editToolsLayout.setVisibility(View.GONE);
             tvSelectAll.setVisibility(View.GONE);
             tvExitEdit.setVisibility(View.GONE);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(EDIT_MODE, false);
+            getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
+            viewPager.setUserInputEnabled(true);
+        });
+
+        // 3. 全选和全不选
+        tvSelectAll.setOnClickListener(view -> {
+            String text = tvSelectAll.getText().toString();
+            boolean isSelectAll = false;
+            if (text.equals("全选")) {
+                tvSelectAll.setText("全不选");
+                isSelectAll = true;
+            } else {
+                tvSelectAll.setText("全选");
+                isSelectAll = false;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(SELECT_ALL, isSelectAll);
+            getSupportFragmentManager().setFragmentResult(SELECT_ALL_CHANGE, bundle);
+        });
+
+        // 4. 分享
+        ivShare.setOnClickListener(view -> {
+            getSupportFragmentManager().setFragmentResult(SHARE, new Bundle());
+        });
+
+        // 5. 删除
+        ivDelete.setOnClickListener(view -> {
+            getSupportFragmentManager().setFragmentResult(DELETE, new Bundle());
         });
     }
+
 
     private void setStatusBarColor() {
         Window window = getWindow();

@@ -2,6 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_decoration_padding">5dp</dimen>
     <dimen name="media_divider_height">30dp</dimen>
+    <dimen name="media_normal_divider_height">20dp</dimen>
     <dimen name="media_divider_text_size">15sp</dimen>
 
 </resources>

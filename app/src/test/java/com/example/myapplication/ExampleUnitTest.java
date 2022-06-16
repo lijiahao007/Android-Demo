@@ -4,14 +4,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import android.net.Uri;
+import android.os.Parcelable;
+
+import com.example.myapplication.album.MediaBean;
 import com.example.myapplication.album.MediaType;
 
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.xml.parsers.SAXParser;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -73,6 +74,14 @@ public class ExampleUnitTest {
             if (i % 10 == 0) {
                 System.out.println();
             }
+        }
+    }
+
+    @Test
+    public void test5() {
+        boolean[] a = new boolean[10];
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
         }
     }
 
