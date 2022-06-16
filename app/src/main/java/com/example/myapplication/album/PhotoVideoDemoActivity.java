@@ -66,7 +66,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
 
     private final String[] permissions = {
             Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     private final int PERMISSION_REQUEST_CODE = 1;

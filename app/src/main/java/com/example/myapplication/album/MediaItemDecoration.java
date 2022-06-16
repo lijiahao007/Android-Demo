@@ -103,7 +103,6 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
         if (lowestView == null) {
             lowestView = firstVisibleView;
         }
-        Log.i("MediaItemDecoration", "data:" + date + "  lowest bottom:" + lowestView.getBottom() + "/" + dividerHeight);
 
         if (lowestView.getBottom() <= dividerHeight && adapter.isLastLineInDate(lowestView)) { // 如果第一个View的底部再dividerSize之上，（第二个View的divider触碰到顶部divider）(表层的View向上移，底层的View会跟着RecyclerView向上移动)
             float fraction = 1 - lowestView.getBottom() / (dividerHeight * 1.0f);

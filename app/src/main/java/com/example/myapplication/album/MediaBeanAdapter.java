@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -44,7 +45,11 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     private boolean isSelectAll = false;
     public static final String MEDIA_BEAN_LIST = "media_bean_list";
     public static final String CLICK_POSITION = "click_position";
-
+    public static final int CHECK_PHOTO = 10086;
+    private Fragment fragment;
+    public MediaBeanAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setList(List<MediaBean> newList) {
@@ -100,8 +105,8 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
                 Intent intent = new Intent(recyclerView.getContext(), PhotoCheckActivity.class);
                 intent.putParcelableArrayListExtra(MEDIA_BEAN_LIST, (ArrayList<? extends Parcelable>) list);
-                intent.putExtra(CLICK_POSITION, position);
-                recyclerView.getContext().startActivity(intent);
+                intent.putExtra(CLICK_POSITION, list.indexOf(bean));
+                fragment.requireActivity().startActivityForResult(intent, CHECK_PHOTO);
             }
         });
 

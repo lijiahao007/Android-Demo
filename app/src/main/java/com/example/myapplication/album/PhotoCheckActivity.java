@@ -39,6 +39,11 @@ public class PhotoCheckActivity extends AppCompatActivity {
     private static final String TAG = "PhotoCheckActivity";
     private SQLiteDatabase database;
     private MediaBeanDBHelper helper;
+    public static final int DELETE_RESULT_CODE = 2;
+    public static final String DELETE_BUNDLE = "delete_bundle";
+
+    private ArrayList<MediaBean> deleteMediaBean = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +67,17 @@ public class PhotoCheckActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 curPos = position;
-                String fileName = mediaBeans.get(position).getFileName();
+                String fileName = mediaBeans.get(curPos).getFileName();
                 File file = new File(fileName);
                 String name = file.getName();
                 tvFileName.setText(name);
-                Log.i(TAG, "当前:" + mediaBeans.get(position));
-
-
+                Log.i(TAG, "当前:" + mediaBeans.get(curPos) + " curPos:" + curPos);
             }
         };
         viewPager.registerOnPageChangeCallback(onPageChangeCallback);
 
         ivBack.setOnClickListener(view -> {
+            setReturnResult();
             finish();
         });
 
@@ -95,7 +99,7 @@ public class PhotoCheckActivity extends AppCompatActivity {
 
         ivDelete.setOnClickListener(view -> {
             MediaBean bean = mediaBeans.get(curPos);
-            Log.i(TAG, "需要删除的是:" + bean);
+            Log.i(TAG, "需要删除的是:" + bean + " curPos=" + curPos );
 
             new MaterialAlertDialogBuilder(this)
                     .setMessage("是否删除该该图片")
@@ -106,6 +110,7 @@ public class PhotoCheckActivity extends AppCompatActivity {
                         photoCheckAdapter.deleteItem(bean);
                         deleteMediaBeanInDataBase(bean);
                         mediaBeans.remove(bean);
+                        deleteMediaBean.add(bean);
                     })
                     .show();
         });
@@ -145,6 +150,8 @@ public class PhotoCheckActivity extends AppCompatActivity {
     private void getIntentParams() {
         mediaBeans = getIntent().getParcelableArrayListExtra(MediaBeanAdapter.MEDIA_BEAN_LIST);
         position = getIntent().getIntExtra(MediaBeanAdapter.CLICK_POSITION, -1);
+        curPos = position;
+        Log.i(TAG, "初始状态：" + position + " " + mediaBeans.get(position));
     }
 
     @Override
@@ -152,4 +159,18 @@ public class PhotoCheckActivity extends AppCompatActivity {
         super.onDestroy();
         viewPager.unregisterOnPageChangeCallback(onPageChangeCallback);
     }
+
+    private void setReturnResult() {
+        Intent intent = new Intent();
+        intent.putParcelableArrayListExtra(DELETE_BUNDLE, deleteMediaBean);
+        setResult(DELETE_RESULT_CODE, intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setReturnResult();
+        super.onBackPressed();
+    }
+
+
 }
