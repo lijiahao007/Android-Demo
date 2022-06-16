@@ -2,6 +2,7 @@ package com.example.myapplication.album;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -42,11 +46,15 @@ public class PhotoFragment extends Fragment {
     private SQLiteDatabase database = null;
     private ArrayList<MediaBean> mediaBeans;
     private ContentResolver contentResolver;
-    private boolean isFirst = true;
+    private ActivityResultLauncher<List<MediaBean>> listActivityResultLauncher;
 
-    public PhotoFragment() {
+    public PhotoFragment() {}
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +81,6 @@ public class PhotoFragment extends Fragment {
         }
         mediaBeans = queryPhoto();
         adapter.setList(mediaBeans);
-        isFirst = false;
 
         // 3. 设置分隔
         recyclerView.addItemDecoration(new MediaItemDecoration(getContext()));
@@ -154,16 +161,6 @@ public class PhotoFragment extends Fragment {
         });
 
         return root;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!isFirst) {
-            mediaBeans = queryPhoto();
-            adapter.setList(mediaBeans);
-        }
     }
 
     private int deleteMediaBean(MediaBean bean) {
