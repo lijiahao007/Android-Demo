@@ -42,5 +42,4 @@ public class ExampleInstrumentedTest {
         System.out.println(list3.get(0));
         Log.i("test6", list3.get(0).toString());
     }
-
 }

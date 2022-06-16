@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +42,7 @@ public class PhotoFragment extends Fragment {
     private SQLiteDatabase database = null;
     private ArrayList<MediaBean> mediaBeans;
     private ContentResolver contentResolver;
+    private boolean isFirst = true;
 
     public PhotoFragment() {
     }
@@ -71,6 +73,7 @@ public class PhotoFragment extends Fragment {
         }
         mediaBeans = queryPhoto();
         adapter.setList(mediaBeans);
+        isFirst = false;
 
         // 3. 设置分隔
         recyclerView.addItemDecoration(new MediaItemDecoration(getContext()));
@@ -150,14 +153,17 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-        Log.i(TAG, "onCreateView");
-
         return root;
     }
 
 
-    private void deleteImage() {
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isFirst) {
+            mediaBeans = queryPhoto();
+            adapter.setList(mediaBeans);
+        }
     }
 
     private int deleteMediaBean(MediaBean bean) {
@@ -188,8 +194,16 @@ public class PhotoFragment extends Fragment {
                 MediaBean bean = new MediaBean(Uri.parse(uri), fileName, MediaType.IMAGE);
                 bean.setId(id);
                 bean.setTimestamp(timeStamp);
-                res.add(bean);
                 bean.setDate(date);
+
+                File file = new File(bean.getFileName());
+                if (!file.exists()) {
+                    String where = MediaBean.Entry._ID + " = " + bean.id;
+                    int delete = database.delete(MediaBean.Entry.TABLE_NAME, where, null);
+                    Log.i("PhotoFragment", "文件已被删除：" + bean.toString() + "----已从数据库中删除" + delete);
+                    continue;
+                }
+                res.add(bean);
                 Log.i("PhotoFragment", bean.toString());
             } while (query.moveToNext());
         }
