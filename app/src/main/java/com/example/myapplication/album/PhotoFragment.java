@@ -11,9 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -22,6 +19,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,15 +44,11 @@ public class PhotoFragment extends Fragment {
     private SQLiteDatabase database = null;
     private ArrayList<MediaBean> mediaBeans;
     private ContentResolver contentResolver;
-    private ActivityResultLauncher<List<MediaBean>> listActivityResultLauncher;
+    public static final String DELETE_REQUEST_KEY = "delete_request_key";
 
-    public PhotoFragment() {}
-
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    public PhotoFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +63,7 @@ public class PhotoFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_view);
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new MediaBeanAdapter();
+        adapter = new MediaBeanAdapter(this);
         recyclerView.setAdapter(adapter);
 
         // 2. 获取数据
@@ -149,16 +143,35 @@ public class PhotoFragment extends Fragment {
                     new MaterialAlertDialogBuilder(requireContext())
                             .setMessage("删除" + checkedBean.size() + "张图片")
                             .setPositiveButton("确定", (dialog, which) -> {
-                                for (MediaBean bean: checkedBean) {
+                                for (MediaBean bean : checkedBean) {
                                     int res = deleteMediaBean(bean);
                                 }
                                 adapter.deleteItems(checkedBean);
-                             })
-                            .setNegativeButton("取消", (dialog, which) -> { dialog.cancel(); })
+                            })
+                            .setNegativeButton("取消", (dialog, which) -> {
+                                dialog.cancel();
+                            })
                             .show();
                 }
             }
         });
+
+
+        // 监听CheckPhotoActivity中返回的删除MediaBean
+        getParentFragmentManager().setFragmentResultListener(DELETE_REQUEST_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                if (requestKey.equals(DELETE_REQUEST_KEY)) {
+                    ArrayList<MediaBean> deleteBeans = result.getParcelableArrayList(PhotoCheckActivity.DELETE_BUNDLE);
+                    adapter.deleteItems(deleteBeans);
+                    for (MediaBean bean: deleteBeans) {
+                        mediaBeans.remove(bean);
+                    }
+                    Toast.makeText(requireContext(), "删除" + deleteBeans.size(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         return root;
     }

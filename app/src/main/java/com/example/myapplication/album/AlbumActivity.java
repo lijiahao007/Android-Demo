@@ -1,12 +1,20 @@
 package com.example.myapplication.album;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +23,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumActivity extends AppCompatActivity {
 
@@ -42,6 +54,8 @@ public class AlbumActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         initTabLayout();
@@ -189,6 +203,19 @@ public class AlbumActivity extends AppCompatActivity {
         if (mChildView != null) {
             mChildView.setFitsSystemWindows(false);
             ViewCompat.requestApplyInsets(mChildView);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("onActivityResult", "requestCode" + requestCode + " " + resultCode);
+        if (resultCode == PhotoCheckActivity.DELETE_RESULT_CODE && data != null) {
+            ArrayList<MediaBean> deleteBean = data.getParcelableArrayListExtra(PhotoCheckActivity.DELETE_BUNDLE);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(PhotoCheckActivity.DELETE_BUNDLE, deleteBean);
+            Log.i("onActivityResult", "deleteBean" + deleteBean.size());
+            getSupportFragmentManager().setFragmentResult(PhotoFragment.DELETE_REQUEST_KEY, bundle);
         }
     }
 }
