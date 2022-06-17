@@ -1,27 +1,23 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.bean;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Random;
 
 public class MediaBean implements Parcelable {
     private static final Random random = new Random();
-    long id;
-    Uri uri;
-    long timestamp;
-    String fileName;
-    MediaType type;
-    int duration = 0; // 视频长度 单位：毫秒
-    String date;
+    public long id;
+    public Uri uri;
+    public long timestamp;
+    public String fileName;
+    public MediaType type;
+    public int duration = 0; // 视频长度 单位：毫秒
+    public String date;
 
     protected MediaBean(Parcel in) {
         id = in.readLong();

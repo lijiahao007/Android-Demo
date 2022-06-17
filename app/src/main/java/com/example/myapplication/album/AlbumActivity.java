@@ -1,21 +1,17 @@
 package com.example.myapplication.album;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,14 +19,24 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.album.adapter.AlbumFragmentAdapter;
+import com.example.myapplication.album.adapter.MediaBeanAdapter;
+import com.example.myapplication.album.bean.MediaBean;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.List;
+
+// TODO: 1. 全选与全不选 (在全选时，取消选择某一个，会跳到全不选)
+// TODO: 2. 进入编辑模式与退出编辑模式
+// TODO: 3. fragment result API
+// TODO: 4. PhotoCheckActivity 图片放大查看功能
+// TODO: 5. VideoCheckActivity 自定义视频查看界面
+// TODO: 6. TextView点击动画效果
+
+
 
 public class AlbumActivity extends AppCompatActivity {
 
@@ -51,6 +57,8 @@ public class AlbumActivity extends AppCompatActivity {
 
     private ImageView ivShare;
     private ImageView ivDelete;
+    private TabLayoutMediator tabLayoutMediator;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +86,7 @@ public class AlbumActivity extends AppCompatActivity {
                 "图片",
                 "视频"
         };
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 View customView = LayoutInflater.from(AlbumActivity.this).inflate(R.layout.view_album_tab, null);
@@ -90,7 +98,7 @@ public class AlbumActivity extends AppCompatActivity {
             }
         });
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int selectedColor = ResourcesCompat.getColor(getResources(), R.color.tab_selected, null);
@@ -113,8 +121,8 @@ public class AlbumActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });
-
+        };
+        tabLayout.addOnTabSelectedListener(onTabSelectedListener);
         tabLayoutMediator.attach();
     }
 
@@ -143,6 +151,8 @@ public class AlbumActivity extends AppCompatActivity {
             bundle.putBoolean(EDIT_MODE, true);
             getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
             viewPager.setUserInputEnabled(false);
+            tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
+            tabLayoutMediator.detach();
         });
 
         // 2. 退出编辑模式
@@ -156,6 +166,8 @@ public class AlbumActivity extends AppCompatActivity {
             bundle.putBoolean(EDIT_MODE, false);
             getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
             viewPager.setUserInputEnabled(true);
+            tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+            tabLayoutMediator.attach();
         });
 
         // 3. 全选和全不选
@@ -209,13 +221,17 @@ public class AlbumActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("onActivityResult", "requestCode" + requestCode + " " + resultCode);
-        if (resultCode == PhotoCheckActivity.DELETE_RESULT_CODE && data != null) {
+        Log.i("result passing ", "AlbumActivity requestCode:" + requestCode + " resultCode:" + resultCode);
+        if (requestCode == MediaBeanAdapter.CHECK_PHOTO && resultCode == PhotoCheckActivity.DELETE_RESULT_CODE && data != null) {
+            // 从PhotoCheckActivity中返回删除列表
             ArrayList<MediaBean> deleteBean = data.getParcelableArrayListExtra(PhotoCheckActivity.DELETE_BUNDLE);
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(PhotoCheckActivity.DELETE_BUNDLE, deleteBean);
-            Log.i("onActivityResult", "deleteBean" + deleteBean.size());
-            getSupportFragmentManager().setFragmentResult(PhotoFragment.DELETE_REQUEST_KEY, bundle);
+            Log.i("result passing ", "AlbumActivity deleteBean" + deleteBean.size());
+            getSupportFragmentManager().setFragmentResult(PhotoFragment.DELETE_PHOTO_REQUEST_KEY, bundle);
+        } else if (requestCode == MediaBeanAdapter.CHECK_VIDEO && resultCode == VideoCheckActivity.DELETE_RESULT_CODE & data != null) {
+            // 从VideoCheckActivity中返回删除列表
+
         }
     }
 }

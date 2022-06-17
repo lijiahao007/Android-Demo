@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".album.VideoCheckActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="20220614100738_56119110_screenshot.mp4" />
+    </RelativeLayout>
+
+    <VideoView
+        android:id="@+id/vv_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_video_controller"
+        android:layout_below="@id/layout_header"
+        android:layout_centerInParent="true" />
+
+    <RelativeLayout
+        android:id="@+id/layout_video_controller"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_above="@+id/footer_layout"
+        android:background="@color/light_light_gray">
+
+        <LinearLayout
+            android:id="@+id/layout_video_tools"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_screen_shot"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_camera" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/layout_sound"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <CheckBox
+                    android:id="@+id/cb_sound"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_sound"
+                    android:button="@null"
+                    android:checked="true" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/layout_full_screen"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_full_screen" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/layout_video_tools"
+            android:orientation="horizontal"
+            android:background="@color/light_gray">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/iv_prev"
+                    android:layout_width="43dp"
+                    android:layout_height="40dp"
+                    android:rotation="180"
+                    android:src="@drawable/ic_next" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <CheckBox
+                    android:id="@+id/cb_play"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/selector_video_play"
+                    android:button="@null"
+                    android:checked="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/iv_next"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_next" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share"
+                app:tint="@color/dark_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分享"
+                android:textColor="@color/dark_gray" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_deleter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_deleter"
+                app:tint="@color/dark_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:textColor="@color/dark_gray" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

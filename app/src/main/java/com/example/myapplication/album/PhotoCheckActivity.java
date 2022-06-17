@@ -18,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.album.adapter.MediaBeanAdapter;
+import com.example.myapplication.album.adapter.PhotoCheckAdapter;
+import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.bean.MediaBeanDBHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -136,7 +140,7 @@ public class PhotoCheckActivity extends AppCompatActivity {
         //设置状态栏颜色
         window.setStatusBarColor(ResourcesCompat.getColor(getResources(), R.color.black, null));
         //设置系统状态栏处于可见状态
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE); // 设置状态栏可见 & 状态栏字体颜色为黑色
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE); // 设置状态栏可见 & 状态栏字体颜色默认为白色
 
         //让view不根据系统窗口来调整自己的布局
         ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
@@ -163,12 +167,14 @@ public class PhotoCheckActivity extends AppCompatActivity {
     private void setReturnResult() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(DELETE_BUNDLE, deleteMediaBean);
+        Log.i("result passing ", "deletebeans size=" + deleteMediaBean.size());
         setResult(DELETE_RESULT_CODE, intent);
     }
 
     @Override
     public void onBackPressed() {
         setReturnResult();
+        finish();
         super.onBackPressed();
     }
 

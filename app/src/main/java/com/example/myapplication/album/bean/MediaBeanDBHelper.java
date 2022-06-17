@@ -1,4 +1,4 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.bean;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

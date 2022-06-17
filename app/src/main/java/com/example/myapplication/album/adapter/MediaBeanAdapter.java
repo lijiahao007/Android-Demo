@@ -1,15 +1,15 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -18,27 +18,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.myapplication.MyGlideAppModule;
 import com.example.myapplication.R;
+import com.example.myapplication.album.VideoCheckActivity;
+import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.bean.MediaType;
+import com.example.myapplication.album.PhotoCheckActivity;
 
 import java.io.File;
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.MediaViewHolder> {
 
     private final List<MediaBean> list = new ArrayList<>();
     HashMap<String, List<MediaBean>> dateMediaMap = new HashMap<>();
-    boolean[] isCheck;
+    ArrayList<Boolean> isCheck = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private boolean isEditMode = false;
@@ -46,7 +49,10 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     public static final String MEDIA_BEAN_LIST = "media_bean_list";
     public static final String CLICK_POSITION = "click_position";
     public static final int CHECK_PHOTO = 10086;
+    public static final int CHECK_VIDEO = 10087;
+
     private Fragment fragment;
+
     public MediaBeanAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
@@ -55,7 +61,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     public void setList(List<MediaBean> newList) {
         this.list.clear();
         this.list.addAll(newList);
-
+        dateMediaMap.clear();
         for (MediaBean bean : newList) {
             long timeStamp = bean.getTimestamp();
             String date = bean.getDate();
@@ -69,7 +75,10 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
             dateList.add(bean);
         }
-        isCheck = new boolean[newList.size()];
+        isCheck.clear();
+        for (int i = 0; i < newList.size(); i++) {
+            isCheck.add(Boolean.FALSE);
+        }
         notifyDataSetChanged();
     }
 
@@ -78,19 +87,19 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     public MediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.recyclerView = (RecyclerView) parent;
         Log.i("MediaViewHolder", String.valueOf(recyclerView.getWidth()));
-        return new MediaViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_photo, parent, false));
+        return new MediaViewHolder(fragment, LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_photo, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MediaViewHolder holder, int position) {
         holder.bind(list.get(position));
+
         View itemView = holder.itemView;
         MediaBean bean = list.get(position);
-
         itemView.setOnClickListener(view -> {
             if (isEditMode) {
                 holder.rbSelected.setChecked(!holder.rbSelected.isChecked());
-                isCheck[position] = holder.rbSelected.isChecked();
+                isCheck.set(holder.getAbsoluteAdapterPosition(), holder.rbSelected.isChecked());
             } else {
                 // 点击跳转图片查看Activity
                 File file = new File(bean.getFileName());
@@ -103,10 +112,17 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                     return;
                 }
 
-                Intent intent = new Intent(recyclerView.getContext(), PhotoCheckActivity.class);
-                intent.putParcelableArrayListExtra(MEDIA_BEAN_LIST, (ArrayList<? extends Parcelable>) list);
-                intent.putExtra(CLICK_POSITION, list.indexOf(bean));
-                fragment.requireActivity().startActivityForResult(intent, CHECK_PHOTO);
+                if (bean.getType() == MediaType.IMAGE) {
+                    Intent intent = new Intent(fragment.requireContext(), PhotoCheckActivity.class);
+                    intent.putParcelableArrayListExtra(MEDIA_BEAN_LIST, (ArrayList<? extends Parcelable>) list);
+                    intent.putExtra(CLICK_POSITION, list.indexOf(bean));
+                    fragment.requireActivity().startActivityForResult(intent, CHECK_PHOTO);
+                } else if (bean.getType() == MediaType.VIDEO) {
+                    Intent intent = new Intent(fragment.requireContext(), VideoCheckActivity.class);
+                    intent.putParcelableArrayListExtra(MEDIA_BEAN_LIST, (ArrayList<? extends Parcelable>) list);
+                    intent.putExtra(CLICK_POSITION, list.indexOf(bean));
+                    fragment.requireActivity().startActivityForResult(intent, CHECK_VIDEO);
+                }
             }
         });
 
@@ -114,48 +130,70 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
             holder.rbSelected.setVisibility(View.VISIBLE);
         } else {
             holder.rbSelected.setVisibility(View.GONE);
+            holder.rbSelected.setChecked(false);
             isSelectAll = false;
         }
 
         if (isSelectAll) {
             holder.rbSelected.setChecked(true);
-        } else {
-            holder.rbSelected.setChecked(false);
         }
 
+        holder.rbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i("onCheckedChanged", String.valueOf(holder.getAbsoluteAdapterPosition()) + " " + isChecked);
+                isCheck.set(holder.getAbsoluteAdapterPosition(), isChecked);
+                if (!isChecked) {
+                    isSelectAll = false;
+                }
+            }
+        });
 
     }
 
     public void setEditMode(boolean isEditMode) {
         this.isEditMode = isEditMode;
-        notifyVisibleItemChange();
+        for (int i = 0; i < isCheck.size(); i++) {
+            isCheck.set(i, false);
+        }
+        notifyItemRangeChanged(0, list.size());
     }
+
 
     public void setSelectAll(boolean isSelectAll) {
         this.isSelectAll = isSelectAll;
         if (isSelectAll) {
             for (int i = 0; i < list.size(); i++) {
-                isCheck[i] = true;
+                isCheck.set(i, Boolean.TRUE);
             }
         } else {
             for (int i = 0; i < list.size(); i++) {
-                isCheck[i] = false;
+                isCheck.set(i, Boolean.FALSE);
             }
         }
-        notifyVisibleItemChange();
+
+        notifyItemRangeChanged(0, list.size());
     }
+
+
 
     public void deleteItems(List<MediaBean> beans) {
         for (MediaBean bean : beans) {
-            int index = list.indexOf(bean);
             String date = bean.getDate();
-            List<MediaBean> mediaBeans = dateMediaMap.get(date);
+            List<MediaBean> dateBeans = dateMediaMap.get(date);
 
-            if (mediaBeans == null) return;
+            if (dateBeans == null) continue;
 
-            mediaBeans.remove(bean);
-            list.remove(index);
-            notifyItemRemoved(index);
+            for (int i = 0; i < dateBeans.size(); i++) {
+                if (dateBeans.get(i).getId() == bean.id) {
+                    MediaBean removeBean = dateBeans.remove(i);
+                    int index = list.indexOf(removeBean);
+                    list.remove(index);
+                    isCheck.remove(index);
+                    notifyItemRemoved(index);
+                    break;
+                }
+            }
         }
     }
 
@@ -170,12 +208,26 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
         private final RadioButton rbSelected;
         private View itemView;
 
-        public MediaViewHolder(View itemView) {
+        public MediaViewHolder(Fragment fragment, View itemView) {
             super(itemView);
             this.itemView = itemView;
             ivPhoto = itemView.findViewById(R.id.iv_media_photo);
             tvTime = itemView.findViewById(R.id.tv_time);
             rbSelected = itemView.findViewById(R.id.rb_selected);
+
+            // 根据屏幕宽度设置view的宽度
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            fragment.requireActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+            int screenWidth = outMetrics.widthPixels;
+            ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
+            int oldWidth = layoutParams.width;
+            int oneDp = fragment.getResources().getDimensionPixelOffset(R.dimen.one_dp);
+            int maxWidth = (screenWidth - oneDp * 32) / 3;
+            if (oldWidth > maxWidth) {
+                layoutParams.width = maxWidth;
+                itemView.setLayoutParams(layoutParams);
+            }
+
         }
 
         public void bind(MediaBean bean) {
@@ -208,6 +260,9 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 String res = "";
                 if (hour == 0) {
                     res = String.format("%02d:%02d", minute, second);
+                    if (minute == second & second == 0) { // 如果小于1s就当是1s的。
+                        res = "00:01";
+                    }
                 } else {
                     res = String.format("%02d:%02d", hour, minute);
                 }
@@ -230,7 +285,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     public boolean isFirstInDate(View view) {
         int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
 
-        if (childAdapterPosition == -1) { // 在view对应的数据删除后，这个view仍会存在一小部分时间。
+        if (childAdapterPosition <= -1 || childAdapterPosition >= list.size()) { // 在view对应的数据删除后，这个view仍会存在一小部分时间。
             return false;
         }
 
@@ -324,8 +379,8 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
     public List<MediaBean> getCheckedBean() {
         List<MediaBean> res = new ArrayList<>();
-        for (int i = 0; i < isCheck.length; i++) {
-            if (isCheck[i]) {
+        for (int i = 0; i < isCheck.size(); i++) {
+            if (isCheck.get(i)) {
                 res.add(list.get(i));
             }
         }

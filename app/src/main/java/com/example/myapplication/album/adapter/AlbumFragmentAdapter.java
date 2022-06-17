@@ -1,10 +1,13 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.myapplication.album.PhotoFragment;
+import com.example.myapplication.album.VideoFragment;
 
 import java.util.ArrayList;
 

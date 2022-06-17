@@ -1,4 +1,4 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.album.bean.MediaBean;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

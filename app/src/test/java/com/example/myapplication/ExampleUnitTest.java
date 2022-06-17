@@ -4,11 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import android.net.Uri;
-import android.os.Parcelable;
-
-import com.example.myapplication.album.MediaBean;
-import com.example.myapplication.album.MediaType;
+import com.example.myapplication.album.bean.MediaType;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -83,6 +79,13 @@ public class ExampleUnitTest {
         for (int i = 0; i < a.length; i++) {
             System.out.println(a[i]);
         }
+    }
+
+    @Test
+    public void test6() {
+        String a = null;
+
+        assert a != null;
     }
 
 }

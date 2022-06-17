@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.myapplication.album.MediaBean;
-import com.example.myapplication.album.MediaType;
+import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.bean.MediaType;
 
 import java.util.ArrayList;
 

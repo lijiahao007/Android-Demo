@@ -1,4 +1,4 @@
-package com.example.myapplication.album;
+package com.example.myapplication.album.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

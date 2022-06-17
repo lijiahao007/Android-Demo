@@ -2,36 +2,35 @@ package com.example.myapplication.album;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.myapplication.R;
+import com.example.myapplication.album.adapter.MediaBeanAdapter;
+import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.bean.MediaBeanDBHelper;
+import com.example.myapplication.album.bean.MediaType;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PhotoFragment extends Fragment {
@@ -42,9 +41,8 @@ public class PhotoFragment extends Fragment {
     private MediaBeanAdapter adapter;
     private MediaBeanDBHelper helper = null;
     private SQLiteDatabase database = null;
-    private ArrayList<MediaBean> mediaBeans;
     private ContentResolver contentResolver;
-    public static final String DELETE_REQUEST_KEY = "delete_request_key";
+    public static final String DELETE_PHOTO_REQUEST_KEY = "delete_request_key";
 
     public PhotoFragment() {
     }
@@ -53,6 +51,13 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 2. 初始化数据库
+        if (helper == null) {
+            helper = new MediaBeanDBHelper(getContext());
+        }
+        if (database == null) {
+            database = helper.getWritableDatabase();
+        }
     }
 
     @Override
@@ -65,19 +70,14 @@ public class PhotoFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new MediaBeanAdapter(this);
         recyclerView.setAdapter(adapter);
+        Objects.requireNonNull(recyclerView.getItemAnimator()).setChangeDuration(0);
 
-        // 2. 获取数据
-        if (helper == null) {
-            helper = new MediaBeanDBHelper(getContext());
-        }
-        if (database == null) {
-            database = helper.getWritableDatabase();
-        }
-        mediaBeans = queryPhoto();
+        // 2. 获取并设置数据
+        ArrayList<MediaBean> mediaBeans = queryPhoto();
         adapter.setList(mediaBeans);
 
         // 3. 设置分隔
-        recyclerView.addItemDecoration(new MediaItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new MediaItemDecoration(requireContext()));
 
         // 4. 设置分行
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -100,6 +100,7 @@ public class PhotoFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener(AlbumActivity.EDIT_MODE_CHANGE, getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Log.i(TAG, "onFragmentResult");
                 if (requestKey.equals(AlbumActivity.EDIT_MODE_CHANGE)) {
                     boolean isEditMode = result.getBoolean(AlbumActivity.EDIT_MODE);
                     adapter.setEditMode(isEditMode);
@@ -157,17 +158,14 @@ public class PhotoFragment extends Fragment {
         });
 
 
-        // 监听CheckPhotoActivity中返回的删除MediaBean
-        getParentFragmentManager().setFragmentResultListener(DELETE_REQUEST_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
+        // 8. 监听CheckPhotoActivity中返回的删除MediaBean
+        getParentFragmentManager().setFragmentResultListener(DELETE_PHOTO_REQUEST_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                if (requestKey.equals(DELETE_REQUEST_KEY)) {
+                if (requestKey.equals(DELETE_PHOTO_REQUEST_KEY)) {
                     ArrayList<MediaBean> deleteBeans = result.getParcelableArrayList(PhotoCheckActivity.DELETE_BUNDLE);
                     adapter.deleteItems(deleteBeans);
-                    for (MediaBean bean: deleteBeans) {
-                        mediaBeans.remove(bean);
-                    }
-                    Toast.makeText(requireContext(), "删除" + deleteBeans.size(), Toast.LENGTH_SHORT).show();
+                    Log.i("result passing ", "PhotoFragment deleteBean:" + deleteBeans.size());
                 }
             }
         });
@@ -223,13 +221,4 @@ public class PhotoFragment extends Fragment {
         return res;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 }

@@ -1,6 +1,5 @@
 package com.example.myapplication.album;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,6 +16,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.album.adapter.MediaBeanAdapter;
 
 public class MediaItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -31,13 +31,15 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
     private Paint bitmapPaint;
     private Paint fadeOutPaint;
     private int radioBitmapWidth;
+    private int dividerLeftAndRight;
+
 
     public MediaItemDecoration(Context context) {
         super();
         this.mContext = context;
         dividerHeight = context.getResources().getDimensionPixelSize(R.dimen.media_divider_height);
         normalDividerHeight = context.getResources().getDimensionPixelSize(R.dimen.media_normal_divider_height);
-        radioBitmapWidth = context.getResources().getDimensionPixelSize(R.dimen.media_normal_divider_height);
+        radioBitmapWidth = context.getResources().getDimensionPixelSize(R.dimen.media_divider_radio_height);
         dividerPaint = new Paint();
         dividerPaint.setColor(getColor(R.color.light_gray));
         textPaint = new Paint();
@@ -53,6 +55,8 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
         fadeOutPaint.setColor(getColor(R.color.dark_gray));
         Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
         textHeight = fontMetrics.bottom - fontMetrics.top;
+        dividerLeftAndRight = context.getResources().getDimensionPixelSize(R.dimen.media_divider_left_right);
+
     }
 
 
@@ -79,9 +83,10 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
                 String date = (String) view.getTag();
                 int childAdapterPosition = parent.getChildAdapterPosition(view);
                 canvas.drawRect(view.getLeft(), view.getTop() - dividerHeight, parent.getRight(), view.getTop(), dividerPaint);
-                canvas.drawBitmap(radioBitmap, view.getLeft(), view.getTop() - radioBitmapWidth - (dividerHeight - radioBitmapWidth) / 2.0f, bitmapPaint);
+                canvas.drawBitmap(radioBitmap, parent.getLeft(), view.getTop() - radioBitmapWidth - (dividerHeight - radioBitmapWidth) / 2.0f, bitmapPaint);
                 canvas.drawBitmap(rightBitmap, parent.getRight() - rightBitmap.getWidth(), view.getTop() - dividerHeight, bitmapPaint);
-                canvas.drawText(date, view.getLeft() + radioBitmap.getWidth(), view.getTop() - (dividerHeight - textHeight) / 1.1f, textPaint);
+                canvas.drawText(date, parent.getLeft() + radioBitmap.getWidth(), view.getTop() - (dividerHeight - textHeight) / 1.1f, textPaint);
+                Log.i("onDraw decoration", "view.top:" + view.getTop() + " view.left:" + view.getLeft() + " parent.right:" + parent.getRight() + " parent.left:" + parent.getLeft());
             }
         }
     }
@@ -108,10 +113,10 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
             float fraction = 1 - lowestView.getBottom() / (dividerHeight * 1.0f);
             int currentColor = getCurrentColor(fraction, getColor(R.color.media_item_decoration_start_color), getColor(R.color.media_item_decoration_end_color));
             fadeOutPaint.setColor(currentColor);
-            canvas.drawRect(lowestView.getLeft(), 0, parent.getRight(), lowestView.getBottom(), dividerPaint);
+            canvas.drawRect(0, 0, parent.getRight(), lowestView.getBottom(), dividerPaint);
             canvas.drawBitmap(radioBitmap, parent.getLeft(), lowestView.getBottom() - radioBitmapWidth - (dividerHeight - radioBitmapWidth) / 2.0f, bitmapPaint);
             canvas.drawBitmap(rightBitmap, parent.getRight() - rightBitmap.getWidth(), lowestView.getBottom() - dividerHeight, bitmapPaint);
-            canvas.drawText(date, lowestView.getLeft() + radioBitmap.getWidth(), lowestView.getBottom() - (dividerHeight - textHeight), textPaint);
+            canvas.drawText(date, parent.getLeft() + radioBitmap.getWidth(), lowestView.getBottom() - (dividerHeight - textHeight), textPaint);
             canvas.drawRect(lowestView.getLeft(), 0, parent.getRight(), lowestView.getBottom(), fadeOutPaint);
         } else {
             canvas.drawRect(0, 0, parent.getRight(), dividerHeight, dividerPaint);
@@ -159,10 +164,14 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
 
         MediaBeanAdapter adapter = (MediaBeanAdapter) parent.getAdapter();
 
+        assert adapter != null;
         if (adapter.isInFirstLineInDate(view)) {
             outRect.top = dividerHeight;
         } else {
             outRect.top = normalDividerHeight;
         }
+
+        outRect.left = dividerLeftAndRight;
+        outRect.right = dividerLeftAndRight;
     }
 }

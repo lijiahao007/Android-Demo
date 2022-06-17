@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.documentfile.provider.DocumentFile;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -17,8 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
@@ -32,7 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -46,6 +42,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.bean.MediaBeanDBHelper;
+import com.example.myapplication.album.bean.MediaType;
+import com.example.myapplication.album.utils.Action;
+import com.example.myapplication.album.utils.BitmapTools;
+import com.example.myapplication.album.utils.PicHandlerThread;
+import com.example.myapplication.album.utils.UriUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +58,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -155,6 +160,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
                 mediaPlayer = new MediaPlayer();
 
             try {
+                mediaPlayer.reset();
                 mediaPlayer.setDataSource(PhotoVideoDemoActivity.this, result);
                 mediaPlayer.prepare();
                 int duration = mediaPlayer.getDuration();
@@ -197,9 +203,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
             imageReader = ImageReader.newInstance(screenWidth, screenHeight, PixelFormat.RGBA_8888, 1);
             // 构建VirtualDisplay，将屏幕每一帧输出到imageReader的surface中。
             virtualDisplay = mediaProjection.createVirtualDisplay("ScreenShot", screenWidth, screenHeight, dpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, imageReader.getSurface(), null, null);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                picHandleThread.action();
-            }, 300);
+            new Handler(Looper.getMainLooper()).postDelayed(picHandleThread::action, 300);
             return null;
         }
     }, new ActivityResultCallback<Bitmap>() {
@@ -331,6 +335,9 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
         super.onDestroy();
         database.close();
         helper.close();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
     }
 
     private void actionAfterCheckPermission(Action action) {
