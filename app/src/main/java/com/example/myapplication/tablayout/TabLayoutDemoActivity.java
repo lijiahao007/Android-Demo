@@ -3,6 +3,8 @@ package com.example.myapplication.tablayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -26,11 +28,12 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
     private ViewPager2.PageTransformer pageTransformer;
     private ArrayList<Integer> iconId;
 
+    private DemoViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_layout_demo);
-
+        viewModel = new ViewModelProvider(this).get(DemoViewModel.class);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager2);
 
@@ -87,6 +90,15 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
 
         // 4. 设置移动方向
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
+        viewModel.isChange.setValue(true);
+        viewModel.isChange.setValue(false);
+        viewModel.isChange.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.i("TabLayoutDemoActivity", "value:" + aBoolean);
+            }
+        });
 
     }
 

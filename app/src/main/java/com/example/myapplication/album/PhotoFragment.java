@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ import com.example.myapplication.album.adapter.MediaBeanAdapter;
 import com.example.myapplication.album.bean.MediaBean;
 import com.example.myapplication.album.bean.MediaBeanDBHelper;
 import com.example.myapplication.album.bean.MediaType;
+import com.example.myapplication.album.viewmodel.AlbumViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -43,6 +46,7 @@ public class PhotoFragment extends Fragment {
     private SQLiteDatabase database = null;
     private ContentResolver contentResolver;
     public static final String DELETE_PHOTO_REQUEST_KEY = "delete_request_key";
+    private AlbumViewModel viewModel;
 
     public PhotoFragment() {
     }
@@ -58,6 +62,7 @@ public class PhotoFragment extends Fragment {
         if (database == null) {
             database = helper.getWritableDatabase();
         }
+        viewModel = new ViewModelProvider(requireActivity()).get(AlbumViewModel.class);
     }
 
     @Override
@@ -96,27 +101,14 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-        // 5. 监听FragmentResult，判断进出编辑模式
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.EDIT_MODE_CHANGE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                Log.i(TAG, "onFragmentResult");
-                if (requestKey.equals(AlbumActivity.EDIT_MODE_CHANGE)) {
-                    boolean isEditMode = result.getBoolean(AlbumActivity.EDIT_MODE);
-                    adapter.setEditMode(isEditMode);
-                }
-            }
+        // 6. 监听全选 和全不选
+        viewModel.isEditMode.observe(getViewLifecycleOwner(), isEditMode -> {
+            adapter.setEditMode(isEditMode);
         });
 
         // 6. 监听全选 和全不选
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.SELECT_ALL_CHANGE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                if (requestKey.equals(AlbumActivity.SELECT_ALL_CHANGE)) {
-                    boolean isSelectAll = result.getBoolean(AlbumActivity.SELECT_ALL);
-                    adapter.setSelectAll(isSelectAll);
-                }
-            }
+        viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
+            adapter.setSelectAll(isSelectAll);
         });
 
         // 7. 监听分享操作

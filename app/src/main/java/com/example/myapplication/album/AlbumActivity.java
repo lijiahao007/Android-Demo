@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.album.adapter.AlbumFragmentAdapter;
 import com.example.myapplication.album.adapter.MediaBeanAdapter;
 import com.example.myapplication.album.bean.MediaBean;
+import com.example.myapplication.album.viewmodel.AlbumViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -37,7 +39,6 @@ import java.util.ArrayList;
 // TODO: 6. TextView点击动画效果
 
 
-
 public class AlbumActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
@@ -48,24 +49,20 @@ public class AlbumActivity extends AppCompatActivity {
     private ImageView ivEdit;
     private TextView tvSelectAll;
     private TextView tvExitEdit;
-    public static final String EDIT_MODE_CHANGE = "edit_mode_change";
-    public static final String EDIT_MODE = "edit_mode";
-    public static final String SELECT_ALL_CHANGE = "select_all_change";
-    public static final String SELECT_ALL = "select_all";
-    public static final String DELETE = "delete";
-    public static final String SHARE = "share";
+
 
     private ImageView ivShare;
     private ImageView ivDelete;
     private TabLayoutMediator tabLayoutMediator;
     private TabLayout.OnTabSelectedListener onTabSelectedListener;
 
+    private AlbumViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
+        viewModel = new ViewModelProvider(this).get(AlbumViewModel.class);
         initTabLayout();
         initToolbar();
         setStatusBarColor();
@@ -147,9 +144,7 @@ public class AlbumActivity extends AppCompatActivity {
             editToolsLayout.setVisibility(View.VISIBLE);
             tvSelectAll.setVisibility(View.VISIBLE);
             tvExitEdit.setVisibility(View.VISIBLE);
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(EDIT_MODE, true);
-            getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
+            viewModel.isEditMode.setValue(true);
             viewPager.setUserInputEnabled(false);
             tabLayout.removeOnTabSelectedListener(onTabSelectedListener);
             tabLayoutMediator.detach();
@@ -162,9 +157,7 @@ public class AlbumActivity extends AppCompatActivity {
             editToolsLayout.setVisibility(View.GONE);
             tvSelectAll.setVisibility(View.GONE);
             tvExitEdit.setVisibility(View.GONE);
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(EDIT_MODE, false);
-            getSupportFragmentManager().setFragmentResult(EDIT_MODE_CHANGE, bundle);
+            viewModel.isEditMode.setValue(false);
             viewPager.setUserInputEnabled(true);
             tabLayout.addOnTabSelectedListener(onTabSelectedListener);
             tabLayoutMediator.attach();
@@ -181,19 +174,17 @@ public class AlbumActivity extends AppCompatActivity {
                 tvSelectAll.setText("全选");
                 isSelectAll = false;
             }
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(SELECT_ALL, isSelectAll);
-            getSupportFragmentManager().setFragmentResult(SELECT_ALL_CHANGE, bundle);
+            viewModel.isSelectAll.setValue(isSelectAll);
         });
 
         // 4. 分享
         ivShare.setOnClickListener(view -> {
-            getSupportFragmentManager().setFragmentResult(SHARE, new Bundle());
+            viewModel.shareBehavior.setValue(true);
         });
 
         // 5. 删除
         ivDelete.setOnClickListener(view -> {
-            getSupportFragmentManager().setFragmentResult(DELETE, new Bundle());
+            viewModel.deleteBehavior.setValue(true);
         });
     }
 
