@@ -1,5 +1,8 @@
 package com.example.myapplication.album;
 
+import static com.example.myapplication.album.AlbumActivity.DELETE_BUNDLE;
+import static com.example.myapplication.album.PhotoFragment.DELETE_VIDEO_REQUEST_KEY;
+
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +30,8 @@ import com.example.myapplication.album.adapter.MediaBeanAdapter;
 import com.example.myapplication.album.bean.MediaBean;
 import com.example.myapplication.album.bean.MediaBeanDBHelper;
 import com.example.myapplication.album.bean.MediaType;
+import com.example.myapplication.album.viewmodel.AlbumViewModel;
+import com.example.myapplication.tablayout.LifecycleLogObserver;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -47,6 +53,8 @@ public class VideoFragment extends Fragment {
     private ContentResolver contentResolver;
     public static final String DELETE_REQUEST_KEY = "delete_request_key";
 
+    private AlbumViewModel viewModel;
+
     public VideoFragment() {
     }
 
@@ -59,13 +67,16 @@ public class VideoFragment extends Fragment {
         if (database == null) {
             database = helper.getWritableDatabase();
         }
+        viewModel = new ViewModelProvider(requireActivity()).get(AlbumViewModel.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_photo, container, false);
+        getViewLifecycleOwner().getLifecycle().addObserver(new LifecycleLogObserver("VideoFragment-lifecycle"));
         // 1. 初始化recyclerView
         recyclerView = root.findViewById(R.id.recycler_view);
         gridLayoutManager = new GridLayoutManager(getContext(), 3);
@@ -98,69 +109,75 @@ public class VideoFragment extends Fragment {
             }
         });
 
-
-        // 5. 监听FragmentResult，判断进出编辑模式
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.EDIT_MODE_CHANGE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                Log.i(TAG, "onFragmentResult");
-
-                if (requestKey.equals(AlbumActivity.EDIT_MODE_CHANGE)) {
-                    boolean isEditMode = result.getBoolean(AlbumActivity.EDIT_MODE);
-                    adapter.setEditMode(isEditMode);
-                }
-            }
+        // 5. 监听编辑模式
+        viewModel.isEditMode.observe(getViewLifecycleOwner(), isEditMode -> {
+            adapter.setEditMode(isEditMode);
         });
 
+        // 6.1 监听全选
+        viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
+            adapter.setSelectAll(isSelectAll);
+        });
 
-        // 6. 监听全选 和全不选
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.SELECT_ALL_CHANGE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                if (requestKey.equals(AlbumActivity.SELECT_ALL_CHANGE)) {
-                    boolean isSelectAll = result.getBoolean(AlbumActivity.SELECT_ALL);
-                    adapter.setSelectAll(isSelectAll);
-                }
-            }
+        // 6.2 监听全不选
+        viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
+            adapter.setSelectAll(isSelectAll);
         });
 
         // 7. 监听分享操作
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.SHARE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        viewModel.shareBehavior.observe(getViewLifecycleOwner(), isShare -> {
+            Log.i(TAG, "接收到分享变化:" + isShare);
+            if (isShare && viewModel.curItem == 1) {
+                ArrayList<Uri> uris = (ArrayList<Uri>) adapter.getCheckedBean().stream().map(MediaBean::getUri).collect(Collectors.toList());
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("分享" + uris.size() + "张图片")
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                            intent.setType("video/mp4");
+                            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+                            requireContext().startActivity(intent);
+                        })
+                        .setNegativeButton("取消", (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .show();
+                viewModel.shareBehavior.setValue(false);
+            }
+        });
+
+        // 8. 监听删除操作
+        viewModel.deleteBehavior.observe(getViewLifecycleOwner(), isDelete -> {
+            if (isDelete && viewModel.curItem == 1) {
+                List<MediaBean> checkedBean = adapter.getCheckedBean();
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("删除" + checkedBean.size() + "张图片")
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            for (MediaBean bean : checkedBean) {
+                                int res = deleteMediaBean(bean);
+                            }
+                            adapter.deleteItems(checkedBean);
+                        })
+                        .setNegativeButton("取消", (dialog, which) -> {
+                            dialog.cancel();
+                        })
+                        .show();
+                viewModel.deleteBehavior.setValue(false);
+            }
+        });
+
+        // 9. 监听CheckPhotoActivity中返回的删除MediaBean
+        getParentFragmentManager().setFragmentResultListener(DELETE_VIDEO_REQUEST_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                if (requestKey.equals(AlbumActivity.SHARE)) {
-                    ArrayList<Uri> uris = (ArrayList<Uri>) adapter.getCheckedBean().stream().map(MediaBean::getUri).collect(Collectors.toList());
-                    Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-                    intent.setType("video/mp4");
-                    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-                    requireContext().startActivity(intent);
+                if (requestKey.equals(DELETE_VIDEO_REQUEST_KEY)) {
+                    ArrayList<MediaBean> deleteBeans = result.getParcelableArrayList(DELETE_BUNDLE);
+                    adapter.deleteItems(deleteBeans);
+                    Log.i("result passing ", "PhotoFragment deleteBean:" + deleteBeans.size());
                 }
             }
         });
 
-        // 7. 监听删除操作
-        getParentFragmentManager().setFragmentResultListener(AlbumActivity.DELETE, getViewLifecycleOwner(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                if (requestKey.equals(AlbumActivity.DELETE)) {
-                    List<MediaBean> checkedBean = adapter.getCheckedBean();
-                    new MaterialAlertDialogBuilder(requireContext())
-                            .setMessage("删除" + checkedBean.size() + "张图片")
-                            .setPositiveButton("确定", (dialog, which) -> {
-                                for (MediaBean bean : checkedBean) {
-                                    int res = deleteMediaBean(bean);
-                                }
-                                adapter.deleteItems(checkedBean);
-                            })
-                            .setNegativeButton("取消", (dialog, which) -> {
-                                dialog.cancel();
-                            })
-                            .show();
-                }
-            }
-        });
+
         return root;
     }
 

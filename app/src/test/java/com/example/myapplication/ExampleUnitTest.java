@@ -88,4 +88,14 @@ public class ExampleUnitTest {
         assert a != null;
     }
 
+    @Test
+    public void test7() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add("1");
+        }
+        list.clear();
+        System.out.println(list.size());
+    }
+
 }

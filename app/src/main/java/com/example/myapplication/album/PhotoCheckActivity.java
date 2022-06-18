@@ -44,7 +44,6 @@ public class PhotoCheckActivity extends AppCompatActivity {
     private SQLiteDatabase database;
     private MediaBeanDBHelper helper;
     public static final int DELETE_RESULT_CODE = 2;
-    public static final String DELETE_BUNDLE = "delete_bundle";
 
     private ArrayList<MediaBean> deleteMediaBean = new ArrayList<>();
 
@@ -166,7 +165,7 @@ public class PhotoCheckActivity extends AppCompatActivity {
 
     private void setReturnResult() {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(DELETE_BUNDLE, deleteMediaBean);
+        intent.putParcelableArrayListExtra(AlbumActivity.DELETE_BUNDLE, deleteMediaBean);
         Log.i("result passing ", "deletebeans size=" + deleteMediaBean.size());
         setResult(DELETE_RESULT_CODE, intent);
     }

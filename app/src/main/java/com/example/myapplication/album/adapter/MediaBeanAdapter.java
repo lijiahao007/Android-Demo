@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import com.example.myapplication.album.VideoCheckActivity;
 import com.example.myapplication.album.bean.MediaBean;
 import com.example.myapplication.album.bean.MediaType;
 import com.example.myapplication.album.PhotoCheckActivity;
+import com.example.myapplication.album.viewmodel.AlbumViewModel;
 
 import java.io.File;
 import java.time.Duration;
@@ -40,12 +42,14 @@ import java.util.function.Consumer;
 public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.MediaViewHolder> {
 
     private final List<MediaBean> list = new ArrayList<>();
+    private final AlbumViewModel viewModel;
     HashMap<String, List<MediaBean>> dateMediaMap = new HashMap<>();
     ArrayList<Boolean> isCheck = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private boolean isEditMode = false;
     private boolean isSelectAll = false;
+    private boolean isDeselectAll = false;
     public static final String MEDIA_BEAN_LIST = "media_bean_list";
     public static final String CLICK_POSITION = "click_position";
     public static final int CHECK_PHOTO = 10086;
@@ -55,6 +59,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
     public MediaBeanAdapter(Fragment fragment) {
         this.fragment = fragment;
+        viewModel = new ViewModelProvider(fragment.requireActivity()).get(AlbumViewModel.class);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -99,7 +104,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
         itemView.setOnClickListener(view -> {
             if (isEditMode) {
                 holder.rbSelected.setChecked(!holder.rbSelected.isChecked());
-                isCheck.set(holder.getAbsoluteAdapterPosition(), holder.rbSelected.isChecked());
+                isCheck.set(holder.getAdapterPosition(), holder.rbSelected.isChecked());
             } else {
                 // 点击跳转图片查看Activity
                 File file = new File(bean.getFileName());
@@ -131,20 +136,27 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
         } else {
             holder.rbSelected.setVisibility(View.GONE);
             holder.rbSelected.setChecked(false);
-            isSelectAll = false;
         }
 
         if (isSelectAll) {
             holder.rbSelected.setChecked(true);
         }
 
+        if (isDeselectAll) {
+            holder.rbSelected.setChecked(false);
+        }
+
         holder.rbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i("onCheckedChanged", String.valueOf(holder.getAbsoluteAdapterPosition()) + " " + isChecked);
-                isCheck.set(holder.getAbsoluteAdapterPosition(), isChecked);
-                if (!isChecked) {
+                Log.i("onCheckedChanged", MediaBeanAdapter.this.hashCode() + ":" + holder.getAdapterPosition() + " " + isChecked);
+                isCheck.set(holder.getAdapterPosition(), isChecked);
+                if (isChecked) {
+                   isDeselectAll = false;
+                   viewModel.isDeselectAll.setValue(false);
+                } else {
                     isSelectAll = false;
+                    viewModel.isSelectAll.setValue(false);
                 }
             }
         });
@@ -166,15 +178,19 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
             for (int i = 0; i < list.size(); i++) {
                 isCheck.set(i, Boolean.TRUE);
             }
-        } else {
+            notifyItemRangeChanged(0, list.size());
+        }
+    }
+
+    public void setDeselectAll(boolean isDeselectAll) {
+        this.isDeselectAll = isDeselectAll;
+        if (isDeselectAll) {
             for (int i = 0; i < list.size(); i++) {
                 isCheck.set(i, Boolean.FALSE);
             }
+            notifyItemRangeChanged(0, list.size());
         }
-
-        notifyItemRangeChanged(0, list.size());
     }
-
 
 
     public void deleteItems(List<MediaBean> beans) {
@@ -271,14 +287,6 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 return null;
             }
         }
-    }
-
-
-    private void notifyVisibleItemChange() {
-        View firstChild = recyclerView.getChildAt(0);
-        int childCount = recyclerView.getChildCount();
-        int firstPos = recyclerView.getChildAdapterPosition(firstChild);
-        notifyItemRangeChanged(firstPos, childCount);
     }
 
 
@@ -379,11 +387,14 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
     public List<MediaBean> getCheckedBean() {
         List<MediaBean> res = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder("checkBean:").append(isCheck.size()).append("--").append(this.hashCode()).append("---");
         for (int i = 0; i < isCheck.size(); i++) {
+            stringBuilder.append(isCheck).append("、");
             if (isCheck.get(i)) {
                 res.add(list.get(i));
             }
         }
+        Log.i("MediaBeanAdapter", stringBuilder.toString());
         return res;
     }
 

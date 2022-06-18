@@ -123,6 +123,13 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
                 ivShow.setImageBitmap(result);
             } else {
                 Bitmap scaleBitmap = BitmapTools.getScaleBitmap(curImageFilePath, 550, 550);
+
+                if (scaleBitmap == null) {
+                    // 如果没有拍照，bitmap就会变成null。需要将创建的文件删除
+                    getContentResolver().delete(curImageUri, null, null );
+                    return;
+                }
+
                 ivShow1.setImageBitmap(scaleBitmap);
                 MediaBean bean = new MediaBean(curImageUri, curImageFilePath, MediaType.IMAGE);
                 insertMediaBean(bean);

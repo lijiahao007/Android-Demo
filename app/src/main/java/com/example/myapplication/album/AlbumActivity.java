@@ -58,6 +58,11 @@ public class AlbumActivity extends AppCompatActivity {
 
     private AlbumViewModel viewModel;
 
+    public static final String DELETE_BUNDLE = "delete_bundle";
+
+    public static final String TAG = "AlbumActivity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +84,12 @@ public class AlbumActivity extends AppCompatActivity {
                 R.drawable.ic_photo,
                 R.drawable.ic_video
         };
+
         String[] tabText = {
                 "图片",
                 "视频"
         };
+
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -103,6 +110,8 @@ public class AlbumActivity extends AppCompatActivity {
                 icon.setColorFilter(selectedColor);
                 TextView text = tab.getCustomView().findViewById(R.id.tv_tab_text);
                 text.setTextColor(selectedColor);
+                int currentItem = viewPager.getCurrentItem();
+                viewModel.curItem = currentItem;
             }
 
             @Override
@@ -169,12 +178,16 @@ public class AlbumActivity extends AppCompatActivity {
             boolean isSelectAll = false;
             if (text.equals("全选")) {
                 tvSelectAll.setText("全不选");
-                isSelectAll = true;
+                viewModel.isSelectAll.setValue(true);
             } else {
                 tvSelectAll.setText("全选");
-                isSelectAll = false;
+                viewModel.isDeselectAll.setValue(true);
             }
-            viewModel.isSelectAll.setValue(isSelectAll);
+        });
+        viewModel.isSelectAll.observe(this, isSelectAll -> {
+            if (!isSelectAll) {
+                tvSelectAll.setText("全选");
+            }
         });
 
         // 4. 分享
@@ -215,14 +228,17 @@ public class AlbumActivity extends AppCompatActivity {
         Log.i("result passing ", "AlbumActivity requestCode:" + requestCode + " resultCode:" + resultCode);
         if (requestCode == MediaBeanAdapter.CHECK_PHOTO && resultCode == PhotoCheckActivity.DELETE_RESULT_CODE && data != null) {
             // 从PhotoCheckActivity中返回删除列表
-            ArrayList<MediaBean> deleteBean = data.getParcelableArrayListExtra(PhotoCheckActivity.DELETE_BUNDLE);
+            ArrayList<MediaBean> deleteBean = data.getParcelableArrayListExtra(DELETE_BUNDLE);
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(PhotoCheckActivity.DELETE_BUNDLE, deleteBean);
+            bundle.putParcelableArrayList(DELETE_BUNDLE, deleteBean);
             Log.i("result passing ", "AlbumActivity deleteBean" + deleteBean.size());
             getSupportFragmentManager().setFragmentResult(PhotoFragment.DELETE_PHOTO_REQUEST_KEY, bundle);
         } else if (requestCode == MediaBeanAdapter.CHECK_VIDEO && resultCode == VideoCheckActivity.DELETE_RESULT_CODE & data != null) {
             // 从VideoCheckActivity中返回删除列表
-
+            ArrayList<MediaBean> deleteBean = data.getParcelableArrayListExtra(DELETE_BUNDLE);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(DELETE_BUNDLE, deleteBean);
+            getSupportFragmentManager().setFragmentResult(PhotoFragment.DELETE_VIDEO_REQUEST_KEY, bundle);
         }
     }
 }

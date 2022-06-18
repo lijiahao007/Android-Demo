@@ -37,12 +37,7 @@ public class OneFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(new LifecycleLogObserver("OneFragment"));
         viewModel = new ViewModelProvider(requireActivity()).get(DemoViewModel.class);
-        viewModel.isChange.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Log.i("OneFragment", "value:" + aBoolean);
-            }
-        });
+
     }
 
     @Override
@@ -50,6 +45,14 @@ public class OneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         getViewLifecycleOwner().getLifecycle().addObserver(new LifecycleLogObserver("OneFragmentView"));
+
+        viewModel.isChange.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.i("OneFragment", "value:" + aBoolean);
+            }
+        });
+
         return inflater.inflate(R.layout.fragment_one, container, false);
     }
 

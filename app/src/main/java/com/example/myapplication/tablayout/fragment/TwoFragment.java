@@ -28,12 +28,7 @@ public class TwoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getLifecycle().addObserver(new LifecycleLogObserver("TwoFragment"));
         viewModel = new ViewModelProvider(requireActivity()).get(DemoViewModel.class);
-        viewModel.isChange.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Log.i("TwoFragment", "value:" + aBoolean);
-            }
-        });
+
     }
 
     @Override
@@ -41,7 +36,12 @@ public class TwoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         getViewLifecycleOwner().getLifecycle().addObserver(new LifecycleLogObserver("TwoFragmentView"));
-
+        viewModel.isChange.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.i("TwoFragment", "value:" + aBoolean);
+            }
+        });
         return inflater.inflate(R.layout.fragment_two, container, false);
     }
 }

@@ -29,6 +29,7 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
     private ArrayList<Integer> iconId;
 
     private DemoViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,18 +88,22 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
             }
         };
         viewPager2.setPageTransformer(pageTransformer);
-
         // 4. 设置移动方向
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        viewModel.isChange.setValue(true);
-        viewModel.isChange.setValue(false);
+
         viewModel.isChange.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 Log.i("TabLayoutDemoActivity", "value:" + aBoolean);
             }
         });
+
+
+        findViewById(R.id.btn_change_live_data).setOnClickListener(view -> {
+            viewModel.isChange.setValue(Boolean.FALSE.equals(viewModel.isChange.getValue()));
+        });
+
 
     }
 

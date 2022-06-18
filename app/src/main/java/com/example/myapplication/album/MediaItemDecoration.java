@@ -86,7 +86,7 @@ public class MediaItemDecoration extends RecyclerView.ItemDecoration {
                 canvas.drawBitmap(radioBitmap, parent.getLeft(), view.getTop() - radioBitmapWidth - (dividerHeight - radioBitmapWidth) / 2.0f, bitmapPaint);
                 canvas.drawBitmap(rightBitmap, parent.getRight() - rightBitmap.getWidth(), view.getTop() - dividerHeight, bitmapPaint);
                 canvas.drawText(date, parent.getLeft() + radioBitmap.getWidth(), view.getTop() - (dividerHeight - textHeight) / 1.1f, textPaint);
-                Log.i("onDraw decoration", "view.top:" + view.getTop() + " view.left:" + view.getLeft() + " parent.right:" + parent.getRight() + " parent.left:" + parent.getLeft());
+//                Log.i("onDraw decoration", "view.top:" + view.getTop() + " view.left:" + view.getLeft() + " parent.right:" + parent.getRight() + " parent.left:" + parent.getLeft());
             }
         }
     }
