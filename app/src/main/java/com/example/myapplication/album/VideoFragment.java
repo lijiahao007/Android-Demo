@@ -116,12 +116,16 @@ public class VideoFragment extends Fragment {
 
         // 6.1 监听全选
         viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
-            adapter.setSelectAll(isSelectAll);
+            if (isSelectAll) {
+                adapter.selectAll();
+            }
         });
 
         // 6.2 监听全不选
-        viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
-            adapter.setSelectAll(isSelectAll);
+        viewModel.isDeselectAll.observe(getViewLifecycleOwner(), isDeselectAll -> {
+            if (isDeselectAll) {
+                adapter.deSelectAll();
+            }
         });
 
         // 7. 监听分享操作
@@ -189,7 +193,7 @@ public class VideoFragment extends Fragment {
         ArrayList<MediaBean> res = new ArrayList<>();
         if (query != null && query.moveToFirst()) {
             do {
-                 int id = query.getInt(query.getColumnIndex(MediaBean.Entry._ID));
+                int id = query.getInt(query.getColumnIndex(MediaBean.Entry._ID));
                 String uri = query.getString(query.getColumnIndex(MediaBean.Entry.URI));
                 long timeStamp = query.getLong(query.getColumnIndex(MediaBean.Entry.TIMESTAMP));
                 String fileName = query.getString(query.getColumnIndex(MediaBean.Entry.FILENAME));

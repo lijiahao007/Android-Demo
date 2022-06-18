@@ -152,8 +152,8 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 Log.i("onCheckedChanged", MediaBeanAdapter.this.hashCode() + ":" + holder.getAdapterPosition() + " " + isChecked);
                 isCheck.set(holder.getAdapterPosition(), isChecked);
                 if (isChecked) {
-                   isDeselectAll = false;
-                   viewModel.isDeselectAll.setValue(false);
+                    isDeselectAll = false;
+                    viewModel.isDeselectAll.setValue(false);
                 } else {
                     isSelectAll = false;
                     viewModel.isSelectAll.setValue(false);
@@ -172,24 +172,22 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     }
 
 
-    public void setSelectAll(boolean isSelectAll) {
-        this.isSelectAll = isSelectAll;
-        if (isSelectAll) {
-            for (int i = 0; i < list.size(); i++) {
-                isCheck.set(i, Boolean.TRUE);
-            }
-            notifyItemRangeChanged(0, list.size());
+    public void selectAll() {
+        this.isSelectAll = true;
+        this.isDeselectAll = false;
+        for (int i = 0; i < list.size(); i++) {
+            isCheck.set(i, Boolean.TRUE);
         }
+        notifyItemRangeChanged(0, list.size());
     }
 
-    public void setDeselectAll(boolean isDeselectAll) {
-        this.isDeselectAll = isDeselectAll;
-        if (isDeselectAll) {
-            for (int i = 0; i < list.size(); i++) {
-                isCheck.set(i, Boolean.FALSE);
-            }
-            notifyItemRangeChanged(0, list.size());
+    public void deSelectAll() {
+        this.isDeselectAll = true;
+        this.isSelectAll = false;
+        for (int i = 0; i < list.size(); i++) {
+            isCheck.set(i, Boolean.FALSE);
         }
+        notifyItemRangeChanged(0, list.size());
     }
 
 

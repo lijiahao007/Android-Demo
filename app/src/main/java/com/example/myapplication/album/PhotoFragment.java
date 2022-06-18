@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -114,10 +113,14 @@ public class PhotoFragment extends Fragment {
 
         // 6. 监听全选 和全不选
         viewModel.isSelectAll.observe(getViewLifecycleOwner(), isSelectAll -> {
-            adapter.setSelectAll(isSelectAll);
+            if (isSelectAll) {
+                adapter.selectAll();
+            }
         });
         viewModel.isDeselectAll.observe(getViewLifecycleOwner(), isDeselectAll -> {
-            adapter.setDeselectAll(isDeselectAll);
+            if (isDeselectAll) {
+                adapter.deSelectAll();
+            }
         });
 
         // 7. 监听分享操作
