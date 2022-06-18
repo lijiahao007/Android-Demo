@@ -30,13 +30,13 @@
             tools:text="20220614100738_56119110_screenshot.mp4" />
     </RelativeLayout>
 
-    <VideoView
-        android:id="@+id/vv_show"
+
+    <com.yc.video.player.VideoPlayer
+        android:id="@+id/vp_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/layout_video_controller"
-        android:layout_below="@id/layout_header"
-        android:layout_centerInParent="true" />
+        android:layout_below="@+id/layout_header"
+        android:layout_above="@+id/layout_video_controller"/>
 
     <RelativeLayout
         android:id="@+id/layout_video_controller"
@@ -83,7 +83,7 @@
                 <CheckBox
                     android:id="@+id/cb_sound"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:background="@drawable/selector_sound"
                     android:button="@null"
@@ -150,7 +150,7 @@
                     android:layout_height="60dp"
                     android:background="@drawable/selector_video_play"
                     android:button="@null"
-                    android:checked="false" />
+                    android:checked="true" />
             </LinearLayout>
 
             <LinearLayout

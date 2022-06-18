@@ -69,11 +69,24 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
 
     private static final String TAG = "PhotoVideoDemoActivity";
 
-    private final String[] permissions = {
-            Manifest.permission.CAMERA,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-    };
+    private String[] permissions;
+
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions = new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            };
+        } else {
+            permissions = new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            };
+        }
+    }
+
+
     private final int PERMISSION_REQUEST_CODE = 1;
     private Button btnVideo;
     private Button btnPhoto;
@@ -126,7 +139,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
 
                 if (scaleBitmap == null) {
                     // 如果没有拍照，bitmap就会变成null。需要将创建的文件删除
-                    getContentResolver().delete(curImageUri, null, null );
+                    getContentResolver().delete(curImageUri, null, null);
                     return;
                 }
 

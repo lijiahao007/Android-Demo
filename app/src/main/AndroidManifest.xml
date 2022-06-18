@@ -52,7 +52,9 @@
         tools:targetApi="31">
         <activity
             android:name=".album.VideoCheckActivity"
-            android:exported="false"
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
         <activity
             android:name=".album.PhotoCheckActivity"

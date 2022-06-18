@@ -5,8 +5,6 @@ import static com.example.myapplication.album.AlbumActivity.DELETE_BUNDLE;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +12,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -31,7 +26,10 @@ import com.example.myapplication.album.adapter.MediaBeanAdapter;
 import com.example.myapplication.album.bean.MediaBean;
 import com.example.myapplication.album.bean.MediaBeanDBHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.yc.video.player.VideoPlayer;
+import com.yc.video.ui.view.BasisVideoController;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class VideoCheckActivity extends AppCompatActivity {
@@ -47,15 +45,17 @@ public class VideoCheckActivity extends AppCompatActivity {
     private ImageView ivPrevVideo;
     private CheckBox cbPlay;
     private LinearLayout fullScreenControl;
-    private LinearLayout soundControl;
+    private LinearLayout soundLayout;
     private LinearLayout screenShoot;
-    private VideoView vvShow;
     private TextView tvFileName;
     private ImageView ivBack;
     private SQLiteDatabase database;
     private MediaBeanDBHelper helper;
     private ContentResolver contentResolver;
     private ArrayList<MediaBean> deleteMediaBean = new ArrayList<>();
+    private VideoPlayer mVideoPlayer;
+    private CheckBox cbSound;
+    private BasisVideoController videoController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +65,16 @@ public class VideoCheckActivity extends AppCompatActivity {
         getIntentParams();
         ivBack = findViewById(R.id.iv_back);
         tvFileName = findViewById(R.id.tv_file_name);
-        vvShow = findViewById(R.id.vv_show);
         screenShoot = findViewById(R.id.layout_screen_shot);
-        soundControl = findViewById(R.id.layout_sound);
+        soundLayout = findViewById(R.id.layout_sound);
+        cbSound = findViewById(R.id.cb_sound);
         fullScreenControl = findViewById(R.id.layout_full_screen);
         cbPlay = findViewById(R.id.cb_play);
         ivPrevVideo = findViewById(R.id.iv_prev);
         ivNextVideo = findViewById(R.id.iv_next);
         ivShare = findViewById(R.id.iv_share);
         ivDelete = findViewById(R.id.iv_deleter);
+        mVideoPlayer = findViewById(R.id.vp_show);
 
         initVideoView();
         initToolsView();
@@ -94,7 +95,7 @@ public class VideoCheckActivity extends AppCompatActivity {
 
         ivDelete.setOnClickListener(view -> {
             MediaBean bean = mediaBeans.get(curPos);
-            Log.i(TAG, "需要删除的是:" + bean + " curPos=" + curPos );
+            Log.i(TAG, "需要删除的是:" + bean + " curPos=" + curPos);
 
             new MaterialAlertDialogBuilder(this)
                     .setMessage("是否删除该该视频")
@@ -104,16 +105,16 @@ public class VideoCheckActivity extends AppCompatActivity {
                     .setPositiveButton("确定", (dialog, which) -> {
                         // 调整当前显示的视频
                         int newPos = -1; // 需要显示的视频位置
-                        if (curPos < mediaBeans.size()-1) {
-                            newPos = curPos+1;
+                        if (curPos < mediaBeans.size() - 1) {
+                            newPos = curPos + 1;
                         } else if (curPos != 0) {
-                            newPos = curPos-1;
+                            newPos = curPos - 1;
                         }
                         if (newPos != -1) {
-                            vvShow.setVideoURI(mediaBeans.get(newPos).getUri());
+//                            vvShow.setVideoURI(mediaBeans.get(newPos).getUri());
                         } else {
-                            vvShow.pause();
-                            vvShow.setVideoURI(null);
+//                            vvShow.pause();
+//                            vvShow.setVideoURI(null);
                             Toast.makeText(this, "这是最后一个视频了", Toast.LENGTH_SHORT).show();
                         }
                         MediaBean removeBean = mediaBeans.remove(curPos);
@@ -131,6 +132,9 @@ public class VideoCheckActivity extends AppCompatActivity {
             setReturnResult();
             finish();
         });
+        String fileName = new File(mediaBeans.get(curPos).getFileName()).getName();
+        tvFileName.setText(fileName);
+
     }
 
     private int deleteMediaBeanInDataBase(MediaBean bean) {
@@ -145,64 +149,60 @@ public class VideoCheckActivity extends AppCompatActivity {
 
     private void initVideoView() {
         MediaBean bean = mediaBeans.get(curPos);
-        vvShow.setVideoURI(bean.getUri());
-        vvShow.requestFocus();
-        MediaController mediaController = new MediaController(this);
-        vvShow.setMediaController(mediaController);
-        cbPlay.setChecked(false);
 
-        vvShow.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                cbPlay.setChecked(true);
-                mediaController.setAnchorView(vvShow);
-            }
-        });
+        //创建基础视频播放器，一般播放器的功能
+        videoController = new BasisVideoController(this);
+        //设置控制器
+        mVideoPlayer.setController(videoController);
+        //设置视频播放链接地址
+        mVideoPlayer.setUrl(bean.getUri().toString());
+        //开始播放
+        mVideoPlayer.start();
+        mVideoPlayer.setMute(!cbSound.isChecked());
 
-
-        vvShow.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                cbPlay.setChecked(false);
-            }
-        });
-
-
-        cbPlay.setChecked(true);
-        cbPlay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    vvShow.start();
-                } else {
-                    vvShow.pause();
-                }
-            }
+        fullScreenControl.setOnClickListener(view -> {
+            mVideoPlayer.startFullScreen();
         });
 
         ivNextVideo.setOnClickListener(view -> {
             if (curPos < mediaBeans.size() - 1) {
                 curPos++;
-                MediaBean newBean = mediaBeans.get(curPos);
-                vvShow.setVideoURI(newBean.getUri());
-                vvShow.start();
-                cbPlay.setChecked(true);
+                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
+                mVideoPlayer.pause();
+                mVideoPlayer.replay(true);
             } else {
-                Toast.makeText(this, "已经是最后一个视频", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "已是最后一个视频", Toast.LENGTH_SHORT).show();
             }
         });
 
         ivPrevVideo.setOnClickListener(view -> {
-            if (curPos > 0) {
+            if (mediaBeans.size() != 0 && curPos > 0) {
                 curPos--;
-                MediaBean newBean = mediaBeans.get(curPos);
-                vvShow.setVideoURI(newBean.getUri());
-                vvShow.start();
-                cbPlay.setChecked(true);
+                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
+                mVideoPlayer.pause();
+                mVideoPlayer.replay(true);
             } else {
-                Toast.makeText(this, "已经是第一个视频", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "已是第一个视频", Toast.LENGTH_SHORT).show();
             }
         });
+
+        cbPlay.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mVideoPlayer.resume();
+            } else {
+                mVideoPlayer.pause();
+            }
+        });
+
+        cbSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mVideoPlayer.setMute(false);
+            } else {
+                mVideoPlayer.setMute(true);
+            }
+        });
+
+
     }
 
     private void getIntentParams() {
@@ -245,4 +245,9 @@ public class VideoCheckActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }

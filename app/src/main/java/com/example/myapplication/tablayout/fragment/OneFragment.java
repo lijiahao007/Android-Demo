@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,9 @@ public class OneFragment extends Fragment {
                 Log.i("OneFragment", "value:" + aBoolean);
             }
         });
+
+        DisplayMetrics metrics = requireContext().getResources().getDisplayMetrics();
+        Log.i("ScreenSize", "Fragment height:" + metrics.heightPixels + " width:" + metrics.widthPixels);
 
         return inflater.inflate(R.layout.fragment_one, container, false);
     }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,10 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
         findViewById(R.id.btn_change_live_data).setOnClickListener(view -> {
             viewModel.isChange.setValue(Boolean.FALSE.equals(viewModel.isChange.getValue()));
         });
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Log.i("ScreenSize", "height:" + metrics.heightPixels + " width:" + metrics.widthPixels);
 
 
     }

@@ -90,6 +90,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
     @NonNull
     @Override
     public MediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.i("Recyclerview", "onCreateViewHolder");
         this.recyclerView = (RecyclerView) parent;
         Log.i("MediaViewHolder", String.valueOf(recyclerView.getWidth()));
         return new MediaViewHolder(fragment, LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album_photo, parent, false));
@@ -97,6 +98,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
 
     @Override
     public void onBindViewHolder(@NonNull MediaViewHolder holder, int position) {
+        Log.i("Recyclerview", "onBindViewHolder:" + position);
         holder.bind(list.get(position));
 
         View itemView = holder.itemView;
@@ -221,6 +223,9 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
         private final ImageView ivPhoto;
         private final RadioButton rbSelected;
         private View itemView;
+        private RequestOptions glideImageOptions;
+        private RequestOptions glideVideoImageOptions;
+
 
         public MediaViewHolder(Fragment fragment, View itemView) {
             super(itemView);
@@ -242,12 +247,14 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 itemView.setLayoutParams(layoutParams);
             }
 
+            glideVideoImageOptions = new RequestOptions().frame(0).centerCrop();
+            glideImageOptions = new RequestOptions().centerCrop();
         }
 
         public void bind(MediaBean bean) {
             if (bean.getType() == MediaType.VIDEO) {
                 Glide.with(itemView)
-                        .setDefaultRequestOptions(new RequestOptions().frame(0).centerCrop())
+                        .setDefaultRequestOptions(glideVideoImageOptions)
                         .load(bean.getUri())
                         .thumbnail(0.25f)
                         .into(ivPhoto);
@@ -255,6 +262,7 @@ public class MediaBeanAdapter extends RecyclerView.Adapter<MediaBeanAdapter.Medi
                 tvTime.setText(getVideoDuration(bean.getDuration()));
             } else if (bean.getType() == MediaType.IMAGE) {
                 Glide.with(itemView)
+                        .setDefaultRequestOptions(glideImageOptions)
                         .load(bean.getUri())
                         .thumbnail(0.25f)
                         .into(ivPhoto);
