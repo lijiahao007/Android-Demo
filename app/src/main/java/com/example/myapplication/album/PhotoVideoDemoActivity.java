@@ -69,7 +69,7 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
 
     private static final String TAG = "PhotoVideoDemoActivity";
 
-    private String[] permissions;
+    private final String[] permissions;
 
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -107,6 +107,13 @@ public class PhotoVideoDemoActivity extends AppCompatActivity implements EasyPer
             if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
                 try {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
+                    File filesDir = getFilesDir();
+                    File cacheDir = getCacheDir();
+                    File externalFilesDir = getExternalFilesDir(null);
+                    File externalCacheDir = getExternalCacheDir();
+
+                    File externalStorageDirectory = Environment.getExternalStorageDirectory();
+
                     File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                     File tmpFile = File.createTempFile(timeStamp, ".jpg", storageDir);
                     Uri uriForImage = FileProvider.getUriForFile(PhotoVideoDemoActivity.this, "com.android.application.fileprovider", tmpFile);

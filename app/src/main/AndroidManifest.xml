@@ -34,9 +34,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-<!--    唤醒锁定权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 唤醒锁定权限 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -51,11 +49,14 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".media.MediaDemoActivity"
+            android:exported="false" />
+        <activity
             android:name=".album.VideoCheckActivity"
-            android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
             android:name=".album.PhotoCheckActivity"
             android:exported="false"
