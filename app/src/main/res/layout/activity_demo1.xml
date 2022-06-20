@@ -140,8 +140,32 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="拍照录像"
+            android:text="文件读写"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/qrcode_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="二维码"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/wifi_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="Wifi管理"
+            android:textSize="15sp" />
+
+
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

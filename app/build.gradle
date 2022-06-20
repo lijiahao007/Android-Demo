@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.huawei.agconnect'
 }
 
 android {
@@ -73,5 +74,8 @@ dependencies {
     implementation 'cn.yc:VideoPlayer:3.1.0'
     //视频内核层，必须有
     implementation 'cn.yc:VideoKernel:3.0.6'
+
+
+    implementation 'com.huawei.hms:scanplus:2.5.0.300'
 
 }

@@ -7,5 +7,6 @@
     <dimen name="media_divider_left_right">5dp</dimen>
     <dimen name="media_divider_radio_height">20dp</dimen>
     <dimen name="one_dp">1dp</dimen>
+    <dimen name="qrcode_font_size">18sp</dimen>
 
 </resources>

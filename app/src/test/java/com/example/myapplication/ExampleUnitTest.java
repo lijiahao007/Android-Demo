@@ -98,4 +98,13 @@ public class ExampleUnitTest {
         System.out.println(list.size());
     }
 
+    @Test
+    public void test8() {
+        String s = "关注“小亮助手”公众号";
+        int index = s.indexOf("V380小亮助手");
+        System.out.println(index);
+        int index1 = s.indexOf("小亮助手");
+        System.out.println(index1);
+
+    }
 }

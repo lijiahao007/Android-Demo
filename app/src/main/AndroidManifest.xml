@@ -49,6 +49,18 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".WifiDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".qrcode.HuaweiQRCode2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".qrcode.QRCodeMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".qrcode.HuaweiQRCodeActivity"
+            android:exported="false" />
+        <activity
             android:name=".media.MediaDemoActivity"
             android:exported="false" />
         <activity

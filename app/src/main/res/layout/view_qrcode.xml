@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    android:id="@+id/root_view">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/set_img_gzhbg2" />
+
+    <TextView
+        android:id="@+id/tv_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/Wechat_scan"
+        android:textColor="@color/white"
+        android:textSize="@dimen/qrcode_font_size" />
+
+    <LinearLayout
+        android:id="@+id/layout_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_scan"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/tv_attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/attention_v380_office_count"
+            android:textColor="@color/white"
+            android:textSize="@dimen/qrcode_font_size"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="10dp"
+        android:background="@color/transparent">
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo_192" />
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>
