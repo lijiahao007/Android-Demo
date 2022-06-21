@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/btn_shape1.xml" value="0.2265" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_back.xml" value="0.2615" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.332" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_photo.xml" value="0.2615" />
@@ -14,6 +15,7 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_video.xml" value="0.2615" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/ic_video_play.xml" value="0.298" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/media_radio.xml" value="0.1995" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/selector_flash_light.xml" value="0.2265" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/selector_video_play.xml" value="0.277" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/shape_cornor_background.xml" value="0.2135" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/sound_selector.xml" value="0.277" />
@@ -25,6 +27,7 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_calender_provider.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_content_provider_demo.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_custom_content_provider.xml" value="0.36141304347826086" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_custom_scan_qrcode.xml" value="0.34326171875" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_custom_view_demo.xml" value="0.2916666666666667" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_custom_view_menu.xml" value="0.25" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_demo1.xml" value="0.36614583333333334" />
@@ -49,13 +52,15 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_main.xml" value="0.2798913043478261" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_matrix_poly.xml" value="0.3182291666666667" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_media_demo.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_ok_http_demo.xml" value="0.340625" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_permission_demo.xml" value="0.32083333333333336" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_permission_menu.xml" value="0.2984375" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_permisson_rationale.xml" value="0.290625" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_photo_check.xml" value="0.2" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_photo_video_demo.xml" value="0.33" />
-        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_qrcode_menu.xml" value="0.25" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_qrcode_menu.xml" value="0.5" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_recycle_view1.xml" value="0.36141304347826086" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_scan.xml" value="0.25" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_screen_shot_record.xml" value="0.22" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_service_demo.xml" value="0.33" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_sqlite_demo.xml" value="0.36141304347826086" />

@@ -71,11 +71,20 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     //视频UI层，必须要有
-    implementation 'cn.yc:VideoPlayer:3.1.0'
+//    implementation 'cn.yc:VideoPlayer:3.1.0'
     //视频内核层，必须有
-    implementation 'cn.yc:VideoKernel:3.0.6'
+//    implementation 'cn.yc:VideoKernel:3.0.6'
 
 
     implementation 'com.huawei.hms:scanplus:2.5.0.300'
+
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
+// https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+
 
 }

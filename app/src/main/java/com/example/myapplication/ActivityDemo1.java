@@ -14,8 +14,8 @@ import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.media.MediaDemoActivity;
+import com.example.myapplication.okhttp.OkHttpDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
-import com.example.myapplication.qrcode.HuaweiQRCodeActivity;
 import com.example.myapplication.qrcode.QRCodeMenuActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
@@ -81,8 +81,12 @@ public class ActivityDemo1 extends AppCompatActivity {
             startActivity(new Intent(this, QRCodeMenuActivity.class));
         });
 
-        findViewById(R.id.qrcode_demo).setOnClickListener(view -> {
+        findViewById(R.id.wifi_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, WifiDemoActivity.class));
+        });
+
+        findViewById(R.id.http_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, OkHttpDemoActivity.class));
         });
     }
 }

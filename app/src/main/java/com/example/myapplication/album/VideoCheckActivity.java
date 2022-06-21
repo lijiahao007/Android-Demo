@@ -26,8 +26,8 @@ import com.example.myapplication.album.adapter.MediaBeanAdapter;
 import com.example.myapplication.album.bean.MediaBean;
 import com.example.myapplication.album.bean.MediaBeanDBHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.yc.video.player.VideoPlayer;
-import com.yc.video.ui.view.BasisVideoController;
+//import com.yc.video.player.VideoPlayer;
+//import com.yc.video.ui.view.BasisVideoController;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,9 +53,9 @@ public class VideoCheckActivity extends AppCompatActivity {
     private MediaBeanDBHelper helper;
     private ContentResolver contentResolver;
     private ArrayList<MediaBean> deleteMediaBean = new ArrayList<>();
-    private VideoPlayer mVideoPlayer;
+//    private VideoPlayer mVideoPlayer;
     private CheckBox cbSound;
-    private BasisVideoController videoController;
+//    private BasisVideoController videoController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class VideoCheckActivity extends AppCompatActivity {
         ivNextVideo = findViewById(R.id.iv_next);
         ivShare = findViewById(R.id.iv_share);
         ivDelete = findViewById(R.id.iv_deleter);
-        mVideoPlayer = findViewById(R.id.vp_show);
+//        mVideoPlayer = findViewById(R.id.vp_show);
 
         initVideoView();
         initToolsView();
@@ -151,25 +151,25 @@ public class VideoCheckActivity extends AppCompatActivity {
         MediaBean bean = mediaBeans.get(curPos);
 
         //创建基础视频播放器，一般播放器的功能
-        videoController = new BasisVideoController(this);
+//        videoController = new BasisVideoController(this);
         //设置控制器
-        mVideoPlayer.setController(videoController);
+//        mVideoPlayer.setController(videoController);
         //设置视频播放链接地址
-        mVideoPlayer.setUrl(bean.getUri().toString());
+//        mVideoPlayer.setUrl(bean.getUri().toString());
         //开始播放
-        mVideoPlayer.start();
-        mVideoPlayer.setMute(!cbSound.isChecked());
+//        mVideoPlayer.start();
+//        mVideoPlayer.setMute(!cbSound.isChecked());
 
         fullScreenControl.setOnClickListener(view -> {
-            mVideoPlayer.startFullScreen();
+//            mVideoPlayer.startFullScreen();
         });
 
         ivNextVideo.setOnClickListener(view -> {
             if (curPos < mediaBeans.size() - 1) {
                 curPos++;
-                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
-                mVideoPlayer.pause();
-                mVideoPlayer.replay(true);
+//                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
+//                mVideoPlayer.pause();
+//                mVideoPlayer.replay(true);
             } else {
                 Toast.makeText(this, "已是最后一个视频", Toast.LENGTH_SHORT).show();
             }
@@ -178,9 +178,9 @@ public class VideoCheckActivity extends AppCompatActivity {
         ivPrevVideo.setOnClickListener(view -> {
             if (mediaBeans.size() != 0 && curPos > 0) {
                 curPos--;
-                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
-                mVideoPlayer.pause();
-                mVideoPlayer.replay(true);
+//                mVideoPlayer.setUrl(mediaBeans.get(curPos).getUri().toString());
+//                mVideoPlayer.pause();
+//                mVideoPlayer.replay(true);
             } else {
                 Toast.makeText(this, "已是第一个视频", Toast.LENGTH_SHORT).show();
             }
@@ -188,17 +188,17 @@ public class VideoCheckActivity extends AppCompatActivity {
 
         cbPlay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                mVideoPlayer.resume();
+//                mVideoPlayer.resume();
             } else {
-                mVideoPlayer.pause();
+//                mVideoPlayer.pause();
             }
         });
 
         cbSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                mVideoPlayer.setMute(false);
+//                mVideoPlayer.setMute(false);
             } else {
-                mVideoPlayer.setMute(true);
+//                mVideoPlayer.setMute(true);
             }
         });
 

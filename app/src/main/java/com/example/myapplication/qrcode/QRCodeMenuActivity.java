@@ -20,5 +20,9 @@ public class QRCodeMenuActivity extends AppCompatActivity {
         findViewById(R.id.demo2).setOnClickListener(view -> {
             startActivity(new Intent(this, HuaweiQRCode2Activity.class));
         });
+
+        findViewById(R.id.scan_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, CustomScanQrcodeActivity.class));
+        });
     }
 }

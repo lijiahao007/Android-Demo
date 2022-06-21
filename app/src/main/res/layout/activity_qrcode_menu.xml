@@ -15,7 +15,7 @@
         android:paddingStart="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:text="自定义View" />
+        android:text="自定义二维码生成1" />
 
     <TextView
         android:id="@+id/demo2"
@@ -25,7 +25,18 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
-        android:text="自定义View1" />
+        android:text="自定义二维码生成2" />
+
+    <TextView
+        android:id="@+id/scan_demo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:text="扫码Activity" />
+
 
 
 </LinearLayout>
