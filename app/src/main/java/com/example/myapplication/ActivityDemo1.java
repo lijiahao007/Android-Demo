@@ -12,8 +12,11 @@ import com.example.myapplication.album.PhotoVideoDemoActivity;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
+import com.example.myapplication.eventbus.EventBusDemoActivity;
+import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.media.MediaDemoActivity;
+import com.example.myapplication.multiThread.MultipleThreadDemoActivity;
 import com.example.myapplication.okhttp.OkHttpDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
 import com.example.myapplication.qrcode.QRCodeMenuActivity;
@@ -87,6 +90,18 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.http_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, OkHttpDemoActivity.class));
+        });
+
+        findViewById(R.id.hot_update_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, HotUpdateDemoActivity.class));
+        });
+
+        findViewById(R.id.multiple_thread_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, MultipleThreadDemoActivity.class));
+        });
+
+        findViewById(R.id.event_bus_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, EventBusDemoActivity.class));
         });
     }
 }

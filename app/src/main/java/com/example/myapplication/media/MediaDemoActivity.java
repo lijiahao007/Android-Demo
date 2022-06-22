@@ -59,7 +59,6 @@ public class MediaDemoActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_open_dir).setOnClickListener(view -> {
-
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
             intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
             startActivityForResult(intent, OPEN_DIR);

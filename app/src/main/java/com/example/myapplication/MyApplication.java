@@ -15,12 +15,11 @@ public class MyApplication extends Application {
 
     static final String TAG = "MyApplication";
     public ExecutorService executorService = Executors.newFixedThreadPool(4);
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate()");
     }
-
-
 
 }

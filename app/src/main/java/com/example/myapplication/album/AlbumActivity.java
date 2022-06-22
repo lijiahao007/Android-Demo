@@ -31,12 +31,9 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-// TODO: 1. 全选与全不选 (在全选时，取消选择某一个，会跳到全不选)
-// TODO: 2. 进入编辑模式与退出编辑模式
-// TODO: 3. fragment result API
-// TODO: 4. PhotoCheckActivity 图片放大查看功能
-// TODO: 5. VideoCheckActivity 自定义视频查看界面
-// TODO: 6. TextView点击动画效果
+// TODO: PhotoCheckActivity 图片放大查看功能
+// TODO: VideoCheckActivity 自定义视频查看界面
+// TODO: TextView点击动画效果
 
 
 public class AlbumActivity extends AppCompatActivity {

@@ -20,11 +20,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -36,6 +38,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -182,6 +185,7 @@ public class MockServerTest {
 
     }
 
+
     @Test
     public void postMultipleFile() throws InterruptedException, IOException {
 
@@ -213,18 +217,40 @@ public class MockServerTest {
         }
     }
 
-
     @Test
-    public void httpsConnect() {
+    public void httpsConnect() throws InterruptedException {
+        // 1.1 可以使用okhttp内置的TLS链接规范
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+                .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS)) // 使用内置的连接规范
                 .build();
+
         okHttpClient.newCall(
                 new Request.Builder()
                         .url("https://baidu.com")
                         .build()).enqueue(callback);
+
+        // 1.2 也可以使用自定义TLS链接规范
+        ConnectionSpec connectionSpec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                .tlsVersions(TlsVersion.TLS_1_2)
+                .cipherSuites(
+                        CipherSuite.TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256,
+                        CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                        CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+                )
+                .build();
+
+        OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .connectionSpecs(Collections.singletonList(connectionSpec))
+                .build();
+
+        okHttpClient1.newCall(
+                new Request.Builder()
+                        .url("https://baidu.com")
+                        .build()).enqueue(callback);
+
+
+        Thread.sleep(10000);
     }
-
-
 }

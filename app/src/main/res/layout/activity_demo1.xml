@@ -176,6 +176,42 @@
             android:text="OKHTTP"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/hot_update_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="热更新"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/multiple_thread_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="多线程"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/event_bus_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="EventBus"
+            android:textSize="15sp" />
+
+
+
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
