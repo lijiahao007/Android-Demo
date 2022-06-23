@@ -17,10 +17,12 @@ import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.media.MediaDemoActivity;
 import com.example.myapplication.multiThread.MultipleThreadDemoActivity;
+import com.example.myapplication.notification.NotificationDemoActivity;
 import com.example.myapplication.okhttp.OkHttpDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
 import com.example.myapplication.qrcode.QRCodeMenuActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
+import com.example.myapplication.rxjava.RxJavaDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
@@ -102,6 +104,14 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.event_bus_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, EventBusDemoActivity.class));
+        });
+
+        findViewById(R.id.rxjava_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, RxJavaDemoActivity.class));
+        });
+
+        findViewById(R.id.notification_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, NotificationDemoActivity.class));
         });
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
     <!-- 日历 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -49,6 +50,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".notification.NotificationDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".rxjava.RxJavaDemoActivity"
+            android:exported="false" />
         <activity
             android:name=".eventbus.EventBusDemoActivity"
             android:exported="false" />
