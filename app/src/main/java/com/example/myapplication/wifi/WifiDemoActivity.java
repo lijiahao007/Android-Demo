@@ -79,8 +79,8 @@ public class WifiDemoActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(wifiScanReceiver, intentFilter);
-        findViewById(R.id.btn_wlan_scan).setOnClickListener(view -> {
 
+        findViewById(R.id.btn_wlan_scan).setOnClickListener(view -> {
             if (EasyPermissions.hasPermissions(this, wifiScanPerms)) {
                 scanWifi();
             } else {
@@ -104,10 +104,6 @@ public class WifiDemoActivity extends AppCompatActivity {
             logView.addLog("wifi start scan success");
         } else {
             logView.addLog("wifi start scan failed");
-            List<ScanResult> scanResults = wifiManager.getScanResults();
-            for (ScanResult scanResult : scanResults) {
-                logView.addLog(scanResult.SSID + " " + scanResult.capabilities);
-            }
         }
     }
 
