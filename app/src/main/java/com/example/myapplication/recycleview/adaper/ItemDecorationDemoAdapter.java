@@ -20,6 +20,7 @@ public class ItemDecorationDemoAdapter extends RecyclerView.Adapter<ItemDecorati
 
     private ArrayList<String> list = new ArrayList<>();
     private HashMap<Integer, Long> comeInTime = new HashMap<>();
+
     public void submitList(ArrayList<String> newList) {
         list.clear();
         list.addAll(newList);
@@ -28,7 +29,7 @@ public class ItemDecorationDemoAdapter extends RecyclerView.Adapter<ItemDecorati
 
     public void addItem(String msg) {
         list.add(msg);
-        notifyItemInserted(getItemCount()-1);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void removeItem(int position) {
@@ -77,7 +78,7 @@ public class ItemDecorationDemoAdapter extends RecyclerView.Adapter<ItemDecorati
     public void onViewAttachedToWindow(@NonNull DemoViewHolder holder) { // 监听view的移入
         super.onViewAttachedToWindow(holder);
         long time = System.currentTimeMillis();
-        Log.i("DemoAdapter", "attached" + holder.getAdapterPosition() + " time: " + time );
+        Log.i("DemoAdapter", "attached" + holder.getAdapterPosition() + " time: " + time);
         comeInTime.put(holder.getAdapterPosition(), time);
     }
 

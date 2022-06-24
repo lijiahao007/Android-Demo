@@ -5,12 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".wifi.WifiDemoActivity">
+    
+    <com.example.myapplication.utils.LogView
+        android:id="@+id/log_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linear_layout"
+        />
 
-    <Button
-        android:id="@+id/btn_socket_connect"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Socket"
-        android:textAllCaps="false"
-        />
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_wlan_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="wifi扫描"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_wlan_p2p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P2P链接"
+            android:textAllCaps="false" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </RelativeLayout>
