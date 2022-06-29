@@ -29,6 +29,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
@@ -95,5 +100,11 @@ dependencies {
     // https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxandroid
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
+
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation(name: 'NV_SDK_2.0.0', ext: 'aar')
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'com.google.zxing:core:3.5.0'
 
 }

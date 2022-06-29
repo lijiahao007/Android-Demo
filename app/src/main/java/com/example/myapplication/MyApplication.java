@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.macrovideo.sdk.SDKHelper;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,6 +22,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate()");
+        SDKHelper.initPhoneType(10);
     }
 
 }
