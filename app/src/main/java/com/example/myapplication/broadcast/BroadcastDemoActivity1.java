@@ -6,6 +6,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class BroadcastDemoActivity1 extends AppCompatActivity {
     private LocalBroadcastReceiver1 localReceiver1;
     private TextView info;
     private DemoStickBroadcastReceiver1 demoBroadcastReceiver1;
+    private NetWorkBroadcastReceiver netWorkBroadcastReceiver;
+    private NetWorkBroadcastReceiver netWorkBroadcastReceiver1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,12 @@ public class BroadcastDemoActivity1 extends AppCompatActivity {
             Toast.makeText(this, "发送粘性广播:" + msg, Toast.LENGTH_SHORT).show();
         });
 
+
+        IntentFilter networkFilter = new IntentFilter();
+        networkFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        networkFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        netWorkBroadcastReceiver1 = new NetWorkBroadcastReceiver(info, "onCreate");
+        registerReceiver(netWorkBroadcastReceiver1, networkFilter);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -118,6 +127,12 @@ public class BroadcastDemoActivity1 extends AppCompatActivity {
             info.setText(text);
         }, 5000);
 
+        // 5. 注册网络广播监听
+        IntentFilter networkFilter = new IntentFilter();
+        networkFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        networkFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        netWorkBroadcastReceiver = new NetWorkBroadcastReceiver(info, "onResume");
+        registerReceiver(netWorkBroadcastReceiver, networkFilter);
     }
 
     @Override
@@ -129,5 +144,12 @@ public class BroadcastDemoActivity1 extends AppCompatActivity {
         unregisterReceiver(orderReceiver2);
         localBroadcastManager.unregisterReceiver(localReceiver1);
         unregisterReceiver(demoBroadcastReceiver1);
+        unregisterReceiver(netWorkBroadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(netWorkBroadcastReceiver1);
     }
 }

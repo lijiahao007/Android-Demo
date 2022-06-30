@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".setupnet.WifiConnectActivity">
+    tools:context=".setupnet.APConnectActivity">
+
 
     <LinearLayout
         android:id="@+id/llEdit"
@@ -52,20 +53,21 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-        
+
     <com.example.myapplication.utils.LogView
         android:id="@+id/lvLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
+        android:layout_above="@id/btnConnectAP"
         android:layout_below="@id/llEdit"
-        android:layout_above="@id/btnWifiConnect"/>
-    
+        android:layout_centerInParent="true" />
+
+
     <Button
+        android:id="@+id/btnConnectAP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="wifi配网"
-        android:id="@+id/btnWifiConnect" />
+        android:text="去连接设备开启的热点" />
 
 </RelativeLayout>

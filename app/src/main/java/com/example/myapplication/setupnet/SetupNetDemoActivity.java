@@ -4,18 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.myapplication.R;
+import com.example.myapplication.wifi.WifiDemoActivity;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-public class SetupNetDemoActivity extends AppCompatActivity implements View.OnClickListener {
+public class SetupNetDemoActivity extends AppCompatActivity{
 
     private String[] permissions;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -77,29 +81,20 @@ public class SetupNetDemoActivity extends AppCompatActivity implements View.OnCl
         btnAP = findViewById(R.id.btn_AP);
         btnPreview = findViewById(R.id.btn_preview);
 
-        btnWifi.setOnClickListener(this);
-        btnAP.setOnClickListener(this);
-        btnPreview.setOnClickListener(this);
+        btnWifi.setOnClickListener(view -> {
+            Intent intent = new Intent(this, WifiConnectActivity.class);
+            startActivity(intent);
+        });
 
+        btnAP.setOnClickListener(view -> {
+            Intent intent = new Intent(this, APConnectActivity.class);
+            startActivity(intent);
+        });
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v) {
-            case btnWifi: {
-
-                break;
-            }
-            case btnAP: {
-
-                break;
-            }
-            case btnPreview: {
-
-                break;
-            }
-        }
+        btnPreview.setOnClickListener(view -> {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -107,6 +102,5 @@ public class SetupNetDemoActivity extends AppCompatActivity implements View.OnCl
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 
 }

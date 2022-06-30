@@ -5,8 +5,12 @@ buildscript {
         classpath 'com.huawei.agconnect:agcp:1.6.5.300'
         classpath 'com.android.tools.build:gradle:7.2.1'
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
-
 
 plugins {
     id 'com.android.application' version '7.2.1' apply false

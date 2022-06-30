@@ -3,13 +3,8 @@ package com.example.myapplication;
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.macrovideo.sdk.SDKHelper;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

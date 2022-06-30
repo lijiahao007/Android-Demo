@@ -232,5 +232,16 @@
             android:text="通知"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/setupnet_demo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:text="摄像头配网"
+            android:textSize="15sp" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
