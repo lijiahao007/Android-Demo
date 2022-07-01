@@ -46,6 +46,7 @@ public class APConnectActivity extends AppCompatActivity {
     private volatile int lanScanThreadLabel = 0;
     private DeviceInfo curDeviceInfo; // 当前设备信息
     private final int lanScanMessageWhat = 0; // 在局域网找到设备的消息what
+    private CountdownTextView ctvCountdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class APConnectActivity extends AppCompatActivity {
 
         etSSID = findViewById(R.id.etSSID);
         etPwd = findViewById(R.id.etPwd);
+        ctvCountdown = findViewById(R.id.ctvCountdown);
 
     }
 
@@ -165,6 +167,7 @@ public class APConnectActivity extends AppCompatActivity {
                                                     lanScanThreadLabel++;
                                                     LanScanThread lanScanThread = new LanScanThread(lanScanThreadLabel);
                                                     lanScanThread.start();
+                                                    ctvCountdown.startCountDown();
                                                 }
 
                                                 @Override

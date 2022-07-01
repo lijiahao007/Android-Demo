@@ -5,8 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".customview.Bessel2Activity">
+
     <com.example.myapplication.customview.BesselCustomView1
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <com.example.myapplication.setupnet.CountdownTextView
+        android:id="@+id/ctv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:countDownInterval="1000"
+        app:millisInFuture="80000"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="start" />
+
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stop" />
+    </LinearLayout>
+
 
 </RelativeLayout>

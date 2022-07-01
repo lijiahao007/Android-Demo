@@ -62,6 +62,14 @@
         android:layout_below="@id/llEdit"
         android:layout_centerInParent="true" />
 
+    <com.example.myapplication.setupnet.CountdownTextView
+        android:id="@+id/ctvCountdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:countDownInterval="1000"
+        app:millisInFuture="80000" />
+
 
     <Button
         android:id="@+id/btnConnectAP"
