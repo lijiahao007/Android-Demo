@@ -13,6 +13,25 @@
         android:layout_above="@+id/linear_layout"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_layout"
+        android:id="@+id/llEdit"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/etSSID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HiWiFi_001"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12345678"/>
+
+    </LinearLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linear_layout"
         android:layout_width="wrap_content"
@@ -32,6 +51,12 @@
             android:layout_height="wrap_content"
             android:text="P2P链接"
             android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnConnectSpecialWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="连接到上述wifi"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

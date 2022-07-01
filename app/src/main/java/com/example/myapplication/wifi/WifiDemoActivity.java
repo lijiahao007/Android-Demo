@@ -17,8 +17,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.myapplication.R;
+import com.example.myapplication.setupnet.WifiAssistant;
 import com.example.myapplication.utils.LogView;
 
 import java.util.List;
@@ -94,6 +97,30 @@ public class WifiDemoActivity extends AppCompatActivity {
             Intent intent = new Intent(WifiDemoActivity.this, WifiP2PActivity.class);
             startActivity(intent);
         });
+
+        EditText etSSID = findViewById(R.id.etSSID);
+        EditText etPassword = findViewById(R.id.etPassword);
+        Button btnConnectSpecialWifi = findViewById(R.id.btnConnectSpecialWifi);
+        btnConnectSpecialWifi.setOnClickListener(view -> {
+            String SSID = etSSID.getText().toString();
+            String password = etPassword.getText().toString();
+
+            WifiAssistant.connectWifi(this, SSID, password, false, new WifiAssistant.WifiAutoConnectListener() {
+                @Override
+                public void onSuccess() {
+                    logView.addLog("connect wifi success");
+                }
+
+                @Override
+                public void onFailure() {
+                    logView.addLog("connect wifi failed");
+                }
+            });
+        });
+
+        String bssid = wifiManager.getConnectionInfo().getBSSID();
+        Log.i("WifiDemoActivity", "bssid: " + bssid);
+
     }
 
 
