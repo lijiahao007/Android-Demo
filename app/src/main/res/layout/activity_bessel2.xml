@@ -14,7 +14,7 @@
         android:id="@+id/ctv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         app:countDownInterval="1000"
         app:millisInFuture="80000"
         android:textSize="30sp"/>

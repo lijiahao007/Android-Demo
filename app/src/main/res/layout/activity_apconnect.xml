@@ -62,14 +62,12 @@
         android:layout_below="@id/llEdit"
         android:layout_centerInParent="true" />
 
-    <com.example.myapplication.setupnet.CountdownTextView
-        android:id="@+id/ctvCountdown"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnQuery"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:countDownInterval="1000"
-        app:millisInFuture="80000" />
-
+        android:layout_above="@+id/btnConnectAP"
+        android:text="查询在线状态" />
 
     <Button
         android:id="@+id/btnConnectAP"

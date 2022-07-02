@@ -3,7 +3,9 @@ package com.example.myapplication.setupnet;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.CountDownTimer;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
@@ -16,7 +18,7 @@ public class CountdownTextView extends androidx.appcompat.widget.AppCompatTextVi
 
     private int countDownInterval;
     private int millisInFuture;
-    private CountDownTimer timer;
+    private CountDownTimer timer = null;
     private String text = "0";
     private OnFinishCallback onFinishCallback = null;
 
@@ -42,16 +44,12 @@ public class CountdownTextView extends androidx.appcompat.widget.AppCompatTextVi
             countDownInterval = typedArray.getInteger(R.styleable.CountdownTextView_countDownInterval, 0);
             millisInFuture = typedArray.getInteger(R.styleable.CountdownTextView_millisInFuture, 0);
             timer = new TextViewCountDownTimer(millisInFuture, countDownInterval);
+            timer.start();
             typedArray.recycle();
             text = millisInFuture / 1000 + "";
+            Log.i("CountdownTextView", "init: " + countDownInterval + " " + millisInFuture + " " + timer);
             invalidate();
         }
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawText(text, 0, getHeight(), getPaint());
     }
 
     public void setCountDownParam(int millisInFuture, int countDownInterval) {
@@ -64,6 +62,9 @@ public class CountdownTextView extends androidx.appcompat.widget.AppCompatTextVi
     public void startCountDown() {
         if (timer != null) {
             timer.start();
+            Log.i("CountdownTextView", "startCountDown: " + text + " " + getHeight());
+        } else {
+            Log.i("CountdownTextView", "startCountDown: timer is null");
         }
     }
 
@@ -89,11 +90,9 @@ public class CountdownTextView extends androidx.appcompat.widget.AppCompatTextVi
 
         @Override
         public void onTick(long millisUntilFinished) {
-            if (millisInFuture % 1000 == 0) {
-                text = String.valueOf(millisUntilFinished / 1000);
-                Log.i("CountdownTextView", "onTick: " + text);
-                invalidate();
-            }
+            text = String.valueOf(millisUntilFinished / 1000);
+            Log.i("CountdownTextView", "onTick: " + text);
+            CountdownTextView.this.setText(text);
         }
 
         @Override

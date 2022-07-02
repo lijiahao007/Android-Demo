@@ -74,7 +74,6 @@ public class WifiAssistant {
             boolean hasConnected = false;
             List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
             for (WifiConfiguration configuration : configuredNetworks) {
-                Log.i("WifiAssistant", "configuredNetworks configuration.SSID=" + configuration.SSID + " netId:" + configuration.networkId + " BSSID" + configuration.BSSID + " target.SSID:" + config.SSID);
                 if (configuration.SSID.equals(config.SSID)) {
                     config = configuration;
                     hasConnected = true;

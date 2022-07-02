@@ -2,11 +2,13 @@ package com.example.myapplication.okhttp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -18,8 +20,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -114,12 +118,16 @@ public class OkHttpDemoActivity extends AppCompatActivity {
                     ResponseBody body = response.body();
                     if (body != null) {
                         byte[] bytes = body.bytes();
+//                         使用MediaStore API
                         ContentResolver contentResolver = getContentResolver();
                         Uri localUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
                         OutputStream outputStream = contentResolver.openOutputStream(localUri);
                         outputStream.write(bytes);
+                        outputStream.close();
                         Log.i(TAG, "onResponse Thread:" + Thread.currentThread());
                         handler.obtainMessage(1, localUri).sendToTarget();
+
+
                     }
                 }
             });
