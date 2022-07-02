@@ -26,6 +26,7 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     private Button btnWifi;
     private Button btnAP;
     private Button btnPreview;
+    private Button btnQRCode;
 
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -79,7 +80,9 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     private void initView() {
         btnWifi = findViewById(R.id.btn_wifi);
         btnAP = findViewById(R.id.btn_AP);
+        btnQRCode = findViewById(R.id.btn_QRCode);
         btnPreview = findViewById(R.id.btn_preview);
+
 
         btnWifi.setOnClickListener(view -> {
             Intent intent = new Intent(this, WifiConnectActivity.class);
@@ -88,6 +91,11 @@ public class SetupNetDemoActivity extends AppCompatActivity{
 
         btnAP.setOnClickListener(view -> {
             Intent intent = new Intent(this, APConnectActivity.class);
+            startActivity(intent);
+        });
+
+        btnQRCode.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QRCodeConnectActivity.class);
             startActivity(intent);
         });
 

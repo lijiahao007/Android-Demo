@@ -402,12 +402,6 @@ public class APConnectActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     super.run();
-
-                    try {
-                        sleep(60000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     // TODO: 这里查询不到设备在线。
                     DeviceStatus deviceStatus = LoginHelper.getDeviceStatus(curDeviceInfo);
                     Log.i(TAG, "互联网查询， internetQueryDevice: deviceStatus: " + deviceStatus);
@@ -421,6 +415,7 @@ public class APConnectActivity extends AppCompatActivity {
                         } else if (onlineStat == 0) {
                             curDeviceInfo.setnOnLineStat(Defines.ON_LINE_STAT_OFF);
                             Log.i(TAG, "internetQueryDevice: 设备离线");
+                            deviceFoundHandler.obtainMessage(deviceFoundWhat).sendToTarget();
                         } else if (onlineStat == 10) {
                             curDeviceInfo.setnOnLineStat(Defines.ON_LINE_STAT_READY);
                             Log.i(TAG, "internetQueryDevice: 设备准备中");
