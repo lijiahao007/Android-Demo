@@ -69,13 +69,31 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".fragment.FragmentActionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.FragmentMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".viewpager.ViewPager1Activity"
+            android:exported="false" />
+        <activity
+            android:name=".viewpager.ViewPagerMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".animation.FrameAnimationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".animation.AnimationDemoActivity"
+            android:exported="false" />
+        <activity
             android:name=".setupnet.PlayBackVideoActivity"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".setupnet.PlayBackActivity"
             android:exported="false"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".gesture.GestureDemoActivity"
             android:exported="false" />

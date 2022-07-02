@@ -107,10 +107,30 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/view_qrcode.xml" value="0.5" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/view_tab.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/xml/file_paths.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable-v21/animator_vector_drawable.xml" value="0.1185" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1185" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/anim_company.xml" value="0.185" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/anim_run.xml" value="0.183" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/animator_vector_company.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/animator_vector_drawable.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/ic_deleter.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/test.xml" value="0.165" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/drawable/vector_drawable.xml" value="0.1185" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout-v21/item_record_file.xml" value="0.23596014492753623" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_animation_demo.xml" value="0.23596014492753623" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_broadcast_demo1.xml" value="0.19610507246376813" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_demo1.xml" value="0.264" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_fragment_action.xml" value="0.10891590678824721" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_fragment_menu.xml" value="0.10891590678824721" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_frame_amination.xml" value="0.176" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_photo_video_demo.xml" value="0.23369565217391305" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_screen_shot_record.xml" value="0.23369565217391305" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_view_pager1.xml" value="0.12613981762917933" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_view_pager_menu.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/fragment_one2.xml" value="0.17889492753623187" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/fragment_three2.xml" value="0.17889492753623187" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/fragment_two2.xml" value="0.17889492753623187" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/item_menu.xml" value="0.4" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/item_record_file.xml" value="0.23596014492753623" />
       </map>
     </option>

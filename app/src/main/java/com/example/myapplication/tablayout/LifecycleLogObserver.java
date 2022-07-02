@@ -15,6 +15,10 @@ public class LifecycleLogObserver implements DefaultLifecycleObserver {
         this.tag = tag;
     }
 
+    public LifecycleLogObserver(Object obj) {
+        this.tag = obj.getClass().getSimpleName();
+    }
+
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
         DefaultLifecycleObserver.super.onCreate(owner);

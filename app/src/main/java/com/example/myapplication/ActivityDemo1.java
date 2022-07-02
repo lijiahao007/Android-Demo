@@ -1,18 +1,18 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.activity.ExampleActivity1;
 import com.example.myapplication.album.AlbumActivity;
 import com.example.myapplication.album.PhotoVideoDemoActivity;
+import com.example.myapplication.animation.AnimationDemoActivity;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
 import com.example.myapplication.eventbus.EventBusDemoActivity;
+import com.example.myapplication.fragment.FragmentMenuActivity;
 import com.example.myapplication.gesture.GestureDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
@@ -28,105 +28,52 @@ import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
 import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
+import com.example.myapplication.viewpager.ViewPagerMenuActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
 
+import java.util.ArrayList;
+
 public class ActivityDemo1 extends AppCompatActivity {
+
+    private MenuRecyclerView recyclerView;
+    private MenuAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo1);
-        TextView intentFilterDemo = findViewById(R.id.intent_filter_demo);
-        intentFilterDemo.setOnClickListener(view -> {
-            startActivity(new Intent(this, IntentActivity.class));
-        });
 
-        findViewById(R.id.activity_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, ExampleActivity1.class));
-        });
+        recyclerView = findViewById(R.id.recycler_view);
+        ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("intent相关", IntentActivity.class));
+            add(new MenuAdapter.MenuInfo("Activity相关", ExampleActivity1.class));
+            add(new MenuAdapter.MenuInfo("Service相关", ServiceDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("BroadcastReceiver相关", BroadcastDemoActivity1.class));
+            add(new MenuAdapter.MenuInfo("ContentProvider相关", ContentProviderDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("RecyclerView相关", RecyclerViewDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("TabLayout & ViewPager2相关", TabLayoutDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("权限申请相关", PermissionMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("自定义View相关", CustomViewMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("相册（图片视频来自 ”拍照录像“）", AlbumActivity.class));
+            add(new MenuAdapter.MenuInfo("拍照录像", PhotoVideoDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("文件读写", MediaDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("二维码", QRCodeMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Wifi管理", WifiDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("OKHTTP", OkHttpDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("tinker热更新（TODO）", HotUpdateDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("多线程", MultipleThreadDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("EventBus", EventBusDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("RxJava", RxJavaDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("通知", NotificationDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("摄像头配网", SetupNetDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("Surface", SurfaceDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("手势监听", GestureDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("动画", AnimationDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("ViewPager", ViewPagerMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Fragment", FragmentMenuActivity.class));
 
-        findViewById(R.id.service_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, ServiceDemoActivity.class));
-        });
+        }};
+        recyclerView.setMenuList(menuList);
 
-        findViewById(R.id.broadcast_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, BroadcastDemoActivity1.class));
-        });
-
-        findViewById(R.id.content_provider_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, ContentProviderDemoActivity.class));
-        });
-
-        findViewById(R.id.recycler_view_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, RecyclerViewDemoActivity.class));
-        });
-
-        findViewById(R.id.tablayout_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, TabLayoutDemoActivity.class));
-        });
-
-        findViewById(R.id.permission_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, PermissionMenuActivity.class));
-        });
-
-        findViewById(R.id.custom_view_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, CustomViewMenuActivity.class));
-        });
-
-        findViewById(R.id.album_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, AlbumActivity.class));
-        });
-
-        findViewById(R.id.camera_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, PhotoVideoDemoActivity.class));
-        });
-
-        findViewById(R.id.media_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, MediaDemoActivity.class));
-        });
-
-        findViewById(R.id.qrcode_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, QRCodeMenuActivity.class));
-        });
-
-        findViewById(R.id.wifi_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, WifiDemoActivity.class));
-        });
-
-        findViewById(R.id.http_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, OkHttpDemoActivity.class));
-        });
-
-        findViewById(R.id.hot_update_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, HotUpdateDemoActivity.class));
-        });
-
-        findViewById(R.id.multiple_thread_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, MultipleThreadDemoActivity.class));
-        });
-
-        findViewById(R.id.event_bus_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, EventBusDemoActivity.class));
-        });
-
-        findViewById(R.id.rxjava_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, RxJavaDemoActivity.class));
-        });
-
-        findViewById(R.id.notification_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, NotificationDemoActivity.class));
-        });
-
-        findViewById(R.id.setupnet_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, SetupNetDemoActivity.class));
-        });
-
-        findViewById(R.id.surface_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, SurfaceDemoActivity.class));
-        });
-
-        findViewById(R.id.gesture_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, GestureDemoActivity.class));
-        });
     }
 }
