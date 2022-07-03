@@ -135,6 +135,7 @@ public class WifiConnectActivity extends AppCompatActivity {
                 }
                 if (deviceListFromLan.size() > 0) {
                     connectDevices = deviceListFromLan;
+                    SetupNetDemoActivity.setDeviceInfo(deviceListFromLan.get(0));
                     handler.obtainMessage(lanScanMsgWhat).sendToTarget();
                     break;
                 }

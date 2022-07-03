@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.macrovideo.sdk.SDKHelper;
+import com.tencent.mmkv.MMKV;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +19,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Log.i(TAG, "onCreate()");
         SDKHelper.initPhoneType(10);
+        MMKV.initialize(this);
     }
 
 }

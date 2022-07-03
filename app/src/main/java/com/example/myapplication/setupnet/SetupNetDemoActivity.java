@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.widget.Button;
 
 import com.example.myapplication.R;
 import com.example.myapplication.wifi.WifiDemoActivity;
+import com.macrovideo.sdk.objects.DeviceInfo;
+import com.tencent.mmkv.MMKV;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -27,6 +30,9 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     private Button btnAP;
     private Button btnPreview;
     private Button btnQRCode;
+    private static DeviceInfo deviceInfo = null;
+    private static final String MMKVDeviceInfoKey = "MMKVDeviceInfoKey";
+
 
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -55,10 +61,16 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_net_demo);
+
+        MMKV mmkv = MMKV.defaultMMKV();
+        SetupNetDemoActivity.deviceInfo = mmkv.decodeParcelable(MMKVDeviceInfoKey, DeviceInfo.class, null);
+
+
         if (EasyPermissions.hasPermissions(this, permissions)) {
             init();
         } else {
@@ -109,6 +121,22 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    public static boolean setDeviceInfo(DeviceInfo deviceInfo) {
+        SetupNetDemoActivity.deviceInfo = deviceInfo;
+        MMKV mmkv = MMKV.defaultMMKV();
+        return mmkv.encode(MMKVDeviceInfoKey, deviceInfo);
+    }
+
+    public static DeviceInfo getDeviceInfo() {
+        if (SetupNetDemoActivity.deviceInfo == null) {
+            MMKV mmkv = MMKV.defaultMMKV();
+            DeviceInfo deviceInfo = mmkv.decodeParcelable(MMKVDeviceInfoKey, DeviceInfo.class);
+            SetupNetDemoActivity.deviceInfo = deviceInfo;
+        }
+        return SetupNetDemoActivity.deviceInfo;
     }
 
 }

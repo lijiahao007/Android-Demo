@@ -346,6 +346,7 @@ public class APConnectActivity extends AppCompatActivity {
                     if (isFound) {
                         Log.i(TAG, "handleMessage: 找到设备");
                         Toast.makeText(APConnectActivity.this, "找到设备", Toast.LENGTH_SHORT).show();
+                        SetupNetDemoActivity.setDeviceInfo(curDeviceInfo);
                     }
                     break;
                 }

@@ -25,6 +25,7 @@ import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
 import com.example.myapplication.rxjava.RxJavaDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
+import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
 
@@ -117,6 +118,10 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.setupnet_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, SetupNetDemoActivity.class));
+        });
+
+        findViewById(R.id.surface_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, SurfaceDemoActivity.class));
         });
     }
 }
