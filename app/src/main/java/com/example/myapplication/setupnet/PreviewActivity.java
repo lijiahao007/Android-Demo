@@ -61,6 +61,7 @@ public class PreviewActivity extends AppCompatActivity {
     private Button btnDown;
     private Button btnLeft;
     private Button btnRight;
+    private PTZHandlerThread ptzHandlerThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,46 +172,17 @@ public class PreviewActivity extends AppCompatActivity {
         btnRight = findViewById(R.id.btnRight);
         btnUp = findViewById(R.id.btnUp);
         btnDown = findViewById(R.id.btnDown);
-        HashMap<Button, ArrayList<Boolean>> mPTZActionMap = new HashMap<Button, ArrayList<Boolean>>(4) {{ // array是 左右上下
-            put(btnLeft, new ArrayList<Boolean>() {{
-                add(true);
-                add(false);
-                add(false);
-                add(false);
-            }});
-            put(btnRight, new ArrayList<Boolean>() {{
-                add(false);
-                add(true);
-                add(false);
-                add(false);
-            }});
-            put(btnUp, new ArrayList<Boolean>() {{
-                add(false);
-                add(false);
-                add(true);
-                add(false);
-            }});
-            put(btnDown, new ArrayList<Boolean>() {{
-                add(false);
-                add(false);
-                add(false);
-                add(true);
-            }});
-        }};
-        ArrayList<Button> directionButtons = new ArrayList<Button>(4) {{
-            add(btnLeft);
-            add(btnRight);
-            add(btnUp);
-            add(btnDown);
-        }};
+        btnLeft.setTag(Direction.LEFT);
+        btnRight.setTag(Direction.RIGHT);
+        btnUp.setTag(Direction.UP);
+        btnDown.setTag(Direction.DOWN);
 
-
-        for (Button button: directionButtons) {
-            button.setOnClickListener(view ->{
-                ArrayList<Boolean> arrayList = mPTZActionMap.get((Button) view);
-                if (arrayList != null) {
-                    mHSMediaPlayer.setPTZAction(arrayList.get(0), arrayList.get(1), arrayList.get(2), arrayList.get(3), 1);
-                }
+        Button[] buttons = new Button[]{btnLeft, btnRight, btnUp, btnDown};
+        ptzHandlerThread = new PTZHandlerThread(mHSMediaPlayer);
+        ptzHandlerThread.start();
+        for (Button button : buttons) {
+            button.setOnClickListener(view -> {
+                ptzHandlerThread.move((Direction) view.getTag());
             });
         }
 
@@ -296,6 +268,7 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopPlay();
+        ptzHandlerThread.quit(); // 退出线程
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {
