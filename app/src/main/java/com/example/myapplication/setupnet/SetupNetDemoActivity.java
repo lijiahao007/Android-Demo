@@ -22,7 +22,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-public class SetupNetDemoActivity extends AppCompatActivity{
+public class SetupNetDemoActivity extends AppCompatActivity {
 
     private String[] permissions;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -32,6 +32,7 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     private Button btnQRCode;
     private static DeviceInfo deviceInfo = null;
     private static final String MMKVDeviceInfoKey = "MMKVDeviceInfoKey";
+    private static final String devicePassword = "aaaa1111.";
 
 
     {
@@ -59,7 +60,6 @@ public class SetupNetDemoActivity extends AppCompatActivity{
             };
         }
     }
-
 
 
     @Override
@@ -133,8 +133,10 @@ public class SetupNetDemoActivity extends AppCompatActivity{
     public static DeviceInfo getDeviceInfo() {
         if (SetupNetDemoActivity.deviceInfo == null) {
             MMKV mmkv = MMKV.defaultMMKV();
-            DeviceInfo deviceInfo = mmkv.decodeParcelable(MMKVDeviceInfoKey, DeviceInfo.class);
-            SetupNetDemoActivity.deviceInfo = deviceInfo;
+            SetupNetDemoActivity.deviceInfo = mmkv.decodeParcelable(MMKVDeviceInfoKey, DeviceInfo.class);
+        }
+        if (SetupNetDemoActivity.deviceInfo != null) {
+            SetupNetDemoActivity.deviceInfo.setStrPassword(devicePassword); // TODO: 添加密码设置
         }
         return SetupNetDemoActivity.deviceInfo;
     }

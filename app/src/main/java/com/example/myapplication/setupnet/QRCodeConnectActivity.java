@@ -41,9 +41,10 @@ public class QRCodeConnectActivity extends AppCompatActivity {
     private int mConfigID = 0;
     private int qrcodeSize = 0;
     private ImageView ivQRCode;
-    volatile int lanScanThreadLabel;
+    volatile int lanScanThreadLabel = 0;
     private final static String TAG = "QRCodeConnectActivity";
     private final int deviceFoundWhat = 0;
+    private DeviceInfo curDeviceInfo = null;
 
 
     @Override
@@ -73,7 +74,12 @@ public class QRCodeConnectActivity extends AppCompatActivity {
                     qrcodeSize
             );
             ivQRCode.setImageBitmap(configNetQRCodeBitmap);
+            lanScanThreadLabel++;
+            LanScanThread lanScanThread = new LanScanThread(lanScanThreadLabel);
+            lanScanThread.start();
         });
+
+
 
     }
 
@@ -106,6 +112,8 @@ public class QRCodeConnectActivity extends AppCompatActivity {
                 Log.i(TAG, "LanScanThread: deviceListFromLan: " + deviceListFromLan + " size: " + deviceListFromLan.size());
 
                 if (deviceListFromLan.size() > 0) {
+                    curDeviceInfo = deviceListFromLan.get(0);
+                    SetupNetDemoActivity.setDeviceInfo(curDeviceInfo);
                     lanScanThreadLabel++;
                     isFound = true;
                 }
@@ -144,11 +152,6 @@ public class QRCodeConnectActivity extends AppCompatActivity {
 
     // 该handler专门用于处理设备扫描
     Handler deviceFoundHandler = new Handler(Looper.getMainLooper()) {
-
-        boolean isDeviceConnectToWifi = false;
-        boolean isWifiChangeToTargetWifi = false;
-        boolean isWifiChangeFromDeviceAPToOtherWifi = false;
-
 
         @Override
         public void handleMessage(@NonNull Message msg) {

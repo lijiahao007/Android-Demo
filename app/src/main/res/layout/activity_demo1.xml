@@ -118,7 +118,7 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="相册"
+            android:text="相册（图片视频来自 ”拍照录像“）"
             android:textSize="15sp" />
 
         <TextView
@@ -184,7 +184,7 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="热更新"
+            android:text="tinker热更新（TODO）"
             android:textSize="15sp" />
 
 

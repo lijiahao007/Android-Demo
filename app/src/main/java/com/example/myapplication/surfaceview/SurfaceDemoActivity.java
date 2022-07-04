@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 
 import com.example.myapplication.R;
@@ -30,6 +32,7 @@ public class SurfaceDemoActivity extends AppCompatActivity {
             Manifest.permission.CAMERA
     };
     private Surface surface;
+    private TextureView textureView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +47,14 @@ public class SurfaceDemoActivity extends AppCompatActivity {
     }
 
     @AfterPermissionGranted(RC_CAMERA_PERM)
-    private void init () {
+    private void init() {
+
+        // 1. SurfaceView 简单使用
         surfaceView = findViewById(R.id.surfaceView);
         holder = surfaceView.getHolder();
-        Camera camera = Camera.open();
-        try {
-            camera.setPreviewDisplay(holder);
-            camera.startPreview();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         SurfaceHolder.Callback2 callback = new SurfaceHolder.Callback2() {
+            Camera camera = null;
+
             @Override
             public void surfaceRedrawNeeded(@NonNull SurfaceHolder holder) {
                 Log.i(TAG, "surfaceRedrawNeeded:" + holder);
@@ -64,6 +63,13 @@ public class SurfaceDemoActivity extends AppCompatActivity {
             @Override
             public void surfaceCreated(@NonNull SurfaceHolder holder) {
                 Log.i(TAG, "surfaceCreated:" + holder);
+                camera = Camera.open();
+                try {
+                    camera.setPreviewDisplay(holder);
+                    camera.startPreview();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -74,9 +80,47 @@ public class SurfaceDemoActivity extends AppCompatActivity {
             @Override
             public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
                 Log.i(TAG, "surfaceDestroyed:" + holder);
+                if (camera != null) {
+                    camera.stopPreview();
+                    camera.release();
+                }
             }
         };
         holder.addCallback(callback);
+
+
+        // 2. TextureView 简单使用
+        textureView = findViewById(R.id.textureView);
+        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+            Camera camera = null;
+            @Override
+            public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+                camera = Camera.open();
+                try {
+                    camera.setPreviewTexture(surface);
+                    camera.startPreview();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
+
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
+                camera.stopPreview();
+                camera.release();
+                return true;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+
+            }
+        });
     }
 
     @Override
