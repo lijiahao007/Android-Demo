@@ -1,33 +1,36 @@
 package com.example.myapplication.setupnet;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.util.ArrayMap;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 
 import com.example.hyfisheyepano.GLFisheyeView;
 import com.example.myapplication.R;
+import com.example.myapplication.utils.LogView;
 import com.macrovideo.sdk.defines.Defines;
 import com.macrovideo.sdk.defines.ResultCode;
 import com.macrovideo.sdk.media.HSMediaPlayer;
@@ -38,10 +41,36 @@ import com.macrovideo.sdk.media.LoginHelper;
 import com.macrovideo.sdk.objects.DeviceInfo;
 import com.macrovideo.sdk.objects.DeviceStatus;
 import com.macrovideo.sdk.objects.LoginParam;
+import com.macrovideo.sdk.setting.AccountConfigInfo;
+import com.macrovideo.sdk.setting.AlarmConfigInfo;
+import com.macrovideo.sdk.setting.DateTimeConfigInfo;
+import com.macrovideo.sdk.setting.DeviceAccountSetting;
+import com.macrovideo.sdk.setting.DeviceAlarmSetting;
+import com.macrovideo.sdk.setting.DeviceDateTimeSetting;
+import com.macrovideo.sdk.setting.DeviceNetworkSetting;
+import com.macrovideo.sdk.setting.DeviceRecordSetting;
+import com.macrovideo.sdk.setting.DeviceVersionSetting;
+import com.macrovideo.sdk.setting.IPConfigInfo;
+import com.macrovideo.sdk.setting.NetworkConfigInfo;
+import com.macrovideo.sdk.setting.RecordConfigInfo;
+import com.macrovideo.sdk.setting.VersionConfigInfo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicLong;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -62,6 +91,20 @@ public class PreviewActivity extends AppCompatActivity {
     private Button btnLeft;
     private Button btnRight;
     private PTZHandlerThread ptzHandlerThread;
+    private Button btnScreenShot;
+    private Button btnStartVideoRecord; // 开始录像按钮
+    private Button btnStopVideoRecord; // 结束录像按钮
+    private volatile boolean isScreenshotting = false; // 是否上一次截图还没有完成
+    private volatile boolean isVideoRecording = false; // 是否正在录像
+    private TextView tvRecordTime; // 录像时间显示
+    private Timer timer = null; // 录像计时器
+    private File tempFile = null; // 录像文件
+    private Button btnReverse;
+    private CheckBox cbSound;
+    private Button btnQuality;
+    private int videoQuality = 0; // 视频质量 0:标清 1:高清
+    private TextView tvVideoQuality;
+    private LogView logView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,24 +211,318 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
         // 1.10 设置云台操作
-        btnLeft = findViewById(R.id.btnLeft);
-        btnRight = findViewById(R.id.btnRight);
-        btnUp = findViewById(R.id.btnUp);
-        btnDown = findViewById(R.id.btnDown);
-        btnLeft.setTag(Direction.LEFT);
-        btnRight.setTag(Direction.RIGHT);
-        btnUp.setTag(Direction.UP);
-        btnDown.setTag(Direction.DOWN);
+        if (loginHandle.isbPTZ()) { // 支持云台
+            Log.i(TAG, "支持云台");
+            btnLeft = findViewById(R.id.btnLeft);
+            btnRight = findViewById(R.id.btnRight);
+            btnUp = findViewById(R.id.btnUp);
+            btnDown = findViewById(R.id.btnDown);
+            btnLeft.setTag(Direction.LEFT);
+            btnRight.setTag(Direction.RIGHT);
+            btnUp.setTag(Direction.UP);
+            btnDown.setTag(Direction.DOWN);
 
-        Button[] buttons = new Button[]{btnLeft, btnRight, btnUp, btnDown};
-        ptzHandlerThread = new PTZHandlerThread(mHSMediaPlayer);
-        ptzHandlerThread.start();
-        for (Button button : buttons) {
-            button.setOnClickListener(view -> {
-                ptzHandlerThread.move((Direction) view.getTag());
-            });
+            Button[] buttons = new Button[]{btnLeft, btnRight, btnUp, btnDown};
+            ptzHandlerThread = new PTZHandlerThread(mHSMediaPlayer);
+            ptzHandlerThread.start();
+            for (Button button : buttons) {
+                button.setOnClickListener(view -> {
+                    ptzHandlerThread.move((Direction) view.getTag());
+                });
+            }
         }
 
+        // 1.11 预置位
+        if (loginHandle.isbPTZX()) {
+            Log.i(TAG, "支持预置位");
+
+        }
+
+        // 1.12 截屏
+        // 只有一次截图完成才可以截另外一次
+        isScreenshotting = false;
+        btnScreenShot = findViewById(R.id.btnScreenShot);
+        btnScreenShot.setOnClickListener(view -> {
+            if (!isScreenshotting) {
+                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                            @Override
+                            public void subscribe(@io.reactivex.rxjava3.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
+                                isScreenshotting = true;
+                                Bitmap bitmap = mHSMediaPlayer.screenShot();
+                                if (bitmap != null) {
+                                    ContentResolver contentResolver = getContentResolver();
+                                    Uri newUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+                                    boolean compress = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, contentResolver.openOutputStream(newUri));
+                                    emitter.onNext(compress);
+                                } else {
+                                    emitter.onError(new Exception("截屏失败"));
+                                }
+                                emitter.onComplete();
+                            }
+                        })
+                        .subscribeOn(Schedulers.io()) // 被观察者线程
+                        .observeOn(AndroidSchedulers.mainThread()) // 观察者线程
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(@io.reactivex.rxjava3.annotations.NonNull Boolean compress) {
+                                if (compress) {
+                                    Log.i(TAG, "截屏成功");
+                                    Toast.makeText(PreviewActivity.this, "截屏成功", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.i(TAG, "截图保存失败");
+                                    Toast.makeText(PreviewActivity.this, "截图保存失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                Log.i(TAG, "截图失败");
+                                Toast.makeText(PreviewActivity.this, "截屏失败", Toast.LENGTH_SHORT).show();
+                                isScreenshotting = false;
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                isScreenshotting = false;
+                            }
+                        });
+            } else {
+                Toast.makeText(PreviewActivity.this, "截屏中，请稍后", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 1.13 实时录像
+        // (1) 开始录像
+        tvRecordTime = findViewById(R.id.tvRecordTime);
+        tvRecordTime.setVisibility(View.GONE);
+        btnStartVideoRecord = findViewById(R.id.btnStartVideoRecord);
+        timer = null;
+        isVideoRecording = false;
+        btnStartVideoRecord.setOnClickListener(view -> {
+            if (!isVideoRecording) {
+                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                            @Override
+                            public void subscribe(@io.reactivex.rxjava3.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
+                                isVideoRecording = true;
+                                File externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+                                String timeStamp = System.currentTimeMillis() + "";
+                                tempFile = File.createTempFile("record_" + timeStamp, ".mp4", externalFilesDir);
+                                boolean result = mHSMediaPlayer.startRecord(tempFile.getAbsolutePath());
+                                emitter.onNext(result);
+                                emitter.onComplete();
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                                tvRecordTime.setVisibility(View.VISIBLE);
+                                tvRecordTime.setText("00:00");
+                                if (timer != null) {
+                                    timer.cancel();
+                                }
+                                timer = new Timer();
+                                AtomicLong curSeconds = new AtomicLong();
+                                timer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(() -> {
+                                            long seconds = curSeconds.getAndIncrement();
+                                            String time = String.format("%02d:%02d", seconds / 60, seconds % 60);
+                                            tvRecordTime.setText(time);
+                                        });
+                                    }
+                                }, 0, 1000);
+                            }
+
+                            @Override
+                            public void onNext(@io.reactivex.rxjava3.annotations.NonNull Boolean aBoolean) {
+                                if (aBoolean) {
+                                    Log.i(TAG, "开始录像");
+                                    Toast.makeText(PreviewActivity.this, "开始录像", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.i(TAG, "开始录像失败");
+                                    Toast.makeText(PreviewActivity.this, "开始录像失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
+        });
+        // (2) 结束录像
+        btnStopVideoRecord = findViewById(R.id.btnStopVideoRecord);
+        btnStopVideoRecord.setOnClickListener(view -> {
+            if (isVideoRecording) {
+                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                            @Override
+                            public void subscribe(@io.reactivex.rxjava3.annotations.NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
+                                isVideoRecording = false;
+                                boolean result = mHSMediaPlayer.stopRecord();
+                                if (result) {
+                                    // 将文件存储在相册,并删除临时文件
+                                    ContentResolver contentResolver = getContentResolver();
+                                    Uri newVideo = contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                                            new ContentValues());
+                                    OutputStream outputStream = contentResolver.openOutputStream(newVideo);
+                                    FileInputStream fileInputStream = new FileInputStream(tempFile);
+                                    byte[] buffer = new byte[1024];
+                                    int len;
+                                    while ((len = fileInputStream.read(buffer)) != -1) {
+                                        outputStream.write(buffer, 0, len);
+                                    }
+                                    outputStream.close();
+                                    fileInputStream.close();
+                                    tempFile.delete();
+                                    tempFile = null;
+                                    emitter.onNext(true);
+                                } else {
+                                    emitter.onNext(false);
+                                }
+                                emitter.onComplete();
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(@io.reactivex.rxjava3.annotations.NonNull Boolean aBoolean) {
+                                if (aBoolean) {
+                                    Toast.makeText(PreviewActivity.this, "录像保存成功", Toast.LENGTH_SHORT).show();
+                                    Log.i(TAG, "停止录像成功，录像保存成功");
+                                } else {
+                                    Log.i(TAG, "停止录像失败");
+                                }
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                timer.cancel();
+                                timer = null;
+                                tvRecordTime.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                timer.cancel();
+                                timer = null;
+                                tvRecordTime.setVisibility(View.GONE);
+                            }
+                        });
+            }
+        });
+
+        // 1.14 图像倒置
+        btnReverse = findViewById(R.id.btnReverse);
+        btnReverse.setOnClickListener(view -> {
+            if (mHSMediaPlayer.isPlaying()) {
+                boolean result = mHSMediaPlayer.setCamImageOrientation(1000);
+                if (result) {
+                    Log.i(TAG, "图像倒置成功");
+                    Toast.makeText(PreviewActivity.this, "图像倒置成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "图像倒置失败");
+                    Toast.makeText(PreviewActivity.this, "图像倒置失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // 1.15 音量设置
+        cbSound = findViewById(R.id.cbSound);
+        cbSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mHSMediaPlayer.enableAudio(isChecked);
+        });
+
+        // 1.16 视频清晰度选择
+        btnQuality = findViewById(R.id.btnQuality);
+        tvVideoQuality = findViewById(R.id.tvVideoQuality);
+        videoQuality = 0; // 默认为0
+        btnQuality.setOnClickListener(view -> {
+            mHSMediaPlayer.stopPlay();
+            if (videoQuality == 0) {
+                videoQuality = 1;
+                mHSMediaPlayer.startPlay(
+                        0, // 播放窗口，默认0,（不支持多窗口）
+                        0, // 播放通道 (默认为0)
+                        videoQuality, // 视频清晰度
+                        true, // 是否开启视频
+                        loginHandle // 登录句柄
+                );
+                tvVideoQuality.setText("高清");
+            } else {
+                videoQuality = 0;
+                mHSMediaPlayer.startPlay(
+                        0, // 播放窗口，默认0,（不支持多窗口）
+                        0, // 播放通道 (默认为0)
+                        videoQuality, // 视频清晰度
+                        true, // 是否开启视频
+                        loginHandle // 登录句柄
+                );
+                tvVideoQuality.setText("标清");
+            }
+        });
+
+        // 1.17 获取设备信息
+        logView = findViewById(R.id.log_view);
+        updateDeviceInfo();
+    }
+
+
+    private void updateDeviceInfo() {
+        Observable.create(new ObservableOnSubscribe<String>() {
+                    @Override
+                    public void subscribe(@io.reactivex.rxjava3.annotations.NonNull ObservableEmitter<String> emitter) throws Throwable {
+                        NetworkConfigInfo networkConfig = DeviceNetworkSetting.getNetworkConfig(deviceInfo, loginHandle);
+                        IPConfigInfo ipConfig = DeviceNetworkSetting.getIPConfig(deviceInfo, loginHandle);
+                        RecordConfigInfo recordConfig = DeviceRecordSetting.getRecordConfig(deviceInfo, loginHandle);
+                        DateTimeConfigInfo dateTimeConfig = DeviceDateTimeSetting.getDateTimeConfig(deviceInfo, loginHandle);
+                        AccountConfigInfo accountConfig = DeviceAccountSetting.getAccountConfig(deviceInfo, loginHandle);
+                        VersionConfigInfo versionInfo = DeviceVersionSetting.getVersionInfo(deviceInfo, loginHandle);
+                        VersionConfigInfo versionUpdate = DeviceVersionSetting.getVersionUpdate(deviceInfo, loginHandle);
+                        AlarmConfigInfo alarmConfig = DeviceAlarmSetting.getAlarmConfig(deviceInfo, loginHandle);
+
+                        emitter.onNext("Wifi:" + networkConfig.getStrWifiName());
+                        emitter.onNext("IP:" + ipConfig.getStrIP());
+                        emitter.onNext("SD卡存储:" + recordConfig.getnDiskRemainSize() + "/" + recordConfig.getnDiskSize());
+                        emitter.onNext("时间:" + dateTimeConfig.getStrTime() + " 类型" + dateTimeConfig.getnTimeType());
+                        emitter.onNext("时区:" + dateTimeConfig.getnTimeZoneIndex());
+                        emitter.onNext("账号:" + accountConfig.getStrUserName());
+                        emitter.onNext("设备端软件版本:" + versionInfo.getStrAPPVersion() + " date:" + versionInfo.getStrAPPVersionDate());
+                        emitter.onNext("内核版本：" + versionInfo.getStrKelVersion() + "　date:" + versionInfo.getStrKelVersionDate());
+                        emitter.onNext("硬件版本：" + versionInfo.getStrHWVersion() + " date:" + versionInfo.getStrHWVersionDate());
+                        emitter.onNext("是否有更新：" + versionUpdate.getnDeviceVersionUpdate());
+                        emitter.onNext("是否有布撤防：" + alarmConfig.isHasAlarmConfig());
+                        emitter.onNext("是否有移动报警：" + alarmConfig.isbMotionAlarmSwitch());
+
+
+                        emitter.onComplete();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Throwable {
+                        logView.addLog(s);
+                    }
+                });
     }
 
 
@@ -241,13 +578,19 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-
     private void startPlay() {
+        startPlay(0);
+    }
+
+    /*
+    开始播放，videoQuality为0时为标清，为1时为高清
+     */
+    private void startPlay(int videoQuality) {
         if (mHSMediaPlayer != null) {
             mHSMediaPlayer.startPlay(
                     0, // 播放窗口，默认0,（不支持多窗口）
                     0, // 播放通道 (默认为0)
-                    0, // 视频清晰度
+                    videoQuality, // 视频清晰度
                     true, // 是否开启视频
                     loginHandle // 登录句柄
             );
@@ -268,7 +611,9 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopPlay();
-        ptzHandlerThread.quit(); // 退出线程
+        if (ptzHandlerThread != null) {
+            ptzHandlerThread.quit(); // 退出线程
+        }
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {

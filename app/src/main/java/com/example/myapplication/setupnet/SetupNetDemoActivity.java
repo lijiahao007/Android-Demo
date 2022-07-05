@@ -135,9 +135,6 @@ public class SetupNetDemoActivity extends AppCompatActivity {
             MMKV mmkv = MMKV.defaultMMKV();
             SetupNetDemoActivity.deviceInfo = mmkv.decodeParcelable(MMKVDeviceInfoKey, DeviceInfo.class);
         }
-        if (SetupNetDemoActivity.deviceInfo != null) {
-            SetupNetDemoActivity.deviceInfo.setStrPassword(devicePassword); // TODO: 添加密码设置
-        }
         return SetupNetDemoActivity.deviceInfo;
     }
 

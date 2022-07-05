@@ -68,6 +68,8 @@ public class APConnectActivity extends AppCompatActivity {
             null, // 域名
             0 // saveType
     );
+    private EditText etUserPassword;
+    private EditText etUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +138,11 @@ public class APConnectActivity extends AppCompatActivity {
             }
         });
 
+        // 3. 获取登录名和登录密码
+        etUserName = findViewById(R.id.etUserName);
+        etUserPassword = findViewById(R.id.etUserPassword);
+
+
     }
 
     @Override
@@ -186,8 +193,8 @@ public class APConnectActivity extends AppCompatActivity {
                                     deviceId, // 设备ID (string)
                                     "192.168.1.1", // 设备摄像头默认IP
                                     8800, // 端口
-                                    "admin", // 登录用户名
-                                    "", // 登录密码
+                                    etUserName.getText().toString(), // 登录用户名
+                                    etUserPassword.getText().toString(), // 登录密码
                                     null, // mac地址
                                     null, // 域名
                                     0 // saveType
@@ -347,6 +354,8 @@ public class APConnectActivity extends AppCompatActivity {
                         Log.i(TAG, "handleMessage: 找到设备");
                         Toast.makeText(APConnectActivity.this, "找到设备", Toast.LENGTH_SHORT).show();
                         SetupNetDemoActivity.setDeviceInfo(curDeviceInfo);
+                        Toast.makeText(APConnectActivity.this, "配置成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     break;
                 }

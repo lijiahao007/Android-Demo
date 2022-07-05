@@ -29,29 +29,32 @@ public class PTZHandlerThread extends HandlerThread {
                 if (mHSMediaPlayer == null) {
                     return;
                 }
+                int step = msg.arg1;
                 switch (direction) {
                     case UP:
-                        mHSMediaPlayer.setPTZAction(false, false ,true, false, 1);
+                        mHSMediaPlayer.setPTZAction(false, false, true, false, step);
                         break;
                     case DOWN:
-                        mHSMediaPlayer.setPTZAction(false, false ,false, true, 1);
-
+                        mHSMediaPlayer.setPTZAction(false, false, false, true, step);
                         break;
                     case LEFT:
-                        mHSMediaPlayer.setPTZAction(true, false ,false, false, 1);
-
+                        mHSMediaPlayer.setPTZAction(true, false, false, false, step);
                         break;
                     case RIGHT:
-                        mHSMediaPlayer.setPTZAction(false, true ,false, false, 1);
+                        mHSMediaPlayer.setPTZAction(false, true, false, false, step);
                         break;
                 }
             }
         };
     }
 
-    public void move(Direction direction) {
-        handle.obtainMessage(direction.ordinal()).sendToTarget();
+    public void move(Direction direction, int step) {
+        Message message = handle.obtainMessage(direction.ordinal());
+        message.arg1 = step;
+        message.sendToTarget();
     }
 
-
+    public void move(Direction direction) {
+        move(direction, 1);
+    }
 }

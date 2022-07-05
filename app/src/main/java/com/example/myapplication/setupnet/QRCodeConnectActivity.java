@@ -23,9 +23,14 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.macrovideo.sdk.defines.Defines;
 import com.macrovideo.sdk.defines.ResultCode;
+import com.macrovideo.sdk.media.ILoginDeviceCallback;
+import com.macrovideo.sdk.media.LoginHandle;
 import com.macrovideo.sdk.media.LoginHelper;
 import com.macrovideo.sdk.objects.DeviceInfo;
 import com.macrovideo.sdk.objects.DeviceStatus;
+import com.macrovideo.sdk.objects.LoginParam;
+import com.macrovideo.sdk.setting.AccountConfigInfo;
+import com.macrovideo.sdk.setting.DeviceAccountSetting;
 import com.macrovideo.sdk.tools.DeviceScanner;
 import com.macrovideo.sdk.tools.QRCodeUtils;
 
@@ -45,7 +50,8 @@ public class QRCodeConnectActivity extends AppCompatActivity {
     private final static String TAG = "QRCodeConnectActivity";
     private final int deviceFoundWhat = 0;
     private DeviceInfo curDeviceInfo = null;
-
+    private EditText etUserPassword;
+    private EditText etUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +85,9 @@ public class QRCodeConnectActivity extends AppCompatActivity {
             lanScanThread.start();
         });
 
-
+        // 获取登录名和登录密码
+        etUserName = findViewById(R.id.etUserName);
+        etUserPassword = findViewById(R.id.etUserPassword);
 
     }
 
@@ -114,8 +122,8 @@ public class QRCodeConnectActivity extends AppCompatActivity {
                 if (deviceListFromLan.size() > 0) {
                     curDeviceInfo = deviceListFromLan.get(0);
                     SetupNetDemoActivity.setDeviceInfo(curDeviceInfo);
-                    lanScanThreadLabel++;
                     isFound = true;
+                    break;
                 }
             }
             if (isFound) {
@@ -162,6 +170,33 @@ public class QRCodeConnectActivity extends AppCompatActivity {
                     if (isFound) {
                         Log.i(TAG, "handleMessage: 找到设备");
                         Toast.makeText(QRCodeConnectActivity.this, "找到设备", Toast.LENGTH_SHORT).show();
+                        // 登录设备，设置账号密码
+                        LoginParam loginParam = new LoginParam(SetupNetDemoActivity.getDeviceInfo(), Defines.LOGIN_FOR_SETTING);
+                        DeviceInfo deviceInfo = SetupNetDemoActivity.getDeviceInfo();
+                        LoginHelper.loginDevice(QRCodeConnectActivity.this, loginParam, new ILoginDeviceCallback() {
+                            @Override
+                            public void onLogin(LoginHandle loginHandle) {
+                                if (loginHandle != null && loginHandle.getnResult() == ResultCode.RESULT_CODE_SUCCESS) {
+                                    Log.i(TAG, "handleMessage: 登录成功");
+                                    AccountConfigInfo accountConfig = DeviceAccountSetting.getAccountConfig(deviceInfo, loginHandle);
+                                    AccountConfigInfo newAccountConfig = DeviceAccountSetting.setAccountConfig(deviceInfo, etUserName.getText().toString(), etUserPassword.getText().toString(), accountConfig.getnUserID(), loginHandle);
+                                    if (newAccountConfig != null && newAccountConfig.getnResult() == ResultCode.RESULT_CODE_SUCCESS) {
+                                        Log.i(TAG, "handleMessage: 设置账号密码成功");
+                                        deviceInfo.setStrUsername(etUserName.getText().toString());
+                                        deviceInfo.setStrPassword(etUserPassword.getText().toString());
+                                        SetupNetDemoActivity.setDeviceInfo(deviceInfo);
+                                        Toast.makeText(QRCodeConnectActivity.this, "设置账号密码成功", Toast.LENGTH_SHORT).show();
+                                        QRCodeConnectActivity.this.finish();
+                                    } else {
+                                        Log.i(TAG, "handleMessage: 设置账号密码失败");
+                                        Toast.makeText(QRCodeConnectActivity.this, "设置账号密码失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Log.i(TAG, "handleMessage: 登录失败");
+                                    Toast.makeText(QRCodeConnectActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                     break;
                 }

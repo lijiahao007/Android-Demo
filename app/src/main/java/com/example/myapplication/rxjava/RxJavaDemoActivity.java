@@ -63,12 +63,39 @@ public class RxJavaDemoActivity extends AppCompatActivity {
         observable.subscribe(observer);
 
 
-        PublishSubject<String> publishSubject =  PublishSubject.create();
+        PublishSubject<String> publishSubject = PublishSubject.create();
         publishSubject.subscribe(observer);
         publishSubject.onNext("hello1");
         publishSubject.onNext("hello2");
         publishSubject.onNext("hello3");
 
+
+        Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Object> emitter) throws Throwable {
+                int a = Integer.parseInt("a");
+            }
+        }).subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+                Log.i("RxJava", "onSubscribe：" + d);
+            }
+
+            @Override
+            public void onNext(@NonNull Object o) {
+                Log.i("RxJava", "onNext: 处理值 " + o);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Log.i("RxJava", "onError： " + e);
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i("RxJava", "onComplete");
+            }
+        });
 
 
     }

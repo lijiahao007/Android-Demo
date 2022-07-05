@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:columnCount="4">
+        android:columnCount="4"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnFullScreen"
@@ -42,30 +42,28 @@
             android:id="@+id/btnUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="↑"
-            android:textAllCaps="false"
             android:layout_row="0"
             android:layout_column="2"
-            />
+            android:text="↑"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btnDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="↓"
-            android:textAllCaps="false"
             android:layout_row="1"
             android:layout_column="2"
-            />
+            android:text="↓"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btnLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="←"
-            android:textAllCaps="false"
             android:layout_row="1"
-            android:layout_column="1"/>
+            android:layout_column="1"
+            android:text="←"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btnRight"
@@ -73,6 +71,63 @@
             android:layout_height="wrap_content"
             android:text="→"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnScreenShot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="截屏"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnStartVideoRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:text="开始录像"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnStopVideoRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:text="结束录像"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnReverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:text="倒转"
+            android:textAllCaps="false" />
+
+        <CheckBox
+            android:id="@+id/cbSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_sound"
+            android:button="@null"
+            android:checked="true" />
+
+        <Button
+            android:id="@+id/btnQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:text="切换清晰度"
+            android:textAllCaps="false" />
+
 
     </GridLayout>
 
@@ -84,6 +139,7 @@
         app:tint="@color/white" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcNetworkInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/llContainer"
@@ -104,5 +160,57 @@
             tools:text="互联网在线" />
     </com.google.android.material.card.MaterialCardView>
 
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcRecordTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/llContainer"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@+id/mcNetworkInfo"
+        app:cardCornerRadius="3dp">
+
+        <TextView
+            android:id="@+id/tvRecordTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/llTool"
+            android:layout_below="@id/llContainer"
+            android:background="@color/black"
+            android:padding="2dp"
+            android:text="00:00"
+            android:textColor="@color/white" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/mcNetworkInfo"
+        android:layout_alignEnd="@id/llContainer"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="3dp">
+
+        <TextView
+            android:id="@+id/tvVideoQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/llTool"
+            android:layout_below="@id/llContainer"
+            android:background="@color/black"
+            android:padding="2dp"
+            android:text="标清"
+            android:textColor="@color/white" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.example.myapplication.utils.LogView
+        android:id="@+id/log_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llContainer"
+        android:layout_above="@id/llTool"/>
 
 </RelativeLayout>

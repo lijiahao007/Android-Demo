@@ -28,7 +28,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.macrovideo.sdk.defines.Defines;
+import com.macrovideo.sdk.defines.ResultCode;
+import com.macrovideo.sdk.media.ILoginDeviceCallback;
+import com.macrovideo.sdk.media.LoginHandle;
+import com.macrovideo.sdk.media.LoginHelper;
 import com.macrovideo.sdk.objects.DeviceInfo;
+import com.macrovideo.sdk.objects.LoginParam;
+import com.macrovideo.sdk.setting.AccountConfigInfo;
+import com.macrovideo.sdk.setting.DeviceAccountSetting;
 import com.macrovideo.sdk.tools.DeviceScanner;
 
 import java.util.ArrayList;
@@ -47,7 +55,9 @@ public class WifiConnectActivity extends AppCompatActivity {
     private volatile int mConfigId;
     volatile int lanScanLabel = 0;
     final int lanScanMsgWhat = 0;
-    private ArrayList<DeviceInfo> connectDevices  = null;
+    private ArrayList<DeviceInfo> connectDevices = null;
+    private EditText etUserPassword;
+    private EditText etUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +104,10 @@ public class WifiConnectActivity extends AppCompatActivity {
                 lanScanThread.start();
             }
         });
+
+        // 获取登录名和登录密码
+        etUserName = findViewById(R.id.etUserName);
+        etUserPassword = findViewById(R.id.etUserPassword);
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {
@@ -105,6 +119,33 @@ public class WifiConnectActivity extends AppCompatActivity {
                     Toast.makeText(WifiConnectActivity.this, "配置完成", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "handleMessage: 配置完成");
                     DeviceScanner.stopSmartConnection(); // 连接完成结束快配
+                    // 登录设备，设置账号密码
+                    LoginParam loginParam = new LoginParam(SetupNetDemoActivity.getDeviceInfo(), Defines.LOGIN_FOR_SETTING);
+                    DeviceInfo deviceInfo = SetupNetDemoActivity.getDeviceInfo();
+                    LoginHelper.loginDevice(WifiConnectActivity.this, loginParam, new ILoginDeviceCallback() {
+                        @Override
+                        public void onLogin(LoginHandle loginHandle) {
+                            if (loginHandle != null && loginHandle.getnResult() == ResultCode.RESULT_CODE_SUCCESS) {
+                                Log.i(TAG, "handleMessage: 登录成功");
+                                AccountConfigInfo accountConfig = DeviceAccountSetting.getAccountConfig(deviceInfo, loginHandle);
+                                AccountConfigInfo newAccountConfig = DeviceAccountSetting.setAccountConfig(deviceInfo, etUserName.getText().toString(), etUserPassword.getText().toString(), accountConfig.getnUserID(), loginHandle);
+                                if (newAccountConfig != null && newAccountConfig.getnResult() == ResultCode.RESULT_CODE_SUCCESS) {
+                                    Log.i(TAG, "handleMessage: 设置账号密码成功");
+                                    deviceInfo.setStrUsername(etUserName.getText().toString());
+                                    deviceInfo.setStrPassword(etUserPassword.getText().toString());
+                                    SetupNetDemoActivity.setDeviceInfo(deviceInfo);
+                                    Toast.makeText(WifiConnectActivity.this, "设置账号密码成功", Toast.LENGTH_SHORT).show();
+                                    WifiConnectActivity.this.finish();
+                                } else {
+                                    Log.i(TAG, "handleMessage: 设置账号密码失败");
+                                    Toast.makeText(WifiConnectActivity.this, "设置账号密码失败", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Log.i(TAG, "handleMessage: 登录失败");
+                                Toast.makeText(WifiConnectActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     break;
             }
         }
@@ -173,7 +214,6 @@ public class WifiConnectActivity extends AppCompatActivity {
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(mWifiBroadcastReceiver, intentFilter);
     }
-
 
 
     private void initGPS() {
