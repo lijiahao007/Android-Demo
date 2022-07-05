@@ -42,10 +42,8 @@ import com.macrovideo.sdk.objects.DeviceInfo;
 import com.macrovideo.sdk.objects.DeviceStatus;
 import com.macrovideo.sdk.objects.LoginParam;
 import com.macrovideo.sdk.setting.AccountConfigInfo;
-import com.macrovideo.sdk.setting.AlarmConfigInfo;
 import com.macrovideo.sdk.setting.DateTimeConfigInfo;
 import com.macrovideo.sdk.setting.DeviceAccountSetting;
-import com.macrovideo.sdk.setting.DeviceAlarmSetting;
 import com.macrovideo.sdk.setting.DeviceDateTimeSetting;
 import com.macrovideo.sdk.setting.DeviceNetworkSetting;
 import com.macrovideo.sdk.setting.DeviceRecordSetting;
@@ -496,7 +494,7 @@ public class PreviewActivity extends AppCompatActivity {
                         AccountConfigInfo accountConfig = DeviceAccountSetting.getAccountConfig(deviceInfo, loginHandle);
                         VersionConfigInfo versionInfo = DeviceVersionSetting.getVersionInfo(deviceInfo, loginHandle);
                         VersionConfigInfo versionUpdate = DeviceVersionSetting.getVersionUpdate(deviceInfo, loginHandle);
-                        AlarmConfigInfo alarmConfig = DeviceAlarmSetting.getAlarmConfig(deviceInfo, loginHandle);
+//                        AlarmConfigInfo alarmConfig = DeviceAlarmSetting.getAlarmConfig(deviceInfo, loginHandle); // 这个类用不了
 
                         emitter.onNext("Wifi:" + networkConfig.getStrWifiName());
                         emitter.onNext("IP:" + ipConfig.getStrIP());
@@ -508,8 +506,8 @@ public class PreviewActivity extends AppCompatActivity {
                         emitter.onNext("内核版本：" + versionInfo.getStrKelVersion() + "　date:" + versionInfo.getStrKelVersionDate());
                         emitter.onNext("硬件版本：" + versionInfo.getStrHWVersion() + " date:" + versionInfo.getStrHWVersionDate());
                         emitter.onNext("是否有更新：" + versionUpdate.getnDeviceVersionUpdate());
-                        emitter.onNext("是否有布撤防：" + alarmConfig.isHasAlarmConfig());
-                        emitter.onNext("是否有移动报警：" + alarmConfig.isbMotionAlarmSwitch());
+//                        emitter.onNext("是否有布撤防：" + alarmConfig.isHasAlarmConfig());
+//                        emitter.onNext("是否有移动报警：" + alarmConfig.isbMotionAlarmSwitch());
 
 
                         emitter.onComplete();
