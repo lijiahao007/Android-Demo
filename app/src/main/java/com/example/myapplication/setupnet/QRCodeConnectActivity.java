@@ -185,15 +185,12 @@ public class QRCodeConnectActivity extends AppCompatActivity {
                                         deviceInfo.setStrUsername(etUserName.getText().toString());
                                         deviceInfo.setStrPassword(etUserPassword.getText().toString());
                                         SetupNetDemoActivity.setDeviceInfo(deviceInfo);
-                                        Toast.makeText(QRCodeConnectActivity.this, "设置账号密码成功", Toast.LENGTH_SHORT).show();
                                         QRCodeConnectActivity.this.finish();
                                     } else {
                                         Log.i(TAG, "handleMessage: 设置账号密码失败");
-                                        Toast.makeText(QRCodeConnectActivity.this, "设置账号密码失败", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Log.i(TAG, "handleMessage: 登录失败");
-                                    Toast.makeText(QRCodeConnectActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

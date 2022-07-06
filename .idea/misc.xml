@@ -24,6 +24,7 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/shape_cornor_background.xml" value="0.2135" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/sound_selector.xml" value="0.277" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/drawable/time_text_background.xml" value="0.212" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout-v21/item_record_file.xml" value="0.32472826086956524" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_album.xml" value="0.33" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_apconnect.xml" value="0.3188405797101449" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_bessel2.xml" value="0.3255208333333333" />
@@ -43,6 +44,7 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_example2.xml" value="0.27395833333333336" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_example3.xml" value="0.3515625" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_example4.xml" value="0.36614583333333334" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_gesture_demo.xml" value="0.35052083333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_grid_recyclerview.xml" value="0.3468354430379747" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_hot_update_demo.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_huawei_qrcode.xml" value="0.20849609375" />
@@ -67,6 +69,8 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_permisson_rationale.xml" value="0.290625" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_photo_check.xml" value="0.2" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_photo_video_demo.xml" value="0.33" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_play_back.xml" value="0.32472826086956524" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_play_back_video.xml" value="0.32472826086956524" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_preview.xml" value="0.33" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_qrcode_connect.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/activity_qrcode_menu.xml" value="0.5" />
@@ -100,6 +104,7 @@
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/item_list.xml" value="0.36141304347826086" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/item_list_decoration.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/item_list_staggered_grid.xml" value="0.33695652173913043" />
+        <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/item_record_file.xml" value="0.32472826086956524" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/page_check_photo.xml" value="0.3392210144927536" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/tab_custom_view.xml" value="0.9" />
         <entry key="..\:/WorkSpaces/MyApplication2/app/src/main/res/layout/view_album_tab.xml" value="0.36614583333333334" />

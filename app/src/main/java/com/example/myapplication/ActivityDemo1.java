@@ -13,6 +13,7 @@ import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
 import com.example.myapplication.eventbus.EventBusDemoActivity;
+import com.example.myapplication.gesture.GestureDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.media.MediaDemoActivity;
@@ -122,6 +123,10 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         findViewById(R.id.surface_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, SurfaceDemoActivity.class));
+        });
+
+        findViewById(R.id.gesture_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, GestureDemoActivity.class));
         });
     }
 }

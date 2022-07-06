@@ -36,7 +36,7 @@ public class DemoAsyncTask extends AsyncTask<String, Integer, String> {
         for (int i = 0; i < 100; i++) {
             publishProgress(i);
             Log.i("DemoAsyncTask", String.valueOf(i));
-            SystemClock.sleep(100);
+            SystemClock.sleep(10);
         }
 
         Optional<String> reduce = Arrays.stream(strings).reduce(new BinaryOperator<String>() {

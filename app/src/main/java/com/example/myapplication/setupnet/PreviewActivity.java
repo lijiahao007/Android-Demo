@@ -15,6 +15,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyfisheyepano.GLFisheyeView;
+import com.example.hyfisheyepano.OnScaleChangeListener;
 import com.example.myapplication.R;
 import com.example.myapplication.utils.LogView;
 import com.macrovideo.sdk.defines.Defines;
@@ -42,10 +44,8 @@ import com.macrovideo.sdk.objects.DeviceInfo;
 import com.macrovideo.sdk.objects.DeviceStatus;
 import com.macrovideo.sdk.objects.LoginParam;
 import com.macrovideo.sdk.setting.AccountConfigInfo;
-import com.macrovideo.sdk.setting.AlarmConfigInfo;
 import com.macrovideo.sdk.setting.DateTimeConfigInfo;
 import com.macrovideo.sdk.setting.DeviceAccountSetting;
-import com.macrovideo.sdk.setting.DeviceAlarmSetting;
 import com.macrovideo.sdk.setting.DeviceDateTimeSetting;
 import com.macrovideo.sdk.setting.DeviceNetworkSetting;
 import com.macrovideo.sdk.setting.DeviceRecordSetting;
@@ -105,6 +105,8 @@ public class PreviewActivity extends AppCompatActivity {
     private int videoQuality = 0; // 视频质量 0:标清 1:高清
     private TextView tvVideoQuality;
     private LogView logView;
+    private GestureDetector gestureDetector;
+    private boolean isGLFisheyeViewScaling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +213,7 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
         // 1.10 设置云台操作
+        // (1) 按钮控制
         if (loginHandle.isbPTZ()) { // 支持云台
             Log.i(TAG, "支持云台");
             btnLeft = findViewById(R.id.btnLeft);
@@ -230,7 +233,67 @@ public class PreviewActivity extends AppCompatActivity {
                     ptzHandlerThread.move((Direction) view.getTag());
                 });
             }
+
+            // (2) 屏幕手势控制
+            isGLFisheyeViewScaling = false; // 判断当前是否处在缩放状态下
+            final float MIN_DISTANCE = 100;
+            final float MIN_VELOCITY = 100;
+            gestureDetector = new GestureDetector(this, new MyGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                    float distanceX = e2.getX() - e1.getX();
+                    float distanceY = e2.getY() - e1.getY();
+                    float vx = Math.abs(velocityX);
+                    float vy = Math.abs(velocityY);
+                    Log.i(TAG, "onFling: velocityX:" + velocityX + " velocityY:" + velocityY + " distanceX:" + distanceX + " distanceY:" + distanceY);
+
+                    if (!isGLFisheyeViewScaling) {
+                        // 只有不处在缩放状态下才可以移动
+                        if (Math.abs(distanceX) > MIN_DISTANCE && vx > MIN_VELOCITY) {
+                            if (distanceX > 0) {
+                                Log.i(TAG, "onFling: 向右滑动");
+                                ptzHandlerThread.move(Direction.RIGHT);
+                            } else {
+                                Log.i(TAG, "onFling: 向左滑动");
+                                ptzHandlerThread.move(Direction.LEFT);
+                            }
+                        }
+
+                        if (Math.abs(distanceY) > MIN_DISTANCE && vy > MIN_VELOCITY) {
+                            if (distanceY > 0) {
+                                Log.i(TAG, "onFling: 向下滑动");
+                                ptzHandlerThread.move(Direction.DOWN);
+                            } else {
+                                Log.i(TAG, "onFling: 向上滑动");
+                                ptzHandlerThread.move(Direction.UP);
+                            }
+                        }
+                    }
+                    return super.onFling(e1, e2, velocityX, velocityY);
+                }
+            });
+
+            if (mHSMediaPlayer != null && mHSMediaPlayer.getGLFisheyeView() != null) {
+                mHSMediaPlayer.getGLFisheyeView().setScaleChangeListener(new OnScaleChangeListener() {
+                    @Override
+                    public void onScaleChange(float v) {
+                        Log.i(TAG, "onScaleChange: " + v);
+                        if (v > 1) {
+                            isGLFisheyeViewScaling = true;
+                        } else {
+                            isGLFisheyeViewScaling = false;
+                        }
+                    }
+                });
+
+                mHSMediaPlayer.getGLFisheyeView().setOnTouchListener((v, event) -> {
+                    return gestureDetector.onTouchEvent(event);
+                });
+
+            }
+
         }
+
 
         // 1.11 预置位
         if (loginHandle.isbPTZX()) {
@@ -432,7 +495,7 @@ public class PreviewActivity extends AppCompatActivity {
         // 1.14 图像倒置
         btnReverse = findViewById(R.id.btnReverse);
         btnReverse.setOnClickListener(view -> {
-            if (mHSMediaPlayer.isPlaying()) {
+            if (mHSMediaPlayer.isPlaying() && loginHandle.isbReversePRI()) {
                 boolean result = mHSMediaPlayer.setCamImageOrientation(1000);
                 if (result) {
                     Log.i(TAG, "图像倒置成功");
@@ -482,6 +545,8 @@ public class PreviewActivity extends AppCompatActivity {
         // 1.17 获取设备信息
         logView = findViewById(R.id.log_view);
         updateDeviceInfo();
+
+
     }
 
 
@@ -496,8 +561,8 @@ public class PreviewActivity extends AppCompatActivity {
                         AccountConfigInfo accountConfig = DeviceAccountSetting.getAccountConfig(deviceInfo, loginHandle);
                         VersionConfigInfo versionInfo = DeviceVersionSetting.getVersionInfo(deviceInfo, loginHandle);
                         VersionConfigInfo versionUpdate = DeviceVersionSetting.getVersionUpdate(deviceInfo, loginHandle);
-                        AlarmConfigInfo alarmConfig = DeviceAlarmSetting.getAlarmConfig(deviceInfo, loginHandle);
 
+                        emitter.onNext("ID:" + loginHandle.getnDeviceID());
                         emitter.onNext("Wifi:" + networkConfig.getStrWifiName());
                         emitter.onNext("IP:" + ipConfig.getStrIP());
                         emitter.onNext("SD卡存储:" + recordConfig.getnDiskRemainSize() + "/" + recordConfig.getnDiskSize());
@@ -508,10 +573,6 @@ public class PreviewActivity extends AppCompatActivity {
                         emitter.onNext("内核版本：" + versionInfo.getStrKelVersion() + "　date:" + versionInfo.getStrKelVersionDate());
                         emitter.onNext("硬件版本：" + versionInfo.getStrHWVersion() + " date:" + versionInfo.getStrHWVersionDate());
                         emitter.onNext("是否有更新：" + versionUpdate.getnDeviceVersionUpdate());
-                        emitter.onNext("是否有布撤防：" + alarmConfig.isHasAlarmConfig());
-                        emitter.onNext("是否有移动报警：" + alarmConfig.isbMotionAlarmSwitch());
-
-
                         emitter.onComplete();
                     }
                 })
@@ -613,6 +674,11 @@ public class PreviewActivity extends AppCompatActivity {
         stopPlay();
         if (ptzHandlerThread != null) {
             ptzHandlerThread.quit(); // 退出线程
+        }
+
+        if (mHSMediaPlayer != null) {
+            mHSMediaPlayer.release();
+            mHSMediaPlayer = null;
         }
     }
 

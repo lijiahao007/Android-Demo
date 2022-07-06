@@ -33,6 +33,7 @@ public class SetupNetDemoActivity extends AppCompatActivity {
     private static DeviceInfo deviceInfo = null;
     private static final String MMKVDeviceInfoKey = "MMKVDeviceInfoKey";
     private static final String devicePassword = "aaaa1111.";
+    private Button btnPlayBack;
 
 
     {
@@ -94,6 +95,7 @@ public class SetupNetDemoActivity extends AppCompatActivity {
         btnAP = findViewById(R.id.btn_AP);
         btnQRCode = findViewById(R.id.btn_QRCode);
         btnPreview = findViewById(R.id.btn_preview);
+        btnPlayBack = findViewById(R.id.btn_play_back);
 
 
         btnWifi.setOnClickListener(view -> {
@@ -113,6 +115,11 @@ public class SetupNetDemoActivity extends AppCompatActivity {
 
         btnPreview.setOnClickListener(view -> {
             Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
+        });
+
+        btnPlayBack.setOnClickListener(view -> {
+            Intent intent = new Intent(this, PlayBackActivity.class);
             startActivity(intent);
         });
     }
