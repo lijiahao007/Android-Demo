@@ -73,8 +73,8 @@ public class RecordVideoAdapter extends RecyclerView.Adapter<RecordVideoAdapter.
         private final ProgressBar progressBar;
         private final ImageView ivLoading;
         private final ObjectAnimator objectAnimator;
-        private final ImageView ivFailed;
         private final ImageView ivFinish;
+        private final ImageView ivFailed;
 
         View itemView;
 
@@ -122,26 +122,21 @@ public class RecordVideoAdapter extends RecyclerView.Adapter<RecordVideoAdapter.
                     ivLoading.setVisibility(View.VISIBLE);
                     objectAnimator.start();
                     recordVideoDownloadClickListener.onDownLoad(recordVideoInfo, progressBar, new IDownloadState() {
-                        @Override
-                        public void onStart() {
-                        }
 
                         @Override
                         public void onFailed() {
                             objectAnimator.cancel();
+                            ivDownload.setVisibility(View.GONE);
                             ivLoading.setVisibility(View.GONE);
                             ivFailed.setVisibility(View.VISIBLE);
                         }
 
                         @Override
-                        public void onDownloading() {
-                        }
-
-                        @Override
                         public void onFinish() {
+                            objectAnimator.cancel();
                             ivLoading.setVisibility(View.GONE);
                             ivFinish.setVisibility(View.VISIBLE);
-                            objectAnimator.cancel();
+                            ivFailed.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -159,11 +154,9 @@ public class RecordVideoAdapter extends RecyclerView.Adapter<RecordVideoAdapter.
     }
 
     interface IDownloadState {
-        void onStart();
 
         void onFailed();
 
-        void onDownloading();
 
         void onFinish();
     }

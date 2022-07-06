@@ -111,6 +111,13 @@ public class PlayBackActivity extends AppCompatActivity {
                     initPlayBack();
                 } else {
                     Log.i(TAG, "登录失败");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(PlayBackActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                            PlayBackActivity.this.finish();
+                        }
+                    });
                 }
             }
         });
@@ -199,8 +206,6 @@ public class PlayBackActivity extends AppCompatActivity {
                         public void accept(@NonNull ArrayList<RecordVideoInfo> recordVideoInfos) throws Exception {
                             // 2.2 显示搜索结果
                             adapter.submitList(recordVideoInfos);
-
-
                         }
                     });
         });
@@ -248,25 +253,8 @@ public class PlayBackActivity extends AppCompatActivity {
                                     // 下载完成
                                     downloadState.onFinish();
                                     ContentResolver contentResolver = getContentResolver();
-                                    Uri newVideo = contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-                                    OutputStream outputStream;
-                                    try {
-                                        outputStream = contentResolver.openOutputStream(newVideo);
-                                        FileInputStream fileInputStream = new FileInputStream(finalTempFile);
-                                        byte[] buffer = new byte[1024];
-                                        int len;
-                                        while ((len = fileInputStream.read(buffer)) != -1) {
-                                            outputStream.write(buffer, 0, len);
-                                        }
-                                        fileInputStream.close();
-                                        outputStream.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        finalTempFile.delete();
-                                    }
+                                    FileUtils.saveVideoInMediaStore(contentResolver, finalTempFile, true);
                                     Toast.makeText(PlayBackActivity.this, "下载完成", Toast.LENGTH_SHORT).show();
-
                                 } else if (state == -1) {
                                     downloadState.onFailed();
                                 }
