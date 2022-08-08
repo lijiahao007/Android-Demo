@@ -32,4 +32,8 @@ public class AlbumFragmentAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragments.size();
     }
+
+    public Fragment getFragment(int position) {
+        return fragments.get(position);
+    }
 }

@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -20,10 +21,11 @@ import java.util.concurrent.ExecutionException;
 
 public class MultipleThreadDemoActivity extends AppCompatActivity {
 
-
+    private final String TAG = "MultipleThread";
     private AsyncTask<String, Integer, String> helloWorld;
     private ImageView ivLoading;
     private ObjectAnimator objectAnimator;
+    private HandlerThread handlerThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,5 +67,39 @@ public class MultipleThreadDemoActivity extends AppCompatActivity {
             }.start();
         });
 
+        long startTime = System.currentTimeMillis();
+        handlerThread = new HandlerThread("handlerThread") {
+            @Override
+            public void run() {
+                Log.i(TAG, "before run: " + (System.currentTimeMillis() - startTime));
+                super.run();
+                Log.i(TAG, "after run: " + (System.currentTimeMillis() - startTime));
+
+            }
+
+            @Override
+            protected void onLooperPrepared() {
+                super.onLooperPrepared();
+                long endTime = System.currentTimeMillis();
+                Log.i(TAG, "onLooperPrepared: " + (endTime - startTime));
+                Log.i(TAG, "onLooperPrepared:" + Thread.currentThread().getName());
+            }
+
+            @Override
+            public synchronized void start() {
+                super.start();
+                getLooper(); // 会等待Looper初始化。（加个锁即可）
+                long endTime = System.currentTimeMillis();
+                Log.i(TAG, "getLopper: " + (endTime - startTime) + getLooper());
+                Log.i(TAG, Thread.currentThread().getName());
+            }
+        };
+        handlerThread.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handlerThread.quit();
     }
 }

@@ -93,6 +93,7 @@ public class TabLayoutDemoActivity extends AppCompatActivity {
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
 
+
         viewModel.isChange.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {

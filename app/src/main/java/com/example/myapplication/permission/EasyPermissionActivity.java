@@ -93,22 +93,11 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
             new AppSettingsDialog.Builder(this)
                     .setTitle("somePermissionPermanentlyDenied")
                     .setRationale("!!!")
-                    .build().show();
-        }
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        // 对话框的返回值
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            // Do something after user returned from app settings screen, like showing a Toast.
-            Toast.makeText(this, "从设置返回", Toast.LENGTH_SHORT)
+                    .build()
                     .show();
         }
     }
+
 
     @Override
     public void onRationaleAccepted(int requestCode) {
@@ -122,4 +111,17 @@ public class EasyPermissionActivity extends AppCompatActivity implements EasyPer
         // 第一次拒绝后再次请求的请求框，点击取消后
         Log.i("PermissionActivity", "onRationaleDenied:" + requestCode);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // 对话框的返回值
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            // Do something after user returned from app settings screen, like showing a Toast.
+            Toast.makeText(this, "从设置返回", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+
 }

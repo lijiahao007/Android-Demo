@@ -175,8 +175,6 @@ public class PhotoFragment extends Fragment {
                 }
             }
         });
-
-
         return root;
     }
 

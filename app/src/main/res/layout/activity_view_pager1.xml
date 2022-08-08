@@ -7,22 +7,48 @@
     tools:context=".viewpager.ViewPager1Activity"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ViewPager 无限循环方案1"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:textColor="#ff0000"
+        />
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/fragment_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/fragment_view_pager1"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:text="ViewPager 无限循环方案2"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:textColor="#ff0000"
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/fragment_view_pager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ViewPager FragmentStatePagerAdapter"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#ff0000"
+        />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_view_pager1"
+        android:layout_width="match_parent"
+        android:layout_height="15sp"
         android:layout_weight="1" />
 
 

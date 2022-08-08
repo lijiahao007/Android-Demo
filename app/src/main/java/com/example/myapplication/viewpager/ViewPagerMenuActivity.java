@@ -20,7 +20,8 @@ public class ViewPagerMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_pager_menu);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
-            add(new MenuAdapter.MenuInfo("ViewPager1 with Fragment", ViewPager1Activity.class));
+            add(new MenuAdapter.MenuInfo("Loop ViewPager1 with Fragment", ViewPager1Activity.class));
+            add(new MenuAdapter.MenuInfo("Loop ViewPager1 with View", ViewPager1_2Activity.class));
         }});
     }
 }

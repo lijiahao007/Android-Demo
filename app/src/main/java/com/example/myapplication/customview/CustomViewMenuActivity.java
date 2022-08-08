@@ -35,5 +35,9 @@ public class CustomViewMenuActivity extends AppCompatActivity {
         findViewById(R.id.matrix_demo).setOnClickListener(view -> {
             startActivity(new Intent(this, MatrixPolyActivity.class));
         });
+
+        findViewById(R.id.click_demo).setOnClickListener(view -> {
+            startActivity(new Intent(this, ClickEventDispatcherActivity.class));
+        });
     }
 }

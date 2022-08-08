@@ -275,7 +275,7 @@ public class APConnectActivity extends AppCompatActivity {
                             // 根据当前wifi连接信息设置wifi ssid、pwd信息
                             etSSID.setText(ssid);
                             SharedPreferences sharedPreferences = getSharedPreferences("wifi", MODE_PRIVATE);
-                            String ssid1 = sharedPreferences.getString("ssid", "");
+                            String ssid1 = sharedPreferences.getString("ssid",  "");
                             String pwd = sharedPreferences.getString("pwd", "");
                             if (ssid1.equals(ssid)) {
                                 etPwd.setText(pwd);

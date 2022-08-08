@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -198,6 +199,10 @@ public class AlbumActivity extends AppCompatActivity {
         });
     }
 
+    private Fragment getCurViewPagerFragment() {
+        int currentItem = viewPager.getCurrentItem();
+        return albumFragmentAdapter.getFragment(currentItem);
+    }
 
     private void setStatusBarColor() {
         Window window = getWindow();

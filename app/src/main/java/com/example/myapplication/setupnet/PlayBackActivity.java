@@ -108,6 +108,7 @@ public class PlayBackActivity extends AppCompatActivity {
                 if (loginHandle != null && loginHandle.getnResult() == ResultCode.RESULT_CODE_SUCCESS) {
                     // 2. 初始化回放
                     PlayBackActivity.this.loginHandle = loginHandle;
+                    Log.i(TAG, "onLogin: 登录成功");
                     initPlayBack();
                 } else {
                     Log.i(TAG, "登录失败");
@@ -189,6 +190,7 @@ public class PlayBackActivity extends AppCompatActivity {
             Disposable subscribe = Observable.create(new ObservableOnSubscribe<ArrayList<RecordVideoInfo>>() {
                         @Override
                         public void subscribe(@NonNull ObservableEmitter<ArrayList<RecordVideoInfo>> emitter) throws Throwable {
+                            Log.i(TAG, "搜索录像文件开始");
                             RecordFileHelper.getRecordVideoInTFCard(loginHandle, recordFileParam, new IRecFileCallback() {
                                 @Override
                                 public void onReceiveFile(int nRecTotalCount, int nFileCount, ArrayList<RecordVideoInfo> arrayList) {
@@ -206,6 +208,7 @@ public class PlayBackActivity extends AppCompatActivity {
                         public void accept(@NonNull ArrayList<RecordVideoInfo> recordVideoInfos) throws Exception {
                             // 2.2 显示搜索结果
                             adapter.submitList(recordVideoInfos);
+                            Log.i(TAG, "搜索到" + recordVideoInfos.size() + "个录像文件");
                         }
                     });
         });

@@ -69,6 +69,12 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".viewpager.ViewPager1_2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.NavigationActivity"
+            android:exported="false" />
+        <activity
             android:name=".fragment.FragmentActionActivity"
             android:exported="false" />
         <activity
@@ -85,6 +91,27 @@
             android:exported="false" />
         <activity
             android:name=".animation.AnimationDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".databinding.DataBindingMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".databinding.DataBindingDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".tablayout.LoopViewPagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".tablayout.TabLayoutMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customview.ClickEventDispatcherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.FragmentDemoActivity"
             android:exported="false" />
         <activity
             android:name=".setupnet.PlayBackVideoActivity"

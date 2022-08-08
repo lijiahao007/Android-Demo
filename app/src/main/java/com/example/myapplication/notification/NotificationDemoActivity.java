@@ -1,82 +1,84 @@
 package com.example.myapplication.notification;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.example.myapplication.R;
-
+import com.example.myapplication.databinding.ActivityNotificationDemoBinding;
+// 参考 https://llw-study.blog.csdn.net/article/details/125446355?spm=1001.2014.3001.5502
 public class NotificationDemoActivity extends AppCompatActivity {
+    private ActivityNotificationDemoBinding binding;
 
-    private static final String CHANNEL_ID = "default";
-    private static final int NOTIFICATION_REQUEST_CODE = 1;
-    private static final int STATUS_BAR_NOTIFICATION_ID = 1;
-    private static final int POPUP_NOTIFICATION = 2;
-    private static final int LOCK_NOTIFICATION = 3;
-
+    // 1. channel Id
+    private String channelId = "test";
+    // 2. channel 名称
+    private String channelName = "测试通知";
+    // 3. channel 重要级别
+    private int channelImportant = NotificationManagerCompat.IMPORTANCE_HIGH;
+    // 4. 通知管理者
+    private NotificationManager notificationManager;
+    // 5. 通知
+    private Notification notification;
+    // 6. 通知id
+    private int notificationId = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification_demo);
+        binding = ActivityNotificationDemoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // 状态栏通知
-        findViewById(R.id.btn_status_bar_notification).setOnClickListener(view -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "default_channel", NotificationManager.IMPORTANCE_HIGH);
-                getSystemService(NotificationManager.class).createNotificationChannel(channel);
-            }
+        // 1. 获取系统通知服务
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-            Intent intent = new Intent(this, NotificationDemoActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentTitle("通知demo")
-                    .setContentText("状态栏通知内容！！！")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText("状态栏通知内容"))
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(false)
-                    .setProgress(100, 0, false);
+        // 2. 初始化通知
+        initNotification();
 
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(STATUS_BAR_NOTIFICATION_ID, builder.build());
+        // 3. 显示通知
+        binding.btnNormalNotification.setOnClickListener(v -> {
 
-
-            new Thread(() -> {
-                for (int i = 0; i <= 100; i++) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    // 更新进度，不需要在主线程中也可以更新
-                    builder.setProgress(100, i, false);
-                    notificationManager.notify(STATUS_BAR_NOTIFICATION_ID, builder.build());
-                }
-                // 取消
-                builder.setProgress(0, 0, false);
-                notificationManager.notify(STATUS_BAR_NOTIFICATION_ID, builder.build());
-            }).start();
-        });
-
-        // 提醒式通知
-        findViewById(R.id.btn_popup_notification).setOnClickListener(view -> {
-            // TODO: 提醒式通知
-        });
-
-        // 锁屏通知
-        findViewById(R.id.btn_lock_notification).setOnClickListener(view -> {
-            // TODO: 锁屏通知
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int channelImportant) {
+        // 1. 创建通知渠道
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, channelImportant);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    private void initNotification() {
+        NotificationCompat.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // 1. Android 8.0以上，需要创建通道，并向通知构建者
+            createNotificationChannel(channelId, channelName, channelImportant);
+            builder = new NotificationCompat.Builder(this, channelId);
+        } else {
+            // 2. Android 8.0以下，不需要创建通道，直接创建通知构建者
+            builder = new NotificationCompat.Builder(this);
+        }
+
+        // 3. 设置通知属性
+        builder.setSmallIcon(R.drawable.ic_note)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_note))
+                .setContentTitle("title:note")
+                .setContentText("text:搞钱");
+
+        // 4. 构建通知
+        notification = builder.build();
+    }
+
+
 }

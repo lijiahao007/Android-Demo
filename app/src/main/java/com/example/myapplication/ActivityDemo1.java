@@ -71,6 +71,7 @@ public class ActivityDemo1 extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("动画", AnimationDemoActivity.class));
             add(new MenuAdapter.MenuInfo("ViewPager", ViewPagerMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Fragment", FragmentMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Navigation", FragmentMenuActivity.class));
 
         }};
         recyclerView.setMenuList(menuList);
