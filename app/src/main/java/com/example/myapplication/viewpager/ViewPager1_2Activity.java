@@ -32,12 +32,19 @@ public class ViewPager1_2Activity extends AppCompatActivity {
                 getLayoutInflater().inflate(R.layout.view_page, null),
         };
 
+        // 用这个boolean数组来处理只有三个页面的情况。
+        // TODO: 只有两个页面的情况下，会有问题，从第二个页面右滑后，要等一下那个页面才会加载。
+        // TODO: 只有一个页面的情况下，无法正常切换。
+        boolean[] isAttached = new boolean[views.length];
+
         for (View view : views) {
             ImageView ivPage = view.findViewById(R.id.iv_page);
             ivPage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.anim_run_1, null));
         }
 
         PagerAdapter adapter = new PagerAdapter() {
+
+
             @Override
             public int getCount() {
                 return Integer.MAX_VALUE;
@@ -47,17 +54,27 @@ public class ViewPager1_2Activity extends AppCompatActivity {
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
                 int newPosition = position % views.length;
-                Log.i("ViewPager", "instantiateItem:" + position + "  " + newPosition);
                 View view = views[newPosition];
+                // 如果已经该页面已经存在了，就先删除再添加。
+                if (container.indexOfChild(view) != -1) {
+                    container.removeView(view);
+                    isAttached[newPosition] = true;
+                } else {
+                    isAttached[newPosition] = false;
+                }
                 container.addView(view);
+
+                Log.i("ViewPager", "instantiateItem:" + position + "  " + newPosition + " " + isAttached[newPosition]);
                 return view;
             }
 
             @Override
             public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
                 int newPosition = position % views.length;
-                Log.i("ViewPager", "destroyItem:" + position + " " + newPosition);
-                container.removeView(views[newPosition]);
+                Log.i("ViewPager", "destroyItem:" + position + " " + newPosition + " " + isAttached[newPosition]);
+                if (!isAttached[newPosition]) {
+                    container.removeView(views[newPosition]);
+                }
             }
 
             @Override

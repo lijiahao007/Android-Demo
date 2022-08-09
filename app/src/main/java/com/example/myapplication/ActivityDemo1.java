@@ -11,6 +11,7 @@ import com.example.myapplication.animation.AnimationDemoActivity;
 import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
+import com.example.myapplication.dialog.DialogActivity;
 import com.example.myapplication.eventbus.EventBusDemoActivity;
 import com.example.myapplication.fragment.FragmentMenuActivity;
 import com.example.myapplication.gesture.GestureDemoActivity;
@@ -72,6 +73,7 @@ public class ActivityDemo1 extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("ViewPager", ViewPagerMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Fragment", FragmentMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Navigation", FragmentMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Dialog", DialogActivity.class));
 
         }};
         recyclerView.setMenuList(menuList);
