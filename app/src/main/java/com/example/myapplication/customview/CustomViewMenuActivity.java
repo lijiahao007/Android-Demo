@@ -4,40 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.example.myapplication.MenuAdapter;
+import com.example.myapplication.MenuRecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 
+import java.util.ArrayList;
+
 public class CustomViewMenuActivity extends AppCompatActivity {
+
+    private MenuRecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view_menu);
 
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("canvas普通绘图操作", CustomViewDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("贝塞尔二阶曲线", Bessel2Activity.class));
+            add(new MenuAdapter.MenuInfo("贝塞尔三阶曲线", Bessel3Activity.class));
+            add(new MenuAdapter.MenuInfo("弹动的球", ElasticBallActivity.class));
+            add(new MenuAdapter.MenuInfo("Matrix变换", MatrixPolyActivity.class));
+            add(new MenuAdapter.MenuInfo("事件分发", ClickEventDispatcherActivity.class));
+            add(new MenuAdapter.MenuInfo("圆角图片", RoundCornerActivity.class));
 
-        findViewById(R.id.canvas_normal).setOnClickListener(view -> {
-            startActivity(new Intent(this, CustomViewDemoActivity.class));
-        });
-
-        findViewById(R.id.bessel_two).setOnClickListener(view -> {
-            startActivity(new Intent(this, Bessel2Activity.class));
-        });
-
-        findViewById(R.id.bessel_three).setOnClickListener(view -> {
-            startActivity(new Intent(this, Bessel3Activity.class));
-        });
-
-        findViewById(R.id.elastic_ball).setOnClickListener(view -> {
-            startActivity(new Intent(this, ElasticBallActivity.class));
-        });
-
-        findViewById(R.id.matrix_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, MatrixPolyActivity.class));
-        });
-
-        findViewById(R.id.click_demo).setOnClickListener(view -> {
-            startActivity(new Intent(this, ClickEventDispatcherActivity.class));
-        });
+        }});
     }
 }

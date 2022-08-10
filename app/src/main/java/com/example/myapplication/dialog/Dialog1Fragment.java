@@ -54,6 +54,9 @@ public class Dialog1Fragment extends DialogFragment {
         return rootView;
     }
 
+
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

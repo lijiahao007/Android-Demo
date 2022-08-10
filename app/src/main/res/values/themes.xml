@@ -23,4 +23,19 @@
 
     <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AlertDialogFullWidthTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/BottomUpAnimator</item>
+    </style>
+
+    <style name="BottomUpAnimator">
+        <item name="android:windowEnterAnimation">@anim/up_enter</item>
+        <item name="android:windowExitAnimation">@anim/down_exit</item>
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.myapplication.dialog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -81,10 +82,19 @@ public class DialogActivity extends AppCompatActivity {
                             .show();
                 }
             }));
+
+            add(new MenuAdapter.MenuInfo("Dialog6--Bottom Dialog", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog3Fragment dialog3Fragment = new Dialog3Fragment();
+                    dialog3Fragment.show(getSupportFragmentManager(), "dialog6");
+                }
+            }));
         }});
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
 }
