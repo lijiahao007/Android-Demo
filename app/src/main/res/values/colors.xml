@@ -22,5 +22,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="media_item_decoration_start_color">#00F5F5F5</color>
     <color name="media_item_decoration_end_color">#B3F5F5F5</color>
+    <color name="default_shadow_color">#D9D9D9</color>
 
 </resources>

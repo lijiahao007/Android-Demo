@@ -122,7 +122,7 @@ public class CustomRoundAngleImageView extends AppCompatImageView {
         //四个角：右上，右下，左下，左上
         path.moveTo(realLeftTopRadius, 0);
         if (width - realLeftTopRadius > realRightTopRadius) {
-            path.lineTo(width - realLeftTopRadius, 0);
+            path.lineTo(width - realRightTopRadius, 0);
         }
         path.quadTo(width, 0, width, realRightTopRadius);
 
@@ -139,7 +139,6 @@ public class CustomRoundAngleImageView extends AppCompatImageView {
         if (realLeftTopRadius < height - realLeftBottomRadius) {
             path.lineTo(0, realLeftTopRadius);
         }
-        path.lineTo(0, realLeftTopRadius);
         path.quadTo(0, 0, realLeftTopRadius, 0);
 
         canvas.clipPath(path);

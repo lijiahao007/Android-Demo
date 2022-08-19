@@ -1,8 +1,10 @@
 package com.example.myapplication.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,15 +26,17 @@ public class FragmentActionActivity extends AppCompatActivity {
         flContainer = findViewById(R.id.fl_container);
 
         OneFragment fragment = new OneFragment();
+        TwoFragment twoFragment = new TwoFragment();
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl_container, fragment)
+                .add(R.id.fl_container, twoFragment)
+                .hide(twoFragment)
                 .commitNow();
 
-        handler.postDelayed(() -> {
-            getSupportFragmentManager().beginTransaction()
-                    .detach(fragment)
-                    .commitNow();
-        }, 1000);
-
+        View viewById = findViewById(R.id.btn);
+        viewById.setOnClickListener(view -> {
+            startActivity(new Intent(this, FragmentTmpActivity.class));
+        });
     }
 }

@@ -69,6 +69,18 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".thirdpartlogin.GoogleLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".thirdpartlogin.LoginMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customview.TabLayoutDemoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.FragmentTmpActivity"
+            android:exported="false" />
+        <activity
             android:name=".customview.RoundCornerActivity"
             android:exported="false" />
         <activity

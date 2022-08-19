@@ -4,23 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
     tools:context=".customview.RoundCornerActivity">
 
     <com.example.myapplication.customview.CustomRoundAngleImageView
+        android:id="@+id/image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="20dp"
+        android:src="@drawable/anim_run_1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/anim_run_1"
+        app:left_bottom_radius="400dp"
         app:left_top_radius="1000dp"
-        app:right_top_radius="100dp"
-        />
+        app:right_bottom_radius="2000dp"
+        app:right_top_radius="300dp" />
 
+    <com.example.myapplication.customview.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:yc_cornerRadius="18dp"
+        app:yc_leftShow="false"
+        app:yc_shadowColor="#55ff8c00"
+        app:yc_shadowLimit="10dp"
+        app:yc_topShow="false"
+        tools:layout_editor_absoluteY="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/shape_round"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="不偏移xy,让上和左阴影不可见(如titleBar)"
+            android:textColor="#000"
+            tools:layout_editor_absoluteX="64dp"
+            tools:layout_editor_absoluteY="40dp" />
+    </com.example.myapplication.customview.ShadowLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

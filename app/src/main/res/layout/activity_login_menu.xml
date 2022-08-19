@@ -4,14 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FragmentActionActivity">
-    <FrameLayout
-        android:id="@+id/fl_container"
+    tools:context=".thirdpartlogin.LoginMenuActivity">
+
+    <com.example.myapplication.MenuRecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
