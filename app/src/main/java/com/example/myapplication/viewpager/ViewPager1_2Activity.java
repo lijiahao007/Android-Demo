@@ -18,6 +18,7 @@ import com.example.myapplication.R;
 public class ViewPager1_2Activity extends AppCompatActivity {
 
     private ViewPager viewPager1;
+    private ViewPager viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,13 @@ public class ViewPager1_2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_view_pager12);
 
         viewPager1 = findViewById(R.id.view_pager1);
+        viewPager2 = findViewById(R.id.view_pager2);
 
+        initViewPager1();
+        initViewPager2();
+    }
+
+    private void initViewPager1() {
         View[] views = new View[]{
                 getLayoutInflater().inflate(R.layout.view_page, null),
                 getLayoutInflater().inflate(R.layout.view_page, null),
@@ -84,6 +91,16 @@ public class ViewPager1_2Activity extends AppCompatActivity {
         };
 
         this.viewPager1.setAdapter(adapter);
+    }
+
+    private void initViewPager2() {
+
+        View[] views = new View[]{
+                getLayoutInflater().inflate(R.layout.view_page, null),
+                getLayoutInflater().inflate(R.layout.view_page, null),
+                getLayoutInflater().inflate(R.layout.view_page, null),
+        };
+
 
     }
 }
