@@ -2,20 +2,21 @@ package com.example.myapplication.thirdpartlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myapplication.R;
 
-public class GoogleLoginActivity extends AppCompatActivity {
+public class WxChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_login);
+        setContentView(R.layout.activity_wx_chat);
+    }
 
-        startActivity(new Intent(this, WxChatActivity.class));
-
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.right_to_left, R.anim.right_to_left);
     }
 }

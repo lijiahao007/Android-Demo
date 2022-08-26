@@ -23,7 +23,7 @@ public class LoginMenuActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
 
         recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
-            add(new MenuAdapter.MenuInfo("Google 登录", LoginMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Google 登录", GoogleLoginActivity.class));
         }});
     }
 }

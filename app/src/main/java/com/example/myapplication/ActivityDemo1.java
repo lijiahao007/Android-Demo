@@ -29,6 +29,7 @@ import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
 import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
+import com.example.myapplication.thirdpartlogin.LoginMenuActivity;
 import com.example.myapplication.viewpager.ViewPagerMenuActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
 
@@ -74,6 +75,7 @@ public class ActivityDemo1 extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("Fragment", FragmentMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Navigation", FragmentMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Dialog", DialogActivity.class));
+            add(new MenuAdapter.MenuInfo("三方登录", LoginMenuActivity.class));
 
         }};
         recyclerView.setMenuList(menuList);
