@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -35,11 +36,6 @@ public class BesselCustomView1 extends View {
         init();
     }
 
-    public BesselCustomView1(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     private void init() {
         mPaint = new Paint();
         mPaint.setColor(Color.BLACK);
@@ -50,6 +46,7 @@ public class BesselCustomView1 extends View {
         start = new PointF(0,0);
         end = new PointF(0,0);
         control = new PointF(0,0);
+        Log.i("BesselCustomView1", "init: " + start.toString() + " " + end.toString() + " " + control.toString());
     }
 
     @Override

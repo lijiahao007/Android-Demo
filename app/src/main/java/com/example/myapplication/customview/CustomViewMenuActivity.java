@@ -9,7 +9,6 @@ import android.view.View;
 import com.example.myapplication.MenuAdapter;
 import com.example.myapplication.MenuRecyclerView;
 import com.example.myapplication.R;
-import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 
 import java.util.ArrayList;
 
@@ -31,8 +30,7 @@ public class CustomViewMenuActivity extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("Matrix变换", MatrixPolyActivity.class));
             add(new MenuAdapter.MenuInfo("事件分发", ClickEventDispatcherActivity.class));
             add(new MenuAdapter.MenuInfo("圆角图片", RoundCornerActivity.class));
-            add(new MenuAdapter.MenuInfo("TabLayout", RoundCornerActivity.class));
-
+            add(new MenuAdapter.MenuInfo("TabLayout", TabLayoutDemoActivity.class));
         }});
     }
 }

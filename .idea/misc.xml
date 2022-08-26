@@ -4,28 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/Sdk/platforms/android-32/data/res/layout/auto_complete_list.xml" value="0.33125" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/drawable/shape_bottom_dialog.xml" value="0.22" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/drawable/shape_corner_background.xml" value="0.297" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/drawable/shape_round.xml" value="0.308" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_custom_view_menu.xml" value="0.1" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_data_binding_demo.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_data_binding_emun.xml" value="0.3515625" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_data_binding_menu.xml" value="0.25" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_demo1.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_dialog.xml" value="0.36614583333333334" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_fragment_action.xml" value="0.36614583333333334" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_google_login.xml" value="0.67" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_login_menu.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_navigation.xml" value="0.36614583333333334" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_round_corner.xml" value="0.33" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_tab_layout_demo2.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_view_pager1.xml" value="0.3" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_view_pager12.xml" value="0.31614583333333335" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/activity_wx_chat.xml" value="0.36614583333333334" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/dialog_demo1.xml" value="0.31576576576576576" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_dialog1.xml" value="0.25" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_dialog2.xml" value="0.35" />
-        <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_dialog3.xml" value="0.35" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_four2.xml" value="0.34322916666666664" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_one2.xml" value="0.3296875" />
         <entry key="..\:/WorkSpaces/MacroVideoAndroidWorkSpace/MyApplication/app/src/main/res/layout/fragment_three2.xml" value="0.3296875" />
@@ -160,6 +150,7 @@
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_frame_amination.xml" value="0.176" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_photo_video_demo.xml" value="0.23369565217391305" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_screen_shot_record.xml" value="0.23369565217391305" />
+        <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_tab_layout_demo2.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_view_pager1.xml" value="0.12613981762917933" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/activity_view_pager_menu.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidWorkspaces/Android-Demo/app/src/main/res/layout/fragment_one2.xml" value="0.17889492753623187" />

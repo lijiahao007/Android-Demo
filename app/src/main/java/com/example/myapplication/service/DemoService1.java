@@ -1,7 +1,5 @@
 package com.example.myapplication.service;
 
-import static android.app.PendingIntent.getActivity;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,20 +9,13 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Build;
-import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activity.Teacher;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DemoService1 extends Service {
 
