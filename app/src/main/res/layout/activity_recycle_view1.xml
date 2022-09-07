@@ -8,46 +8,9 @@
     android:orientation="vertical"
     tools:context=".recycleview.RecyclerViewDemoActivity">
 
-    <TextView
-        android:id="@+id/linear_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Linear Recyclerview"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/grid_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Grid Recyclerview"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/staggered_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="StaggeredGrid Recyclerview"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/item_decoration_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="Recyclerview Item Decoration"
-        android:textSize="15sp" />
+    
+    <com.example.myapplication.MenuRecyclerView
+        android:id="@+id/menu_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
