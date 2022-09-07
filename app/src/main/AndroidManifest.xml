@@ -75,6 +75,9 @@
             android:name=".thirdpartlogin.WxChatActivity"
             android:exported="false" />
         <activity
+            android:name=".customview.CoordinateDemoActivity"
+            android:exported="false" />
+        <activity
             android:name=".thirdpartlogin.GoogleLoginActivity"
             android:exported="false" />
         <activity
