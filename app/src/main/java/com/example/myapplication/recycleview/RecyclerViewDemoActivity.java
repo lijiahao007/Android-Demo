@@ -18,14 +18,13 @@ public class RecyclerViewDemoActivity extends BaseActivity<ActivityRecycleView1B
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycle_view1);
 
         binding.menuRecyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("Linear Recyclerview", LinearLayoutRecyclerviewActivity.class));
             add(new MenuAdapter.MenuInfo("Grid Recyclerview", GridRecyclerviewActivity.class));
             add(new MenuAdapter.MenuInfo("StaggeredGrid Recyclerview", StaggeredGridRecyclerviewActivity.class));
             add(new MenuAdapter.MenuInfo("Recyclerview Item Decoration", ItemDecorationActivity.class));
-
         }});
+
     }
 }
