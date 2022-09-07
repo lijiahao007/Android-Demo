@@ -24,6 +24,8 @@ public class RecyclerViewDemoActivity extends BaseActivity<ActivityRecycleView1B
             add(new MenuAdapter.MenuInfo("Grid Recyclerview", GridRecyclerviewActivity.class));
             add(new MenuAdapter.MenuInfo("StaggeredGrid Recyclerview", StaggeredGridRecyclerviewActivity.class));
             add(new MenuAdapter.MenuInfo("Recyclerview Item Decoration", ItemDecorationActivity.class));
+            add(new MenuAdapter.MenuInfo("RotateRecyclerView", RotateRecyclerViewActivity.class));
+
         }});
 
     }
