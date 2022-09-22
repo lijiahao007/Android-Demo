@@ -4,6 +4,8 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,8 +28,9 @@ import java.lang.reflect.Type;
 public class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     protected T binding;
-    protected final String TAG = getClass().getCanonicalName();
+    protected final String TAG = getClass().getSimpleName();
     private Toast toast;
+    protected final Handler mBaseActivityHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
