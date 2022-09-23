@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 public class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     protected T binding;
-    protected final String TAG = getClass().getCanonicalName();
+    protected final String TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
