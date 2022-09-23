@@ -21,42 +21,32 @@ public class LifecycleLogObserver implements DefaultLifecycleObserver {
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onCreate(owner);
         Log.i(tag, "onCreate");
     }
 
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onStart(owner);
         Log.i(tag, "onStart");
-
+        DefaultLifecycleObserver.super.onStart(owner);
     }
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onResume(owner);
         Log.i(tag, "onResume");
-
     }
 
     @Override
     public void onPause(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onPause(owner);
         Log.i(tag, "onPause");
-
     }
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onStop(owner);
         Log.i(tag, "onStop");
-
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onDestroy(owner);
         Log.i(tag, "onDestroy");
-
     }
 }

@@ -31,6 +31,7 @@ public class CustomViewMenuActivity extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("事件分发", ClickEventDispatcherActivity.class));
             add(new MenuAdapter.MenuInfo("圆角图片", RoundCornerActivity.class));
             add(new MenuAdapter.MenuInfo("TabLayout", TabLayoutDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("Android坐标（绝对坐标）、View坐标", CoordinateDemoActivity.class));
         }});
     }
 }

@@ -69,6 +69,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".recycleview.UsplashPhotoListActivity"
+            android:exported="false" />
+        <activity
             android:name=".recycleview.RecyclerNormalMethodActivity"
             android:exported="false" />
         <activity
@@ -76,6 +79,9 @@
             android:exported="false" />
         <activity
             android:name=".thirdpartlogin.WxChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customview.CoordinateDemoActivity"
             android:exported="false" />
         <activity
             android:name=".thirdpartlogin.GoogleLoginActivity"

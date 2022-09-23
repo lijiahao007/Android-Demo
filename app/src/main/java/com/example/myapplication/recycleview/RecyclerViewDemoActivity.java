@@ -26,6 +26,8 @@ public class RecyclerViewDemoActivity extends BaseActivity<ActivityRecycleView1B
             add(new MenuAdapter.MenuInfo("Recyclerview Item Decoration", ItemDecorationActivity.class));
             add(new MenuAdapter.MenuInfo("RotateRecyclerView", RotateRecyclerViewActivity.class));
             add(new MenuAdapter.MenuInfo("常用方法", RecyclerNormalMethodActivity.class));
+            add(new MenuAdapter.MenuInfo("UnsplashPhotoView", UsplashPhotoListActivity.class));
+
         }});
 
     }

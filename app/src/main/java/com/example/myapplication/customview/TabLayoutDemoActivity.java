@@ -1,16 +1,14 @@
 package com.example.myapplication.customview;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.BaseActivity;
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityTabLayoutDemo2Binding;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TabLayoutDemoActivity extends BaseActivity<ActivityTabLayoutDemo2Binding> {
     private String TAG = "TabLayoutDemoActivity";
@@ -33,7 +31,7 @@ public class TabLayoutDemoActivity extends BaseActivity<ActivityTabLayoutDemo2Bi
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Log.i(TAG, "onTabUnselected: " + tab.getText());
+                Log.i(TAG, "onTabReselected: " + tab.getText());
             }
         });
 
@@ -48,10 +46,12 @@ public class TabLayoutDemoActivity extends BaseActivity<ActivityTabLayoutDemo2Bi
 
         binding.tabLayout.getTabAt(1).select();
 
+        AtomicInteger count = new AtomicInteger();
         binding.customView.setListener(view -> {
             Log.i("CustomView2", "click");
+            showToast("count=" + count.incrementAndGet());
         });
-
-
     }
+
+
 }
