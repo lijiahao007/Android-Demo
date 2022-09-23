@@ -53,36 +53,34 @@ public class UsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhotoL
                 .build();
 
 
-        new Thread(() -> {
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                mBaseActivityHandler.post(() -> {
+                    showToast("请求失败");
+                    Log.e(TAG, "请求失败" + e);
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String responseData = response.body().string();
+                Log.i(TAG, "responseData=" + responseData);
+                Gson gson = new Gson();
+                try {
+                    UnsplashPhoto unsplashPhoto = gson.fromJson(responseData, UnsplashPhoto.class);
+                    Log.i(TAG, "unsplashPhoto=" + unsplashPhoto);
+                    String fullUrl = unsplashPhoto.getUrls().getFull();
+                    mBaseActivityHandler.post(() -> {
+                        Glide.with(getBaseContext()).load(fullUrl).into(binding.ivPhoto);
+                    });
+                } catch (JsonSyntaxException e) {
                     mBaseActivityHandler.post(() -> {
                         showToast("请求失败");
                         Log.e(TAG, "请求失败" + e);
                     });
                 }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    String responseData = response.body().string();
-                    Log.i(TAG, "responseData=" + responseData);
-                    Gson gson = new Gson();
-                    try {
-                        UnsplashPhoto unsplashPhoto = gson.fromJson(responseData, UnsplashPhoto.class);
-                        Log.i(TAG, "unsplashPhoto=" + unsplashPhoto);
-                        String fullUrl = unsplashPhoto.getUrls().getFull();
-                        mBaseActivityHandler.post(() -> {
-                           Glide.with(getBaseContext()).load(fullUrl).into(binding.ivPhoto);
-                        });
-                    } catch (JsonSyntaxException e) {
-                        mBaseActivityHandler.post(() -> {
-                            showToast("请求失败");
-                            Log.e(TAG, "请求失败" + e);
-                        });
-                    }
-                }
-            });
-        }).start();
+            }
+        });
     }
 }

@@ -45,7 +45,6 @@ public class FrameAnimationActivity extends AppCompatActivity {
         AnimatedVectorDrawable background = (AnimatedVectorDrawable) ivVectorFrameAnimation.getBackground();
         ivVectorFrameAnimation.setOnClickListener(view -> background.start());
 
-
     }
 
     @Override

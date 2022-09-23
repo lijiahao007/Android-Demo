@@ -7,23 +7,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myapplication.BaseActivity;
+import com.example.myapplication.MenuAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.ActivityAnimationDemoBinding;
 
-public class AnimationDemoActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class AnimationDemoActivity extends BaseActivity<ActivityAnimationDemoBinding> {
 
     private Button btnZhenAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animation_demo);
-        btnZhenAnimation = findViewById(R.id.btn_frame_animation);
-        btnZhenAnimation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AnimationDemoActivity.this, FrameAnimationActivity.class);
-                startActivity(intent);
-            }
-        });
+        binding.recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("帧动画", FrameAnimationActivity.class));
+            add(new MenuAdapter.MenuInfo("抖动", ShakeActivity.class));
+
+
+        }});
+
+
     }
 }
