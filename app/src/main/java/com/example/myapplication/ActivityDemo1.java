@@ -30,6 +30,7 @@ import com.example.myapplication.setupnet.SetupNetDemoActivity;
 import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 import com.example.myapplication.thirdpartlogin.LoginMenuActivity;
+import com.example.myapplication.unsplashproject.UnSplashMenuActivity;
 import com.example.myapplication.viewpager.ViewPagerMenuActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
 
@@ -47,6 +48,7 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("Unsplash", UnSplashMenuActivity.class));
             add(new MenuAdapter.MenuInfo("intent相关", IntentActivity.class));
             add(new MenuAdapter.MenuInfo("Activity相关", ExampleActivity1.class));
             add(new MenuAdapter.MenuInfo("Service相关", ServiceDemoActivity.class));

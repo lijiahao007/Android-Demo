@@ -1,14 +1,9 @@
 package com.example.myapplication.recycleview;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.myapplication.BaseActivity;
 import com.example.myapplication.MenuAdapter;
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityRecycleView1Binding;
 
 import java.util.ArrayList;
@@ -26,8 +21,6 @@ public class RecyclerViewDemoActivity extends BaseActivity<ActivityRecycleView1B
             add(new MenuAdapter.MenuInfo("Recyclerview Item Decoration", ItemDecorationActivity.class));
             add(new MenuAdapter.MenuInfo("RotateRecyclerView", RotateRecyclerViewActivity.class));
             add(new MenuAdapter.MenuInfo("常用方法", RecyclerNormalMethodActivity.class));
-            add(new MenuAdapter.MenuInfo("UnsplashPhotoView", UsplashPhotoListActivity.class));
-
         }});
 
     }

@@ -1,4 +1,4 @@
-package com.example.myapplication.recycleview.entity;
+package com.example.myapplication.unsplashproject.onlyokhttp.entity;
 
 public class UnsplashUrl {
     String raw;
