@@ -15,7 +15,6 @@ public class DataBaseManager {
         return unsplashPhotoDataBaseHelper;
     }
 
-    public static
 
 
 }
