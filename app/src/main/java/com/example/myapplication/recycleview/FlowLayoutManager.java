@@ -2,21 +2,23 @@ package com.example.myapplication.recycleview;
 
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.macrovideo.sdk.tools.LogUtils;
-
 import java.util.ArrayList;
-import java.util.List;
 
-// TODO: 回收
 
 public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
     private static final String TAG = "FlowLayoutManager";
 
+    // 是否开启铺平整行的功能
+    private boolean isOpenFlatLine = false;
+
+
+    public FlowLayoutManager(boolean isOpenFlatLine) {
+        this.isOpenFlatLine = isOpenFlatLine;
+    }
 
     @Override
     public boolean isAutoMeasureEnabled() {
@@ -59,7 +61,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         int curLineTop = 0;
         int lastLineMaxHeight = 0;
 
-
+        View lastView = null;
         for (int i = beginIndex; i < getItemCount() && totalHeight > 0; i++) {
             View view = recycler.getViewForPosition(i);
             //获取每个item的布局参数，计算每个item的占用位置时需要加上margin
@@ -81,6 +83,9 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                         curLineTop + height - params.bottomMargin); // 上一行bottom + height - topMargin
                 lastLineMaxHeight = Math.max(lastLineMaxHeight, height);
             } else {
+                if (lastView != null) {
+                    flatLineView(lastView);
+                }
                 totalHeight -= height;
                 // 换行
                 curLineWidth = width;
@@ -98,9 +103,14 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 );
                 lastLineMaxHeight = height;
             }
+            lastView = view;
         }
         offsetChildrenVertical(fixOffset);
     }
+
+
+
+
 
     @Override
     public boolean canScrollVertically() {
@@ -136,12 +146,12 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             while (true) {
                 // 1. 找到锚点View
                 int childCount = getChildCount();
-                View childAt = getChildAt(childCount - 1);
-                int decoratedRight = getDecoratedRight(childAt);
-                int decoratedTop = getDecoratedTop(childAt);
-                int decoratedBottom = getDecoratedBottom(childAt);
-                int adapterPosition = getPosition(childAt);
-                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) childAt.getLayoutParams();
+                View anchorView = getChildAt(childCount - 1);
+                int decoratedRight = getDecoratedRight(anchorView);
+                int decoratedTop = getDecoratedTop(anchorView);
+                int decoratedBottom = getDecoratedBottom(anchorView);
+                int adapterPosition = getPosition(anchorView);
+                RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) anchorView.getLayoutParams();
                 int anchorViewRightMargin = layoutParams.rightMargin;
                 int anchorViewBottomMargin = layoutParams.bottomMargin;
 
@@ -179,6 +189,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                             decoratedRight + anchorViewRightMargin + leftMargin + width,
                             decoratedTop + height);
                 } else {
+                    flatLineView(anchorView);
                     // 需要换行
                     layoutDecorated(viewForPosition,
                             leftMargin,
@@ -230,18 +241,14 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                             decoratedTop + height);
 
                     int lineStart = leftMargin + width + rightMargin;
+                    // 同一行的后续Item，重新layout
                     for (int i = 0; i < currentLineViews.size(); i++) {
                         View curLine = currentLineViews.get(i);
-                        int position = getPosition(curLine);
-                        removeAndRecycleView(curLine, recycler);
-                        View view = recycler.getViewForPosition(position);
-                        addView(view, i + 1);
-                        RecyclerView.LayoutParams layoutParam = (RecyclerView.LayoutParams) view.getLayoutParams();
-                        measureChildWithMargins(view, 0, 0);
-                        int viewHeight = getDecoratedMeasuredHeight(view);
-                        int viewWidth = getDecoratedMeasuredWidth(view);
+                        RecyclerView.LayoutParams layoutParam = (RecyclerView.LayoutParams) curLine.getLayoutParams();
+                        int viewHeight = getDecoratedMeasuredHeight(curLine);
+                        int viewWidth = getDecoratedMeasuredWidth(curLine);
 
-                        layoutDecorated(view,
+                        layoutDecorated(curLine,
                                 lineStart + layoutParam.leftMargin,
                                 decoratedTop,
                                 lineStart + layoutParam.leftMargin + viewWidth,
@@ -258,6 +265,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                         removeAndRecycleView(viewForPosition, recycler);
                         break;
                     }
+
+                    flatLineView(anchorView);
 
                     layoutDecorated(viewForPosition,
                             leftMargin,
@@ -324,6 +333,40 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 }
                 removeAndRecycleView(childAt, recycler);
             }
+        }
+    }
+
+    /**
+     * 将anchorView所在的行中的每个View扩宽，以填满整行
+     *
+     * @param anchorView
+     */
+    private void flatLineView(View anchorView) {
+        if (!isOpenFlatLine) {
+            return;
+        }
+
+        ArrayList<View> currentLineViews = getCurrentLineView(anchorView);
+        View lastViewInLine = currentLineViews.get(currentLineViews.size() - 1);
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) lastViewInLine.getLayoutParams();
+        int decoratedRight = getDecoratedRight(lastViewInLine);
+        int decoratedTop = getDecoratedTop(lastViewInLine);
+        // 这一行右边的空位
+        int dis = getWidth() - decoratedRight - layoutParams.rightMargin;
+        int disPerView = dis / currentLineViews.size();
+
+        int lineStart = 0;
+        for (int i = 0; i < currentLineViews.size(); i++) {
+            View curView = currentLineViews.get(i);
+            RecyclerView.LayoutParams curParam = (RecyclerView.LayoutParams) curView.getLayoutParams();
+            int width = getDecoratedMeasuredWidth(curView);
+            int height = getDecoratedMeasuredHeight(curView);
+            layoutDecorated(curView,
+                    lineStart + curParam.leftMargin,
+                    decoratedTop,
+                    lineStart + curParam.leftMargin + width + disPerView,
+                    decoratedTop + height);
+            lineStart += curParam.leftMargin + width + curParam.rightMargin + disPerView;
         }
     }
 }

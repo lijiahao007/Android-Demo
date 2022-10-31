@@ -39,7 +39,7 @@ public class FlowRecyclerActivity extends BaseActivity<ActivityFlowRecyclerBindi
 
         adapter.submitList(data);
         binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.setLayoutManager(new FlowLayoutManager());
+        binding.recyclerView.setLayoutManager(new FlowLayoutManager(true));
 
     }
 }
