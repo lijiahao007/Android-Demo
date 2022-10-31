@@ -82,6 +82,29 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".rubbish.EnableDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".rubbish.RubbishActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".handlerDemo.HandlerDemoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_handler_demo"
+            android:theme="@style/Theme.MyApplication.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".unsplashproject.UnSplashMenuActivity"
             android:exported="false">
             <meta-data

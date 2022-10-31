@@ -15,6 +15,7 @@ import com.example.myapplication.dialog.DialogActivity;
 import com.example.myapplication.eventbus.EventBusDemoActivity;
 import com.example.myapplication.fragment.FragmentMenuActivity;
 import com.example.myapplication.gesture.GestureDemoActivity;
+import com.example.myapplication.handlerDemo.HandlerDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.media.MediaDemoActivity;
@@ -24,6 +25,7 @@ import com.example.myapplication.okhttp.OkHttpDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
 import com.example.myapplication.qrcode.QRCodeMenuActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
+import com.example.myapplication.rubbish.RubbishActivity;
 import com.example.myapplication.rxjava.RxJavaDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
@@ -49,6 +51,8 @@ public class ActivityDemo1 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("Unsplash", UnSplashMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("Rubbish", RubbishActivity.class));
+            add(new MenuAdapter.MenuInfo("handler", HandlerDemoActivity.class));
             add(new MenuAdapter.MenuInfo("intent相关", IntentActivity.class));
             add(new MenuAdapter.MenuInfo("Activity相关", ExampleActivity1.class));
             add(new MenuAdapter.MenuInfo("Service相关", ServiceDemoActivity.class));

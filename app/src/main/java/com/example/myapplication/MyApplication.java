@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Application;
 import android.util.Log;
 
+import com.example.myapplication.unsplashproject.onlyokhttp.utls.DataBaseManager;
 import com.macrovideo.sdk.SDKHelper;
 import com.tencent.mmkv.MMKV;
 
@@ -20,6 +21,7 @@ public class MyApplication extends Application {
         Log.i(TAG, "onCreate()");
         SDKHelper.initPhoneType(10);
         MMKV.initialize(this);
+        DataBaseManager.initDataBaseManager(getApplicationContext());
     }
 
 }
