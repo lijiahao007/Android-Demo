@@ -20,11 +20,13 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder> {
 
     private ArrayList<String> list = new ArrayList<>();
     private HashMap<Integer, Long> comeInTime = new HashMap<>();
+
     public void submitList(ArrayList<String> newList) {
         list.clear();
         list.addAll(newList);
@@ -33,7 +35,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder
 
     public void addItem(String msg) {
         list.add(msg);
-        notifyItemInserted(getItemCount()-1);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void removeItem(int position) {
@@ -59,17 +61,16 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder
             set.setDuration(200);
             set.play(zoomX).with(zoomX);
             set.start();
+            int pos = holder.getAdapterPosition();
 
-            TextView textView = view.findViewById(R.id.text);
-            String text = textView.getText().toString();
             if (holder.isCap) {
-                text = text.toUpperCase();
+                list.set(pos, list.get(pos).toUpperCase(Locale.ROOT));
                 holder.isCap = false;
             } else {
-                text = text.toLowerCase();
+                list.set(pos, list.get(pos).toUpperCase(Locale.ROOT));
                 holder.isCap = true;
             }
-            textView.setText(text);
+            notifyItemChanged(pos);
         });
     }
 
@@ -82,7 +83,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.DemoViewHolder
     public void onViewAttachedToWindow(@NonNull DemoViewHolder holder) { // 监听view的移入
         super.onViewAttachedToWindow(holder);
         long time = System.currentTimeMillis();
-        Log.i("DemoAdapter", "attached" + holder.getAdapterPosition() + " time: " + time );
+        Log.i("DemoAdapter", "attached" + holder.getAdapterPosition() + " time: " + time);
         comeInTime.put(holder.getAdapterPosition(), time);
     }
 

@@ -109,9 +109,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     }
 
 
-
-
-
     @Override
     public boolean canScrollVertically() {
         return true;
@@ -124,22 +121,24 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         // dy < 0 --> 手指往下滑， 需要填充上方的元素
 
         // 1. 填充子View
-        fill(dy, recycler);
+        int consume = fill(dy, recycler);
 
         // 2. 滚动子View
-        offsetChildrenVertical(-dy);
+        offsetChildrenVertical(-consume);
 
         // 3. 回收子View
-        recycler(dy, recycler);
+        recycler(consume, recycler);
 
 
         return dy;
     }
 
 
-    private void fill(int dy, RecyclerView.Recycler recycler) {
-        // 1. 获取需要填充区域的总高度
-        int totalHeight = Math.abs(dy);
+    private int fill(int dy, RecyclerView.Recycler recycler) {
+        if (dy == 0 || getItemCount() == 0) {
+            return 0;
+        }
+
 
         if (dy > 0) {
             // 填充尾部内容
@@ -157,10 +156,16 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
                 int fillPosition = adapterPosition + 1; // 被填充的Item在Adapter中的位置。
 
-                // 2. addView
+                // 边缘检测
                 if (fillPosition >= getItemCount()) {
-                    break;
+                    if (decoratedBottom + anchorViewBottomMargin - dy < getHeight()) {
+                        // 如果View的底线超过了decoratedBottom + anchorViewBottomMargin, 就修正具体滑动的距离。
+                        return decoratedBottom + anchorViewBottomMargin - getHeight();
+                    }
+                    return dy;
                 }
+
+                // 2. addView
                 View viewForPosition = recycler.getViewForPosition(fillPosition);
                 addView(viewForPosition);
                 RecyclerView.LayoutParams insertViewParam = (RecyclerView.LayoutParams) viewForPosition.getLayoutParams();
@@ -181,7 +186,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 }
 
                 // 4. layoutView
-                if (decoratedRight + width <= getWidth()) {
+                if (decoratedRight + anchorViewRightMargin + width + leftMargin <= getWidth()) {
                     // 不用换行
                     layoutDecorated(viewForPosition,
                             decoratedRight + anchorViewRightMargin + leftMargin,
@@ -195,7 +200,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                             leftMargin,
                             decoratedBottom + anchorViewBottomMargin + topMargin,
                             leftMargin + width,
-                            decoratedBottom + topMargin + height);
+                            decoratedBottom + anchorViewBottomMargin + topMargin + height);
                 }
             }
         } else {
@@ -209,10 +214,15 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 int decoratedTop = getDecoratedTop(anchorView);
                 int fillPosition = anchorPosition - 1;
 
-                // 2. 从Recycler获取目标View,
+                // 边缘检测
                 if (fillPosition < 0) {
-                    break;
+                    if (decoratedTop - anchorTopMargin - dy > 0) {
+                        return decoratedTop - anchorTopMargin;
+                    }
+                    return dy;
                 }
+
+                // 2. 从Recycler获取目标View,
                 View viewForPosition = recycler.getViewForPosition(fillPosition);
                 RecyclerView.LayoutParams targetViewParam = (RecyclerView.LayoutParams) viewForPosition.getLayoutParams();
                 int leftMargin = targetViewParam.leftMargin;
@@ -232,7 +242,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 View lastView = currentLineViews.get(currentLineViews.size() - 1);
                 int rightestInLine = getDecoratedRight(lastView);
 
-                if (rightestInLine + width + leftMargin <= getWidth()) {
+                if (rightestInLine + width + leftMargin + rightMargin <= getWidth()) {
                     // 插入当前行的第一个。
                     layoutDecorated(viewForPosition,
                             leftMargin,
@@ -277,6 +287,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 }
             }
         }
+        return dy;
     }
 
     /**
