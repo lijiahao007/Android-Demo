@@ -26,13 +26,22 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
+public class BaseActivity<T extends ViewBinding> extends AppCompatActivity implements View.OnClickListener {
 
     protected T binding;
     protected final String TAG = getClass().getSimpleName();
     private Toast toast;
     protected final Handler mBaseActivityHandler = new Handler(Looper.getMainLooper());
 
+    protected int[] bindClick() {
+        return null;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +65,14 @@ public class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+        int[] bindViews = bindClick();
+        if (bindViews != null) {
+            for (int id : bindViews) {
+                View viewById = binding.getRoot().findViewById(id);
+                if (viewById == null) continue;
+                viewById.setOnClickListener(this);
+            }
         }
     }
 
@@ -103,4 +120,5 @@ public class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
         UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
         return uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES;
     }
+
 }

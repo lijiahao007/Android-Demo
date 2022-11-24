@@ -29,6 +29,7 @@ import com.example.myapplication.rubbish.RubbishActivity;
 import com.example.myapplication.rxjava.RxJavaDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
+import com.example.myapplication.statusinset.StatusInsetMenuActivity;
 import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
 import com.example.myapplication.thirdpartlogin.LoginMenuActivity;
@@ -50,6 +51,7 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("StatusInset", StatusInsetMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Unsplash", UnSplashMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Rubbish", RubbishActivity.class));
             add(new MenuAdapter.MenuInfo("handler", HandlerDemoActivity.class));

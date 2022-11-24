@@ -15,5 +15,6 @@
     <string name="Wechat_scan">微信扫一扫</string>
     <string name="attention_v380_office_count">关注“V380小亮助手”公众号</string>
     <string name="title_activity_handler_demo">HandlerDemoActivity</string>
+    <string name="title_activity_status_inset_demo">StatusInsetDemoActivity</string>
 
 </resources>

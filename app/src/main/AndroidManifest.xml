@@ -68,6 +68,23 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".statusinset.StatusBarDemoActivity"
+            android:exported="false"
+            >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".statusinset.StatusInsetMenuActivity"
+            android:exported="false"
+            android:label="@string/title_activity_status_inset_demo"
+            android:theme="@style/Theme.MyApplication.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".recycleview.FlowRecyclerActivity"
             android:exported="false">
             <meta-data

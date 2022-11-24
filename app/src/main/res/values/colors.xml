@@ -26,4 +26,7 @@
     <color name="color_80000000">#CC000000</color>
     <color name="color_ffffff">#ffffff</color>
 
+    <color name="colorPrimaryDark">#FFEB3B</color>
+
+
 </resources>
