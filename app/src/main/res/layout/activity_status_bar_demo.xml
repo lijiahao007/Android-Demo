@@ -10,7 +10,10 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,6 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2. 状态栏变透明" />
+
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -59,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="3.2 WindowInset获取各个窗口数据（旧方法）" />
+                    android:text="3.2 获取各个窗口数据（旧方法）" />
 
             </LinearLayout>
 
@@ -90,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="4.2 windowInset 改变状态栏颜色（旧方法）" />
+                    android:text="4.2 改变状态栏颜色（旧方法）" />
 
             </LinearLayout>
 
@@ -155,6 +160,7 @@
                     android:text="7.1 使用WindowFlag隐藏状态栏" />
 
             </LinearLayout>
+
             <Button
                 android:id="@+id/btn_cutout_setting"
                 android:layout_width="wrap_content"
@@ -163,7 +169,7 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_traverse_decorview"
@@ -177,6 +183,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ActionBar 显示/隐藏" />
+
+            <Button
+                android:id="@+id/btn_fit_window"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fitsSystemWindows" />
 
             <Button
                 android:id="@+id/btn_reset"

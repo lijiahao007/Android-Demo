@@ -4,6 +4,7 @@ package com.example.myapplication.statusinset;
 import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
 import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE;
 import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+import static android.view.Window.FEATURE_NO_TITLE;
 import static android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS;
 
 import static androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_STOP;
@@ -54,7 +55,7 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
                 R.id.btn_show_dialog, R.id.btn_hide_status_bar_old_way, R.id.btn_hide_action_bar,
                 R.id.btn_hide_status_bar, R.id.btn_hide_status_bar_compat, R.id.btn_immerse_old_way,
                 R.id.btn_immerse_sticky_old_way, R.id.btn_traverse_decorview, R.id.btn_hide_status_bar_with_window_flag,
-                R.id.btn_cutout_setting
+                R.id.btn_cutout_setting, R.id.btn_fit_window
         };
     }
 
@@ -118,9 +119,16 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
             case R.id.btn_cutout_setting:
                 showCutoutSetting();
                 break;
+            case R.id.btn_fit_window:
+                setFitsSystemWindows();
+                break;
         }
     }
 
+    private void setFitsSystemWindows() {
+        boolean fitsSystemWindows = binding.getRoot().getFitsSystemWindows();
+        binding.getRoot().setFitsSystemWindows(!fitsSystemWindows);
+    }
 
     /**
      * 遍历DecorView的所有子元素
@@ -297,10 +305,8 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
      * 使用SystemUIVisibility 布局内容显示在状态栏后方
      */
     private void showBehindStatusBar() {
-        binding.getRoot().setFitsSystemWindows(true);
         View decorView = getWindow().getDecorView();
         int flag = decorView.getSystemUiVisibility();
-
         int options = flag | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         decorView.setSystemUiVisibility(options);
@@ -312,7 +318,7 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
     private void makeStatusBarTransparent() {
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         window.setStatusBarColor(Color.TRANSPARENT);
     }
 
@@ -455,11 +461,6 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 1. 隐藏ActionBar
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().hide();
-//        }
 
         // 获取原始设置
         Window window = getWindow();
