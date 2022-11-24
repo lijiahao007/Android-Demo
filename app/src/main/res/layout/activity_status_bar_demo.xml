@@ -5,105 +5,194 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
+    android:theme="@style/ActivityTheme"
     tools:context=".statusinset.StatusBarDemoActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btn_show_behind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1. 内容显示在状态栏后" />
-
-        <Button
-            android:id="@+id/btn_transparent_status_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2. 状态栏变透明" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/btn_window_inset"
+                android:id="@+id/btn_show_behind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3.1 WindowInset获取各个窗口数据" />
+                android:text="1. 内容显示在状态栏后" />
 
             <Button
-                android:id="@+id/btn_window_inset_compat"
+                android:id="@+id/btn_transparent_status_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3.2 WindowInset获取各个窗口数据（兼容）" />
+                android:text="2. 状态栏变透明" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_window_inset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3.1 WindowInset获取各个窗口数据" />
+
+                <Button
+                    android:id="@+id/btn_window_inset_compat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3.2 WindowInset获取各个窗口数据（兼容）" />
+
+
+                <Button
+                    android:id="@+id/btn_window_inset_compat_old"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3.2 WindowInset获取各个窗口数据（旧方法）" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_status_bar_dark_light_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4.1 windowInset 改变状态栏颜色" />
+
+
+                <Button
+                    android:id="@+id/btn_status_bar_dark_light_change_compat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4.2 windowInset 改变状态栏颜色（兼容）" />
+
+
+                <Button
+                    android:id="@+id/btn_status_bar_dark_light_change_ole_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4.2 windowInset 改变状态栏颜色（旧方法）" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_hide_status_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5.1 显示/隐藏状态栏" />
+
+                <Button
+                    android:id="@+id/btn_hide_status_bar_compat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5.2 显示/隐藏状态栏 (兼容)" />
+
+                <Button
+                    android:id="@+id/btn_hide_status_bar_old_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5.3 显示/隐藏状态栏 (旧方法)" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_immerse_old_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="6.1 沉浸式状态栏 (旧方法)" />
+
+                <Button
+                    android:id="@+id/btn_immerse_sticky_old_way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="6.2 粘性沉浸式状态栏 (旧方法)" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_hide_status_bar_with_window_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7.1 使用WindowFlag隐藏状态栏" />
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_cutout_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8设置cutout" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_traverse_decorview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="遍历DecoreView所有元素" />
 
 
             <Button
-                android:id="@+id/btn_window_inset_compat_old"
+                android:id="@+id/btn_hide_action_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3.2 WindowInset获取各个窗口数据（旧方法）" />
+                android:text="ActionBar 显示/隐藏" />
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="恢复原状" />
+
+            <Button
+                android:id="@+id/btn_show_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show Dialog" />
+
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_status_bar_dark_light_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="4.1 windowInset 改变状态栏颜色" />
-
-
-            <Button
-                android:id="@+id/btn_status_bar_dark_light_change_compat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="4.2 windowInset 改变状态栏颜色（兼容）"
-                />
-
-
-            <Button
-                android:id="@+id/btn_status_bar_dark_light_change_ole_way"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="4.2 windowInset 改变状态栏颜色（旧方法）"
-                />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="恢复原状" />
-
-        <Button
-            android:id="@+id/btn_show_dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="show Dialog"/>
-
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
