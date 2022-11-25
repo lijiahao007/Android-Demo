@@ -202,6 +202,13 @@
                 android:layout_height="wrap_content"
                 android:text="show Dialog" />
 
+            <Button
+                android:id="@+id/btn_get_screen_height_width"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show Dialog" />
+
+
 
         </LinearLayout>
 

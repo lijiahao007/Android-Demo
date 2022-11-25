@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Insets;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +39,8 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
                 R.id.btn_transparent_nav, R.id.btn_change_color, R.id.btn_set_nav_icon_color, R.id.btn_set_nav_icon_color_compat,
                 R.id.btn_set_nav_icon_color_window_inset, R.id.btn_get_nav_bar_height, R.id.btn_get_nav_bar_height_compat,
                 R.id.btn_get_nav_bar_height_default, R.id.btn_show_hide_nav_bar, R.id.btn_show_hide_nav_bar_inset,
-                R.id.btn_show_hide_nav_bar_inset_compat, R.id.btn_immerse_nav_bar, R.id.btn_stick_immerse_nav_bar
+                R.id.btn_show_hide_nav_bar_inset_compat, R.id.btn_immerse_nav_bar, R.id.btn_stick_immerse_nav_bar,
+                R.id.btn_get_screen_height, R.id.btn_show_hide_status_bar
         };
     }
 
@@ -90,7 +92,51 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
             case R.id.btn_stick_immerse_nav_bar:
                 makeNavigationBarStickImmerse();
                 break;
+            case R.id.btn_get_screen_height:
+                getScreenHeight();
+                break;
+            case R.id.btn_show_hide_status_bar:
+                showHideStatusBar();
+                break;
         }
+    }
+
+    private void showHideStatusBar() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, decorView);
+        WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(decorView);
+        int statusBarType = WindowInsetsCompat.Type.statusBars();
+        androidx.core.graphics.Insets statusBarInset = rootWindowInsets.getInsets(statusBarType);
+        Log.i(TAG, "statusBarInset=" + statusBarInset.bottom + " " + statusBarInset.top);
+        if (statusBarInset.top > 0) {
+            insetsController.hide(statusBarType);
+        } else {
+            insetsController.show(statusBarType);
+        }
+    }
+
+    private void getScreenHeight() {
+
+
+        // 1. 全面屏下 --> getMetrics + NavigationBarHeight + StatusBarHeight = getRealMetrics   （注意：即使在代码中隐藏了状态栏 & 导航栏，这里的 NavigationBarHeight 和 StatusBarHeight 都不会变为0， 值仍是之前的值）
+        // 2. 全面屏下， 在系统设置中关闭导航栏 --> getMetrics + StatusBarHeight = getRealMetrics  （也就是说，只有在系统设置中关闭导航栏）
+        // 3. 非全面屏下 --> getMetrics + NavigationBarHeight = getRealMetrics   （即使在代码中将导航栏隐藏，这里的NavigationBarHeight不会变为0，仍是隐藏起前的导航栏高度）
+        // 4. 非全面下， 没有导航栏时 --> getMetrics = getRealMetrics
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        Log.i(TAG, "getMetrics --> " + "height=" + height + "  width=" + width);
+
+        DisplayMetrics realMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(realMetrics);
+        int realHeight = realMetrics.heightPixels;
+        int realWidth = realMetrics.widthPixels;
+        Log.i(TAG, "getRealMetrics --> " + "height=" + realHeight + " width=" + realWidth);
+
+        Log.i(TAG, "realHeight - height=" + (realHeight - height));
     }
 
     private void makeNavigationBarStickImmerse() {

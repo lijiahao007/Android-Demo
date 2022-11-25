@@ -14,6 +14,7 @@ import android.graphics.Insets;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
                 R.id.btn_show_dialog, R.id.btn_hide_status_bar_old_way, R.id.btn_hide_action_bar,
                 R.id.btn_hide_status_bar, R.id.btn_hide_status_bar_compat, R.id.btn_immerse_old_way,
                 R.id.btn_immerse_sticky_old_way, R.id.btn_traverse_decorview, R.id.btn_hide_status_bar_with_window_flag,
-                R.id.btn_cutout_setting, R.id.btn_fit_window
+                R.id.btn_cutout_setting, R.id.btn_fit_window, R.id.btn_get_screen_height_width
         };
     }
 
@@ -122,7 +123,33 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
             case R.id.btn_fit_window:
                 setFitsSystemWindows();
                 break;
+            case R.id.btn_get_screen_height_width:
+                getScreenHeight();
+                break;
         }
+    }
+
+    private void getScreenHeight() {
+
+
+        // 1. 全面屏下 --> getMetrics + NavigationBarHeight + StatusBarHeight = getRealMetrics   （注意：即使在代码中隐藏了状态栏 & 导航栏，这里的 NavigationBarHeight 和 StatusBarHeight 都不会变为0， 值仍是之前的值）
+        // 2. 全面屏下， 在系统设置中关闭导航栏 --> getMetrics + StatusBarHeight = getRealMetrics  （也就是说，只有在系统设置中关闭导航栏）
+        // 3. 非全面屏下 --> getMetrics + NavigationBarHeight = getRealMetrics   （即使在代码中将导航栏隐藏，这里的NavigationBarHeight不会变为0，仍是隐藏起前的导航栏高度）
+        // 4. 非全面下， 没有导航栏时 --> getMetrics = getRealMetrics
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        Log.i(TAG, "getMetrics --> " + "height=" + height + "  width=" + width);
+
+        DisplayMetrics realMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(realMetrics);
+        int realHeight = realMetrics.heightPixels;
+        int realWidth = realMetrics.widthPixels;
+        Log.i(TAG, "getRealMetrics --> " + "height=" + realHeight + " width=" + realWidth);
+
+        Log.i(TAG, "realHeight - height=" + (realHeight - height));
     }
 
     private void setFitsSystemWindows() {
@@ -486,18 +513,25 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
                     return insets;
                 }
             });
-        } else {
-            // Android10及以下的设备就只能监听开头和结尾了。
-            ViewCompat.setOnApplyWindowInsetsListener(decorView, new OnApplyWindowInsetsListener() {
-                @NonNull
-                @Override
-                public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
-                    androidx.core.graphics.Insets imeInset = insets.getInsets(WindowInsetsCompat.Type.ime());
-                    Log.i(TAG, String.format("(%d, %d, %d, %d)", imeInset.left, imeInset.top, imeInset.right, imeInset.bottom));
-                    return insets;
-                }
-            });
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(decorView, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+
+                androidx.core.graphics.Insets insets1 = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                Log.i(TAG, String.format("systemBarInset(%d, %d, %d, %d)", insets1.left, insets1.top, insets1.right, insets1.bottom));
+
+                androidx.core.graphics.Insets imeInset = insets.getInsets(WindowInsetsCompat.Type.ime());
+                Log.i(TAG, String.format("imeInset(%d, %d, %d, %d)", imeInset.left, imeInset.top, imeInset.right, imeInset.bottom));
+                androidx.core.graphics.Insets statusBarsInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+                Log.i(TAG, String.format("statusBarsInsets(%d, %d, %d, %d)", statusBarsInsets.left, statusBarsInsets.top, statusBarsInsets.right, statusBarsInsets.bottom));
+                androidx.core.graphics.Insets navigationBarsInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+                Log.i(TAG, String.format("navigationBarsInsets(%d, %d, %d, %d)", navigationBarsInsets.left, navigationBarsInsets.top, navigationBarsInsets.right, navigationBarsInsets.bottom));
+                return insets;
+            }
+        });
 
 
     }

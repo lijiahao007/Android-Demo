@@ -122,16 +122,21 @@
                 android:text="6.2 粘性沉浸式"/>
 
             <Button
+                android:id="@+id/btn_get_screen_height"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="7.1 获取屏幕宽度"/>
 
+            <Button
+                android:id="@+id/btn_show_hide_status_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8. 显示/隐藏状态栏"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
 
             <Button
                 android:layout_width="match_parent"
