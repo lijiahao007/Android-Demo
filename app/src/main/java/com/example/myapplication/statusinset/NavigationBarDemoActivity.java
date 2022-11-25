@@ -1,13 +1,23 @@
 package com.example.myapplication.statusinset;
 
+import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE;
+import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
 import android.graphics.Color;
+import android.graphics.Insets;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -25,7 +35,10 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
     protected int[] bindClick() {
         return new int[]{
                 R.id.btn_show_behind_navigation_bar, R.id.btn_fit_window,
-                R.id.btn_transparent_nav, R.id.btn_change_color, R.id.btn_set_nav_icon_color, R.id.btn_set_nav_icon_color_compat
+                R.id.btn_transparent_nav, R.id.btn_change_color, R.id.btn_set_nav_icon_color, R.id.btn_set_nav_icon_color_compat,
+                R.id.btn_set_nav_icon_color_window_inset, R.id.btn_get_nav_bar_height, R.id.btn_get_nav_bar_height_compat,
+                R.id.btn_get_nav_bar_height_default, R.id.btn_show_hide_nav_bar, R.id.btn_show_hide_nav_bar_inset,
+                R.id.btn_show_hide_nav_bar_inset_compat, R.id.btn_immerse_nav_bar, R.id.btn_stick_immerse_nav_bar
         };
     }
 
@@ -50,7 +63,142 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
             case R.id.btn_set_nav_icon_color_compat:
                 setNavigationBarIconColorCompat();
                 break;
+            case R.id.btn_set_nav_icon_color_window_inset:
+                setNavigationBarIconColorInset();
+                break;
+            case R.id.btn_get_nav_bar_height:
+                getNavigationBarHeight();
+                break;
+            case R.id.btn_get_nav_bar_height_compat:
+                getNavigationBarHeightCompat();
+                break;
+            case R.id.btn_get_nav_bar_height_default:
+                getNavigationBarHeightDefault();
+                break;
+            case R.id.btn_show_hide_nav_bar:
+                showHideNavigationBar();
+                break;
+            case R.id.btn_show_hide_nav_bar_inset:
+                showHideNavigationBarInset();
+                break;
+            case R.id.btn_show_hide_nav_bar_inset_compat:
+                showHideNavigationBarInsetCompat();
+                break;
+            case R.id.btn_immerse_nav_bar:
+                makeNavigationBarImmerse();
+                break;
+            case R.id.btn_stick_immerse_nav_bar:
+                makeNavigationBarStickImmerse();
+                break;
         }
+    }
+
+    private void makeNavigationBarStickImmerse() {
+        View decorView = getWindow().getDecorView();
+        int flag = decorView.getSystemUiVisibility();
+        if ((flag & SYSTEM_UI_FLAG_HIDE_NAVIGATION) == SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                && (flag & SYSTEM_UI_FLAG_FULLSCREEN) == SYSTEM_UI_FLAG_FULLSCREEN
+                && (flag & SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == SYSTEM_UI_FLAG_IMMERSIVE_STICKY) {
+            // 取消沉浸式
+            flag &= ~SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            flag &= ~SYSTEM_UI_FLAG_FULLSCREEN;
+            flag &= ~SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        } else {
+            flag |= SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            flag |= SYSTEM_UI_FLAG_FULLSCREEN;
+            flag |= SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+        decorView.setSystemUiVisibility(flag);
+    }
+
+    private void makeNavigationBarImmerse() {
+        View decorView = getWindow().getDecorView();
+        int flag = decorView.getSystemUiVisibility();
+        if ((flag & SYSTEM_UI_FLAG_HIDE_NAVIGATION) == SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                && (flag & SYSTEM_UI_FLAG_FULLSCREEN) == SYSTEM_UI_FLAG_FULLSCREEN
+                && (flag & SYSTEM_UI_FLAG_IMMERSIVE) == SYSTEM_UI_FLAG_IMMERSIVE) {
+            // 取消沉浸式
+            flag &= ~SYSTEM_UI_FLAG_IMMERSIVE;
+            flag &= ~SYSTEM_UI_FLAG_FULLSCREEN;
+            flag &= ~SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        } else {
+            flag |= SYSTEM_UI_FLAG_IMMERSIVE;
+            flag |= SYSTEM_UI_FLAG_FULLSCREEN;
+            flag |= SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+        decorView.setSystemUiVisibility(flag);
+    }
+
+    private void showHideNavigationBarInsetCompat() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(decorView);
+        androidx.core.graphics.Insets navInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+        WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, decorView);
+        Log.i(TAG, "showHideNavigationBarInsetCompat:" + navInsets.bottom);
+        if (insetsController == null) {
+            Log.i(TAG, "showHideNavigationBarInset insetsController == null");
+            return;
+        }
+        if (navInsets.bottom > 0) {
+            insetsController.hide(WindowInsetsCompat.Type.navigationBars());
+        } else {
+            insetsController.show(WindowInsetsCompat.Type.navigationBars());
+        }
+    }
+
+    private void showHideNavigationBarInset() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        WindowInsets rootWindowInsets = decorView.getRootWindowInsets();
+        boolean visible = rootWindowInsets.isVisible(WindowInsets.Type.navigationBars());
+        WindowInsetsController insetsController = window.getInsetsController();
+        if (visible) {
+            insetsController.hide(WindowInsets.Type.navigationBars());
+        } else {
+            insetsController.show(WindowInsets.Type.navigationBars());
+        }
+    }
+
+    private void showHideNavigationBar() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        int flag = decorView.getSystemUiVisibility();
+
+        if ((flag & SYSTEM_UI_FLAG_FULLSCREEN) == SYSTEM_UI_FLAG_FULLSCREEN
+                && (flag & SYSTEM_UI_FLAG_HIDE_NAVIGATION) == SYSTEM_UI_FLAG_HIDE_NAVIGATION) {
+            flag &= ~SYSTEM_UI_FLAG_FULLSCREEN;
+            flag &= ~SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        } else {
+            flag |= SYSTEM_UI_FLAG_FULLSCREEN
+                    | SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+
+        decorView.setSystemUiVisibility(flag);
+    }
+
+    private void getNavigationBarHeightDefault() {
+        int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            int navHeight = getResources().getDimensionPixelSize(resourceId);
+            Log.i(TAG, "navigation_bar_height = " + navHeight);
+        }
+    }
+
+    private void getNavigationBarHeightCompat() {
+        View decorView = getWindow().getDecorView();
+        WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(decorView);
+        androidx.core.graphics.Insets navInset = rootWindowInsets.getInsets(WindowInsetsCompat.Type.navigationBars());
+        int height = Math.abs(navInset.bottom - navInset.top);
+        Log.i(TAG, "navigatoin height: " + height);
+    }
+
+    private void getNavigationBarHeight() {
+        View decorView = getWindow().getDecorView();
+        WindowInsets rootWindowInsets = decorView.getRootWindowInsets();
+        Insets navInset = rootWindowInsets.getInsets(WindowInsets.Type.navigationBars());
+        int height = Math.abs(navInset.bottom - navInset.top);
+        Log.i(TAG, "navigation bar height: " + height);
     }
 
     private void setNavigationBarIconColor() {
@@ -70,8 +218,28 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
         Window window = getWindow();
         View decorView = window.getDecorView();
         WindowInsetsControllerCompat insetsController = WindowCompat.getInsetsController(window, decorView);
+        if (insetsController == null) {
+            Log.i(TAG, "setNavigationBarIconColorCompat -> insetsController == null");
+            return;
+        }
+
         boolean appearanceLightNavigationBars = insetsController.isAppearanceLightNavigationBars();
         insetsController.setAppearanceLightNavigationBars(!appearanceLightNavigationBars);
+    }
+
+    private void setNavigationBarIconColorInset() {
+        Window window = getWindow();
+        WindowInsetsController insetsController = window.getInsetsController();
+        if (insetsController == null) {
+            Log.i(TAG, "setNavigationBarIconColorInset -> insetsController == null");
+            return;
+        }
+        int systemBarsAppearance = insetsController.getSystemBarsAppearance();
+        if (systemBarsAppearance == WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS) {
+            insetsController.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
+        } else {
+            insetsController.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
+        }
     }
 
     private void changeNavigationBarColor() {
