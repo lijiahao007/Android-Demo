@@ -3,7 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".statusinset.SoftInputStateActivity">
 
+    <Button
+        android:id="@+id/btn_launch_activity_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="跳转第二个Activity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        app:layout_constraintTop_toBottomOf="@id/btn_launch_activity_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
