@@ -56,7 +56,7 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
                 R.id.btn_show_dialog, R.id.btn_hide_status_bar_old_way, R.id.btn_hide_action_bar,
                 R.id.btn_hide_status_bar, R.id.btn_hide_status_bar_compat, R.id.btn_immerse_old_way,
                 R.id.btn_immerse_sticky_old_way, R.id.btn_traverse_decorview, R.id.btn_hide_status_bar_with_window_flag,
-                R.id.btn_cutout_setting, R.id.btn_fit_window, R.id.btn_get_screen_height_width
+                R.id.btn_cutout_setting, R.id.btn_fit_window, R.id.btn_get_screen_height_width, R.id.btn_immerse_inset
         };
     }
 
@@ -126,6 +126,22 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
             case R.id.btn_get_screen_height_width:
                 getScreenHeight();
                 break;
+            case R.id.btn_immerse_inset:
+                setImmerseInset();
+                break;
+        }
+    }
+
+    boolean isImmerseInset = true;
+    private void setImmerseInset() {
+        if (isImmerseInset) {
+            // 内容显示在导航栏、状态栏后面
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+            isImmerseInset = false;
+        } else {
+            // 取消内容显示在导航栏、状态栏后面
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+            isImmerseInset = true;
         }
     }
 
@@ -335,7 +351,8 @@ public class StatusBarDemoActivity extends BaseActivity<ActivityStatusBarDemoBin
         View decorView = getWindow().getDecorView();
         int flag = decorView.getSystemUiVisibility();
         int options = flag | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(options);
     }
 

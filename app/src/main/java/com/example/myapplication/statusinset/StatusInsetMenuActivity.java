@@ -16,6 +16,7 @@ public class StatusInsetMenuActivity extends BaseActivity<ActivityStatusInsetDem
         binding.recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("状态栏", StatusBarDemoActivity.class));
             add(new MenuAdapter.MenuInfo("导航栏", NavigationBarDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("InsetViewCompat", WindowInsetViewCompatDemoActivity.class));
         }});
     }
 }

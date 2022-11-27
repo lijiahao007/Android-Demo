@@ -25,11 +25,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_show_behind"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. 内容显示在状态栏后" />
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:id="@+id/btn_show_behind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.1 内容显示在状态栏后" />
+
+                <Button
+                    android:id="@+id/btn_immerse_inset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1.2 粘性沉浸式状态栏 (WindowInset)" />
+            </LinearLayout>
+
+
 
             <Button
                 android:id="@+id/btn_transparent_status_bar"
@@ -51,13 +66,6 @@
                     android:layout_weight="1"
                     android:text="3.1 WindowInset获取各个窗口数据" />
 
-                <Button
-                    android:id="@+id/btn_window_inset_compat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="3.2 WindowInset获取各个窗口数据（兼容）" />
-
 
                 <Button
                     android:id="@+id/btn_window_inset_compat_old"
@@ -68,6 +76,13 @@
 
             </LinearLayout>
 
+
+            <Button
+                android:id="@+id/btn_window_inset_compat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3.2 WindowInset获取各个窗口数据（兼容）" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -146,6 +161,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="6.2 粘性沉浸式状态栏 (旧方法)" />
+
+
 
             </LinearLayout>
 
