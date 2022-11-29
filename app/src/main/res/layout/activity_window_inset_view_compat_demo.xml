@@ -67,8 +67,12 @@
             android:id="@+id/btn_soft_input_adjust"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="软键盘导致的布局调整(adjust)" />
-
+            android:text="软键盘导致的布局调整(adjust scroll)" />
+        <Button
+            android:id="@+id/btn_soft_input_adjust_fix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="软键盘导致的布局调整(adjust fix)" />
 
     </LinearLayout>
 

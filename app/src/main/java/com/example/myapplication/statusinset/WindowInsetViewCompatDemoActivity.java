@@ -24,7 +24,8 @@ public class WindowInsetViewCompatDemoActivity extends BaseActivity<ActivityWind
     @Override
     protected int[] bindClick() {
         return new int[]{R.id.btn_apply_window_inset, R.id.btn_show_hide_status_bar, R.id.btn_show_hide_nav_bar,
-                R.id.btn_show_hide_ime, R.id.btn_show_hide_ime_new, R.id.btn_soft_input_state_mode
+                R.id.btn_show_hide_ime, R.id.btn_show_hide_ime_new, R.id.btn_soft_input_state_mode, R.id.btn_soft_input_adjust,
+                R.id.btn_soft_input_adjust_fix
         };
     }
 
@@ -48,6 +49,12 @@ public class WindowInsetViewCompatDemoActivity extends BaseActivity<ActivityWind
                 break;
             case R.id.btn_soft_input_state_mode:
                 startActivity(new Intent(this, SoftInputStateActivity.class));
+                break;
+            case R.id.btn_soft_input_adjust:
+                startActivity(new Intent(this, SoftInputAdjustScrollActivity.class));
+                break;
+            case R.id.btn_soft_input_adjust_fix:
+                startActivity(new Intent(this, SoftInputAdjustFixActivity.class));
                 break;
         }
     }
