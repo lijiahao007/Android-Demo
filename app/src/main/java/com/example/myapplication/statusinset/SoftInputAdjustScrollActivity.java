@@ -50,52 +50,91 @@ public class SoftInputAdjustScrollActivity extends BaseActivity<ActivitySoftInpu
         attributes.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
         window.setAttributes(attributes);
 
-        View decorView = window.getDecorView();
+        ViewGroup decorView = (ViewGroup) window.getDecorView();
         decorView.setBackgroundColor(Color.RED);
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        View actionBarContainer = decorView.findViewById(androidx.appcompat.R.id.action_bar_container);
 
         binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int lastHeight = 0;
 
             @Override
             public void onGlobalLayout() {
-                View decorView = getWindow().getDecorView();
                 WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(decorView);
+                if (rootWindowInsets == null) {
+                    return;
+                }
                 Insets insets = rootWindowInsets.getInsets(WindowInsetsCompat.Type.ime());
-                int imeHeight = insets.bottom;
+                int imeHeight = insets.bottom; // 软件盘 + 导航栏的高度
+                int statusHeight = insets.top; // 状态栏高度
+                Log.i(TAG, "imeHeight=" + imeHeight + "statusHeight=" + statusHeight);
+
                 if (imeHeight != lastHeight) {
+
+                    // 1. 设置状态值
                     lastHeight = imeHeight;
-                    ActionBar supportActionBar = getSupportActionBar();
-                    int height = 0;
-                    if (supportActionBar != null) {
-                        height = supportActionBar.getHeight();
+
+                    // 2. 计算EditText在屏幕中 距离底部的距离
+                    int[] location = new int[2];
+                    binding.editText.getLocationOnScreen(location);
+                    int viewBottom = location[1] + binding.editText.getHeight();
+                    int bottom = 0;
+                    if (viewBottom <= screenHeight) {
+                        bottom = screenHeight - (location[1] + binding.editText.getHeight());
                     }
 
-                    Log.i(TAG, "addOnGlobalLayoutListener  imeHeight=" + imeHeight + " supportActionBar=" + height);
-                    ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.imageView1.getLayoutParams();
+
+                    // 3. 计算布局向上移动的距离
+                    int offset = imeHeight - bottom;
+
                     if (imeHeight > 0) {
-                        // 展开了软键盘
-                        layoutParams.topMargin = imeHeight - height;
-                        binding.imageView1.setLayoutParams(layoutParams);
-                        int finalHeight = height;
-                        binding.imageView1.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout() {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                    binding.imageView1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                }
-                                // 在imageView1应用了topMargin后，滚动布局需要向下滚动相应距离
-                                binding.nestScrollView.scrollBy(0, imeHeight - finalHeight);
+                        // 打开软件盘
+                        if (offset > 0) {
+                            // EditText在软件盘下方
+
+                            // 1. 设置ActionBar TopMargin
+                            if (actionBarContainer != null) {
+                                mBaseActivityHandler.postDelayed(() -> {
+                                    ActionBarOverlayLayout.LayoutParams layoutParams = (ActionBarOverlayLayout.LayoutParams) actionBarContainer.getLayoutParams();
+                                    layoutParams.topMargin = offset + statusHeight;
+                                    actionBarContainer.setLayoutParams(layoutParams);
+                                    Log.i(TAG, "offset + statusHeight=" + (offset + statusHeight));
+                                }, 200);
                             }
-                        });
+
+                            // 2. 设置内容的TopMargin
+                            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.imageView1.getLayoutParams();
+                            layoutParams.topMargin = offset;
+                            binding.imageView1.setLayoutParams(layoutParams);
+
+                            binding.imageView1.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+                                    binding.nestScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                    if (binding.nestScrollView.getMeasuredHeight() > 0) {
+                                        binding.nestScrollView.scrollBy(0, offset);
+                                    }
+                                }
+                            });
+
+                        }
                     } else {
-                        // 关闭了软键盘
+                        if (actionBarContainer != null) {
+                            ActionBarOverlayLayout.LayoutParams layoutParams = (ActionBarOverlayLayout.LayoutParams) actionBarContainer.getLayoutParams();
+                            layoutParams.topMargin = 0;
+                            actionBarContainer.setLayoutParams(layoutParams);
+                        }
+
+                        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.imageView1.getLayoutParams();
                         layoutParams.topMargin = 0;
                         binding.imageView1.setLayoutParams(layoutParams);
-
                     }
-
                 }
-
             }
         });
 
