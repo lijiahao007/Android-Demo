@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    tools:context=".statusinset.SoftImeActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_window_inset_listen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. ViewCompat.setOnApplyWindowInsetsListener"
+                android:textAllCaps="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_show_hide_status_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="显示/隐藏状态栏"
+                    />
+
+                <Button
+                    android:id="@+id/btn_show_hide_navigation_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="显示/隐藏导航栏"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_global_layout_get_ime_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="监听GlobalLayout, 获取软键盘高度"/>
+
+            <Button
+                android:id="@+id/btn_window_inset_android11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Android11 以上使用WindowInset"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <EditText
+        android:id="@+id/et_base"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

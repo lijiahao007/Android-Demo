@@ -40,7 +40,7 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
                 R.id.btn_set_nav_icon_color_window_inset, R.id.btn_get_nav_bar_height, R.id.btn_get_nav_bar_height_compat,
                 R.id.btn_get_nav_bar_height_default, R.id.btn_show_hide_nav_bar, R.id.btn_show_hide_nav_bar_inset,
                 R.id.btn_show_hide_nav_bar_inset_compat, R.id.btn_immerse_nav_bar, R.id.btn_stick_immerse_nav_bar,
-                R.id.btn_get_screen_height, R.id.btn_show_hide_status_bar
+                R.id.btn_get_screen_height, R.id.btn_show_hide_status_bar, R.id.btn_get_navigation_bar_height_when_hide
         };
     }
 
@@ -98,7 +98,18 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
             case R.id.btn_show_hide_status_bar:
                 showHideStatusBar();
                 break;
+            case R.id.btn_get_navigation_bar_height_when_hide:
+                getNavigationBarHeightWhenHide();
+                break;
         }
+    }
+
+    private void getNavigationBarHeightWhenHide() {
+        View decorView = getWindow().getDecorView();
+        WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(decorView);
+        androidx.core.graphics.Insets insetsIgnoringVisibility = rootWindowInsets.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.navigationBars());
+        int bottom = insetsIgnoringVisibility.bottom;
+        Log.i(TAG, "getNavigationBarHeightWhenHide=" + bottom);
     }
 
     private void showHideStatusBar() {
@@ -137,6 +148,10 @@ public class NavigationBarDemoActivity extends BaseActivity<ActivityNavigationBa
         Log.i(TAG, "getRealMetrics --> " + "height=" + realHeight + " width=" + realWidth);
 
         Log.i(TAG, "realHeight - height=" + (realHeight - height));
+
+        DisplayMetrics displayMetrics1 = getResources().getDisplayMetrics();
+        Log.i(TAG, "resource.getDisplayMetrics -->" + "heigh=" + displayMetrics1.heightPixels + " width=" + displayMetrics1.widthPixels);
+
     }
 
     private void makeNavigationBarStickImmerse() {
