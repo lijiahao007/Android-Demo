@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk android:minSdkVersion="14" />
     <!-- 日历 -->
@@ -66,11 +66,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".statusinset.ScrollViewScrollDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".statusinset.SmoothDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".statusinset.SoftInputAdjustFixActivity"
-            android:exported="false"
-            >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -78,29 +91,28 @@
         <activity
             android:name=".statusinset.SoftInputAdjustScrollActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            >
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".statusinset.SoftInputState2Activity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".statusinset.SoftInputStateActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".statusinset.WindowInsetViewCompatDemoActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -108,7 +120,7 @@
         <activity
             android:name=".statusinset.SoftImeActivity"
             android:exported="false"
-            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme" >
+            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -116,7 +128,7 @@
         <activity
             android:name=".statusinset.NavigationBarDemoActivity"
             android:exported="false"
-            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme" >
+            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -124,7 +136,7 @@
         <activity
             android:name=".statusinset.StatusBarDemoActivity"
             android:exported="false"
-            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme" >
+            android:theme="@style/Theme.ThemeNoActionBar.FullScreenActivityTheme">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -133,35 +145,35 @@
             android:name=".statusinset.StatusInsetMenuActivity"
             android:exported="false"
             android:label="@string/title_activity_status_inset_demo"
-            android:theme="@style/Theme.MyApplication.NoActionBar" >
+            android:theme="@style/Theme.MyApplication.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".recycleview.FlowRecyclerActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".viewpager.LoopViewPagerDemoActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".rubbish.EnableDemoActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".rubbish.RubbishActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -170,21 +182,21 @@
             android:name=".handlerDemo.HandlerDemoActivity"
             android:exported="false"
             android:label="@string/title_activity_handler_demo"
-            android:theme="@style/Theme.MyApplication.NoActionBar" >
+            android:theme="@style/Theme.MyApplication.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".unsplashproject.UnSplashMenuActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".animation.ShakeActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -367,7 +379,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.android.application.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
@@ -404,7 +416,7 @@
         <activity
             android:name=".permission.DataAccessReasonActivity"
             android:exported="true"
-            android:permission="android.permission.START_VIEW_PERMISSION_USAGE" >
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
                 <action android:name="android.intent.action.VIEW_PERMISSION_USAGE_FOR_PERIOD" />
@@ -507,7 +519,7 @@
             android:exported="false" />
         <activity
             android:name=".intent.IntentActivity"
-            android:exported="false" >
+            android:exported="false">
 
             <!-- 限定了该Activity能够相应的Intent类型 -->
             <intent-filter>
@@ -520,7 +532,7 @@
         </activity>
         <activity
             android:name=".ActivityDemo1"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
