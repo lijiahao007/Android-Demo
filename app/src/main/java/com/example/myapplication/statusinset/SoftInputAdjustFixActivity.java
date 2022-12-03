@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.example.myapplication.BaseActivity;
 import com.example.myapplication.databinding.ActivitySoftInputAdjustFixBinding;
+import com.example.myapplication.utils.DimenUtil;
 
 public class SoftInputAdjustFixActivity extends BaseActivity<ActivitySoftInputAdjustFixBinding> {
 
@@ -32,6 +33,8 @@ public class SoftInputAdjustFixActivity extends BaseActivity<ActivitySoftInputAd
 
         View decorView = window.getDecorView();
         decorView.setBackgroundColor(Color.RED);
+        int oneDb = (int) DimenUtil.dp2px(this, 1);
+        binding.imageView2.scrollTo(oneDb * 10, oneDb * 10);
 
     }
 }

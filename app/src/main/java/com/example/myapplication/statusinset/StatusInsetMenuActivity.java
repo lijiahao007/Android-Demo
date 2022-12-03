@@ -18,6 +18,9 @@ public class StatusInsetMenuActivity extends BaseActivity<ActivityStatusInsetDem
             add(new MenuAdapter.MenuInfo("导航栏", NavigationBarDemoActivity.class));
             add(new MenuAdapter.MenuInfo("软键盘", SoftImeActivity.class));
             add(new MenuAdapter.MenuInfo("InsetViewCompat", WindowInsetViewCompatDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("ScrollTo/ScrollBy", SmoothDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("ScrollView ScrollTo/ScrollBy", ScrollViewScrollDemoActivity.class));
+
         }});
     }
 }
