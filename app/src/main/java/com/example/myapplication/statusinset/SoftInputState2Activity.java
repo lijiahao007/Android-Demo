@@ -33,11 +33,11 @@ public class SoftInputState2Activity extends BaseActivity<ActivitySoftInputState
         WindowManager.LayoutParams attributes = window.getAttributes();
 
         // 1. state_unspecified : 是softInputMode的默认值，
-        attributes.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED;
+        attributes.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
         window.setAttributes(attributes);
-//
-//        binding.editText.setFocusable(true);
-//        binding.editText.setFocusableInTouchMode(true);
-//        binding.editText.requestFocus();
+
+        binding.editText.setFocusable(true);
+        binding.editText.setFocusableInTouchMode(true);
+        binding.editText.requestFocus();
     }
 }
