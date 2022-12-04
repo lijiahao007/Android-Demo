@@ -25,6 +25,11 @@
     <color name="default_shadow_color">#D9D9D9</color>
     <color name="color_80000000">#CC000000</color>
     <color name="color_ffffff">#ffffff</color>
+    <color name="color_33000000">#33000000</color>
+    <color name="color_e5e5e5">#E5E5E5</color>
+    <color name="color_80acff">#80ACFF</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_4b89ff">#4B89FF</color>
 
     <color name="colorPrimaryDark">#FFEB3B</color>
 
