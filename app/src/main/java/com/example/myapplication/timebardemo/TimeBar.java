@@ -31,8 +31,8 @@ public class TimeBar extends View {
     private float singleChunkHeight; // 块的高度，每次onDraw时计算
     private Paint disablePaint;
     private Paint enablePaint;
-    private int firstChooseChunkIndex;
-    private int lastChooseChunkIndex;
+    private int firstChooseChunkIndex = -1;
+    private int lastChooseChunkIndex = -1;
     private boolean isChoosingNow;
     private float chooseBoxStrokeWidth;
     private final static String TAG = "TimeBar";
@@ -106,18 +106,21 @@ public class TimeBar extends View {
         chooseBoxPaint.setStrokeWidth(chooseBoxStrokeWidth);
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int width = (int) (getWidth() - Math.max(getPaddingRight(), getPaddingEnd()));
-        int height = (int) (getHeight() - getPaddingBottom());
+        int width = (int) (getWidth() - getPaddingRight() - getPaddingLeft());
+        int paddingTop = getPaddingTop();
+        int height = (int) (getHeight() - getPaddingBottom() - paddingTop);
+        int paddingLeft = getPaddingLeft();
 
         singleChunkHeight = (height - chunkDividerHeight * 23.0f) / 24.0f;
 
         // 1. 画出灰色方块
-        float curTop = 0;
+        float curTop = paddingTop;
         for (int i = 0; i < chunkNumber; i++) {
-            canvas.drawRect(0, curTop, width, curTop + singleChunkHeight, disablePaint);
+            canvas.drawRect(paddingLeft, curTop, width, curTop + singleChunkHeight, disablePaint);
             curTop += singleChunkHeight + chunkDividerHeight;
         }
 
@@ -126,13 +129,13 @@ public class TimeBar extends View {
             int beginHour = timeBarInfo.beginTime.getHourOfDay();
             int endHour = timeBarInfo.endTime.getHourOfDay();
 
-            float top = beginHour * (chunkDividerHeight + singleChunkHeight);
-            float bottom = endHour * (chunkDividerHeight + singleChunkHeight) - chunkDividerHeight;
+            float top = beginHour * (chunkDividerHeight + singleChunkHeight) + paddingTop;
+            float bottom = endHour * (chunkDividerHeight + singleChunkHeight) - chunkDividerHeight + paddingTop;
 
             float enableChunkHeight = bottom - top;
 
             // 2. 画出初始的蓝色方块
-            canvas.drawRect(0, top, width, bottom, enablePaint);
+            canvas.drawRect(paddingLeft, top, width, bottom, enablePaint);
 
             // 3. 画对应报警类型的图标
             ArrayList<Drawable> chunkAlarmDrawable = getChunkAlarmDrawable(timeBarInfo.state);
@@ -165,22 +168,22 @@ public class TimeBar extends View {
                 float leftOffset = getDrawableLeftOffset(colIndex, drawableNum, width, drawableSize, drawableDividerWidth);
                 float topOffset = getDrawableTopOffset(rowIndex, totalRow, enableChunkHeight, drawableSize, drawableDividerHeight);
 
-                drawable.setBounds((int) leftOffset, (int) (top + topOffset), (int) (leftOffset + drawableSize), (int) (top + topOffset + drawableSize));
+                drawable.setBounds((int) leftOffset + paddingLeft, (int) (top + topOffset), (int) (leftOffset + drawableSize + paddingLeft), (int) (top + topOffset + drawableSize));
                 drawable.draw(canvas);
             }
         }
 
 
         // 画选中框
-        if (isChoosingNow) {
-            float firstChunk = getChunkTop(firstChooseChunkIndex, singleChunkHeight, chunkDividerHeight) - 3;
-            float lastChunk = getChunkTop(lastChooseChunkIndex, singleChunkHeight, chunkDividerHeight) + 3;
-            canvas.drawRect(0 + chooseBoxStrokeWidth / 2, firstChunk, width - chooseBoxStrokeWidth / 2, lastChunk + singleChunkHeight, chooseBoxPaint);
+        if (isChoosingNow && firstChooseChunkIndex != -1 && lastChooseChunkIndex != -1) {
+            float firstChunk = getChunkTop(firstChooseChunkIndex, singleChunkHeight, chunkDividerHeight);
+            float lastChunk = getChunkTop(lastChooseChunkIndex, singleChunkHeight, chunkDividerHeight);
+            canvas.drawRect(paddingLeft, firstChunk, paddingLeft + width, lastChunk + singleChunkHeight, chooseBoxPaint);
         }
     }
 
     private float getChunkTop(int index, float chunkHeight, float chunkDividerHeight) {
-        float top = 0;
+        float top = getPaddingTop();
         for (int i = 0; i < index; i++) {
             top += chunkHeight + chunkDividerHeight;
         }
@@ -272,6 +275,8 @@ public class TimeBar extends View {
             case MotionEvent.ACTION_UP:
                 upChunkIndex = getChunkIndex(y);
                 Log.i(TAG, "ACTION_UP" + downChunkIndex + " " + upChunkIndex);
+                firstChooseChunkIndex = -1;
+                lastChooseChunkIndex = -1;
                 isChoosingNow = false;
                 break;
         }
