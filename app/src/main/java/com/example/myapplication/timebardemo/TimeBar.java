@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -265,6 +266,8 @@ public class TimeBar extends View {
                 isChoosingNow = true;
                 downChunkIndex = getChunkIndex(y);
                 Log.i(TAG, "ACTION_DOWN" + downChunkIndex + " " + upChunkIndex);
+                getParent().getParent().requestDisallowInterceptTouchEvent(true);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 curChunkIndex = getChunkIndex(y);
@@ -278,6 +281,8 @@ public class TimeBar extends View {
                 firstChooseChunkIndex = -1;
                 lastChooseChunkIndex = -1;
                 isChoosingNow = false;
+                getParent().getParent().requestDisallowInterceptTouchEvent(false);
+
                 break;
         }
         invalidate();
