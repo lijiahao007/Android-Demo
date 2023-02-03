@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".languagedemo.LanguageDemoActivity">
+
+    <Button
+        android:id="@+id/btn_change_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="切换语言" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_viewing" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_album_share_image" />
+
+
+    <TextView
+        android:id="@+id/tv_hover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:padding="30dp"
+        android:text="测试"
+        android:textSize="20sp"
+        android:textColor="@color/selector_text"
+        />
+
+
+</LinearLayout>

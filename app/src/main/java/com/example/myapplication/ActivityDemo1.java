@@ -18,6 +18,7 @@ import com.example.myapplication.gesture.GestureDemoActivity;
 import com.example.myapplication.handlerDemo.HandlerDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
+import com.example.myapplication.languagedemo.LanguageDemoActivity;
 import com.example.myapplication.media.MediaDemoActivity;
 import com.example.myapplication.multiThread.MultipleThreadDemoActivity;
 import com.example.myapplication.notification.NotificationDemoActivity;
@@ -29,6 +30,7 @@ import com.example.myapplication.rubbish.RubbishActivity;
 import com.example.myapplication.rxjava.RxJavaDemoActivity;
 import com.example.myapplication.service.ServiceDemoActivity;
 import com.example.myapplication.setupnet.SetupNetDemoActivity;
+import com.example.myapplication.shadowdemo.ShadoeDemoActivity;
 import com.example.myapplication.statusinset.StatusInsetMenuActivity;
 import com.example.myapplication.surfaceview.SurfaceDemoActivity;
 import com.example.myapplication.tablayout.TabLayoutDemoActivity;
@@ -36,6 +38,7 @@ import com.example.myapplication.thirdpartlogin.LoginMenuActivity;
 import com.example.myapplication.timebardemo.TimeBarDemoActivity;
 import com.example.myapplication.unsplashproject.UnSplashMenuActivity;
 import com.example.myapplication.viewpager.ViewPagerMenuActivity;
+import com.example.myapplication.viewstate.ViewStateDemoActivity;
 import com.example.myapplication.wifi.WifiDemoActivity;
 
 import java.util.ArrayList;
@@ -52,6 +55,9 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("语言", LanguageDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("Shadow", ShadoeDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("ViewState", ViewStateDemoActivity.class));
             add(new MenuAdapter.MenuInfo("TimeBar", TimeBarDemoActivity.class));
             add(new MenuAdapter.MenuInfo("StatusInset", StatusInsetMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Unsplash", UnSplashMenuActivity.class));

@@ -74,7 +74,7 @@ public class TimeBar extends View {
 
     private void initView() {
         int enableColor = getResources().getColor(R.color.color_80acff);
-        int disableColor = getResources().getColor(R.color.color_e5e5e5);
+        int disableColor = getResources().getColor(R.color.color_e5e5e5_1);
         int shadowColor = getResources().getColor(R.color.color_33000000);
 
         chunkDividerHeight = DimenUtil.dp2px(getContext(), 2);

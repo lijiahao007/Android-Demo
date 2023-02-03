@@ -1,5 +1,8 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.MyApplication.getCurLocale;
+import static com.example.myapplication.MyApplication.updateResources;
+
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -121,4 +124,8 @@ public class BaseActivity<T extends ViewBinding> extends AppCompatActivity imple
         return uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES;
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(updateResources(newBase, getCurLocale(newBase)));
+    }
 }
