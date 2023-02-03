@@ -57,8 +57,9 @@ public class HandlerDemoActivity extends BaseActivity<ActivityHandlerDemoBinding
                             boolean res = idleHandler.queueIdle();
                             if (res) {
                                 longTimeIdleHandler.add(this);
+                            } else {
+                                mBaseActivityHandler.post(() -> {});
                             }
-                            mBaseActivityHandler.post(() -> {});
                             return res;
                         }
                     });
@@ -69,7 +70,7 @@ public class HandlerDemoActivity extends BaseActivity<ActivityHandlerDemoBinding
         Looper.myQueue().addIdleHandler(idleHandlerManager);
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             int finalI = i;
             mBaseActivityHandler.post(() -> {
                 try {
@@ -93,9 +94,9 @@ public class HandlerDemoActivity extends BaseActivity<ActivityHandlerDemoBinding
                         Log.i(TAG, "idleHandler【0】 --> queueIdle");
                         return true;
                     } else {
-                        Log.i(TAG, "idleHandler --> queueIdle");
+                        Log.i(TAG, "idleHandler 【" + finalI + "】 --> queueIdle");
                         try {
-                            for (int j = 0; j < 5; j++) {
+                            for (int j = 0; j < 3; j++) {
                                 Thread.sleep(100);
                                 Log.i(TAG, "idleHandler:" + finalI + "  count 【" + j + "】");
                             }
@@ -103,16 +104,16 @@ public class HandlerDemoActivity extends BaseActivity<ActivityHandlerDemoBinding
                             e.printStackTrace();
                         }
 
-                        mBaseActivityHandler.post(() -> {
-                            try {
-                                for (int j = 0; j < 5; j++) {
-                                    Thread.sleep(100);
-                                    Log.i(TAG, "idleHandle-" + finalI + "中发出 message:" + finalI + "  count 【" + j + "】");
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        });
+//                        mBaseActivityHandler.post(() -> {
+//                            try {
+//                                for (int j = 0; j < 5; j++) {
+//                                    Thread.sleep(100);
+//                                    Log.i(TAG, "idleHandle-" + finalI + "中发出 message:" + finalI + "  count 【" + j + "】");
+//                                }
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
                         return false;
                     }
                 }
@@ -121,7 +122,7 @@ public class HandlerDemoActivity extends BaseActivity<ActivityHandlerDemoBinding
         }
 
 
-        for (int i = 5; i < 10; i++) {
+        for (int i = 3; i < 6; i++) {
             int finalI = i;
             mBaseActivityHandler.post(() -> {
                 try {
