@@ -87,6 +87,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".fragment.SwitchDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".timebardemo.TimeBarDemoActivity"
             android:exported="false">
             <meta-data

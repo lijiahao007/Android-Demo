@@ -130,6 +130,7 @@ public class TimeBar extends View {
             int beginHour = timeBarInfo.beginTime.getHourOfDay();
             int endHour = timeBarInfo.endTime.getHourOfDay();
 
+
             float top = beginHour * (chunkDividerHeight + singleChunkHeight) + paddingTop;
             float bottom = endHour * (chunkDividerHeight + singleChunkHeight) - chunkDividerHeight + paddingTop;
 

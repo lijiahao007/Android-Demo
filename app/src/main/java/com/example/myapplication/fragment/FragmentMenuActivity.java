@@ -23,6 +23,7 @@ public class FragmentMenuActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("FragmentAction", FragmentActionActivity.class));
+            add(new MenuAdapter.MenuInfo("SwitchDemo", SwitchDemoActivity.class));
         }});
 
     }
