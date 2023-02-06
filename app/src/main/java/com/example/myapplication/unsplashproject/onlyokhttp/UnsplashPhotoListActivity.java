@@ -1,6 +1,7 @@
 package com.example.myapplication.unsplashproject.onlyokhttp;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -44,6 +45,7 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
                     unsplashPhotos.addAll(photos);
                     adapter.notifyDataSetChanged();
 
+                    Log.i(TAG, "photos=" + photos);
                     // 再将这些图片放到数据库中
 
                 });

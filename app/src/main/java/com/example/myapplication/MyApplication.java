@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MyApplication extends Application {
 
     static final String TAG = "MyApplication";
@@ -31,6 +33,9 @@ public class MyApplication extends Application {
         SDKHelper.initPhoneType(10);
         MMKV.initialize(this);
         DataBaseManager.initDataBaseManager(getApplicationContext());
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     @Override

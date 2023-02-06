@@ -13,6 +13,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "eb1f8763ad517766d80a7739", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
 
     buildTypes {
@@ -111,6 +117,11 @@ dependencies {
     // https://mvnrepository.com/artifact/joda-time/joda-time
     implementation 'joda-time:joda-time:2.12.2'
 
+    implementation 'cn.jiguang.sdk:jcore:4.0.0'  // 此处以JCore 3.3.0 版本为例。
+    implementation 'cn.jiguang.sdk:jpush:4.8.5'  // 此处以JPush 4.7.2 版本为例
+
+
+    testImplementation 'org.json:json:20180813'
 
 }
 

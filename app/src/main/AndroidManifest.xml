@@ -66,6 +66,39 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".jpushdemo.JPushAlarmActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="com.example.myapplication.alarmpage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".jpushdemo.JPushReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
+                <category android:name="com.example.myapplication" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".jpushdemo.JPushService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <activity
             android:name=".languagedemo.LanguageDemoActivity"
             android:exported="false">
             <meta-data
@@ -558,7 +591,8 @@
         </activity>
         <activity
             android:name=".ActivityDemo1"
-            android:exported="true">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
