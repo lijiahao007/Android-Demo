@@ -31,7 +31,7 @@ public class FragmentDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment_demo);
 
         supportFragmentManager = getSupportFragmentManager();
-
+//
         OneFragment oneFragment = OneFragment.newInstance(null, null);
         TwoFragment twoFragment = TwoFragment.newInstance(null, null);
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
@@ -67,9 +67,15 @@ public class FragmentDemoActivity extends AppCompatActivity {
         }, 4000);
 
 
+
+        supportFragmentManager.beginTransaction().add(new Fragment(), "f").commitNowAllowingStateLoss();
+
+
         Fragment fragmentById = supportFragmentManager.findFragmentById(R.id.fl_container);
         Log.i(TAG, "fragment:" + fragmentById);
 
+        Fragment f = supportFragmentManager.findFragmentByTag("f");
+        Log.i(TAG, "toolFragment=" + f);
 
     }
 
