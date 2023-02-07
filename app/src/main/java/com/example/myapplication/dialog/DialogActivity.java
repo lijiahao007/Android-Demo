@@ -8,24 +8,25 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.MenuAdapter;
 import com.example.myapplication.MenuRecyclerView;
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.ActivityDialogBinding;
 
 import java.util.ArrayList;
 
-public class DialogActivity extends AppCompatActivity {
+public class DialogActivity extends BaseActivity<ActivityDialogBinding> {
 
-    private MenuRecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialog);
-        recyclerView = findViewById(R.id.recycler_view);
         MenuAdapter adapter = new MenuAdapter(new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("Dialog1--Dialog + DialogFragment 弹出式", new View.OnClickListener() {
                 @Override
@@ -53,6 +54,7 @@ public class DialogActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // 嵌入式的显示Dialog
                     Dialog2Fragment dialog2Fragment = new Dialog2Fragment();
+                    dialog2Fragment.setCancelable(false);
                     dialog2Fragment.show(getSupportFragmentManager(), "dialog3");
                 }
             }));
@@ -90,10 +92,41 @@ public class DialogActivity extends AppCompatActivity {
                     dialog3Fragment.show(getSupportFragmentManager(), "dialog6");
                 }
             }));
+
+            add(new MenuAdapter.MenuInfo("Loading Dialog", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoadingDialog loadingDialog = LoadingDialog.newInstance(false, false, "加载中");
+                    loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Log.e(TAG, "onDismiss");
+                        }
+                    });
+                    loadingDialog.setLoadingDialogOnCancelListener(new LoadingDialog.LoadingDialogOnCancelListener() {
+                        @Override
+                        public void onCancel() {
+                            Log.e(TAG, "onCancel");
+                        }
+                    });
+
+                    loadingDialog.setOnCancelling(new LoadingDialog.OnCancelling() {
+                        @Override
+                        public void onCancelling() {
+                            Log.e(TAG, "onCancelling");
+                            mBaseActivityHandler.postDelayed(() -> {
+                                loadingDialog.dismiss();
+                            }, 2000);
+                        }
+                    });
+                    loadingDialog.show(getSupportFragmentManager(), LoadingDialog.class.getSimpleName());
+                }
+            }));
+
         }});
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 

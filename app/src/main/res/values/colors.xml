@@ -33,6 +33,11 @@
 
     <color name="color_80acff">#FF80ACFF</color>
     <color name="color_e5e5e5_1">#e5e5e5</color>
+    <color name="color_invariant_000000">#000000</color>
+    <color name="ColorGrayHeavier">#333333</color>
+    <color name="color_invariant_1a1a1a">#1a1a1a</color>
+    <color name="color_invariant_ffffff">#ffffff</color>
+
 
 
 
