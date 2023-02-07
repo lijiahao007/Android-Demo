@@ -112,6 +112,7 @@ public class OkHttpUtils {
                 String body = response.body().string();
                 List<UnsplashPhoto> unsplashPhotoList = gson.fromJson(body, new TypeToken<List<UnsplashPhoto>>() {
                 }.getType());
+                Log.i(TAG, "BODY=" + body);
                 callback.onResponse(call, unsplashPhotoList);
             }
         });

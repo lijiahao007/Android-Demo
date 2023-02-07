@@ -37,7 +37,7 @@ public class UnsplashPhotoAdapter extends RecyclerView.Adapter<UnsplashPhotoAdap
     @Override
     public void onBindViewHolder(@NonNull UnsplashPhotoViewHolder holder, int position) {
         UnsplashPhoto unsplashPhoto = mData.get(position);
-        String full = unsplashPhoto.getUrls().getFull();
+        String full = unsplashPhoto.getUrls().getSmall_s3();
         Glide.with(holder.binding.ivPhoto)
                 .load(full)
                 .error(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.error, null))
