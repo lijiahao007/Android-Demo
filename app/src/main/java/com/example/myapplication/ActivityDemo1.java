@@ -27,6 +27,7 @@ import com.example.myapplication.multiThread.MultipleThreadDemoActivity;
 import com.example.myapplication.notification.NotificationDemoActivity;
 import com.example.myapplication.okhttp.OkHttpDemoActivity;
 import com.example.myapplication.permission.PermissionMenuActivity;
+import com.example.myapplication.polygonseldemo.PolyGonSelDemoActivity;
 import com.example.myapplication.qrcode.QRCodeMenuActivity;
 import com.example.myapplication.recycleview.RecyclerViewDemoActivity;
 import com.example.myapplication.rubbish.RubbishActivity;
@@ -58,6 +59,7 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
+            add(new MenuAdapter.MenuInfo("PolySelView", PolyGonSelDemoActivity.class));
             add(new MenuAdapter.MenuInfo("Glide", GlideDemoActivity.class));
             add(new MenuAdapter.MenuInfo("JPush", JPushAlarmActivity.class));
             add(new MenuAdapter.MenuInfo("HttpDownloader", DownloadDemoActivity.class));

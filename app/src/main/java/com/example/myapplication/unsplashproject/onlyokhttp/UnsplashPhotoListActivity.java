@@ -1,6 +1,9 @@
 package com.example.myapplication.unsplashproject.onlyokhttp;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import com.example.myapplication.unsplashproject.onlyokhttp.utls.OkHttpUtils;
 import com.macrovideo.sdk.tools.LogUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -29,6 +33,12 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
         super.onCreate(savedInstanceState);
         initRecyclerView();
         loadData();
+
+        try {
+            throw new RuntimeException("这里发生了异常");
+        } catch (Exception e) {
+            Log.e(TAG, "异常", e);
+        }
     }
 
     private void initRecyclerView() {
@@ -39,15 +49,17 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
     }
 
     private void loadData() {
-        OkHttpUtils.getRandomPhotos(30,  new OkHttpUtils.UnsplashPhotoListCallback() {
+        OkHttpUtils.getRandomPhotos(3, new OkHttpUtils.UnsplashPhotoListCallback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull List<UnsplashPhoto> photos) {
-                Log.i(TAG, "后去的图片信息 " + photos);
+                for (UnsplashPhoto photo : photos) {
+                    Log.i(TAG, "photo = 【" + photo + "】");
+                }
+                long res = DataBaseManager.replaceUnsplashPhoto(photos);
+                Log.i(TAG, "保存结果：size=" + res + "  photos.size=" + photos.size());
+
                 mBaseActivityHandler.post(() -> {
                     // 将这些图片放到数据库中
-                    long res = DataBaseManager.replaceUnsplashPhoto(photos);
-                    Log.i(TAG, "保存结果：size=" + res + "  photos.size=" + photos.size());
-
                     unsplashPhotos.addAll(photos);
                     adapter.notifyDataSetChanged();
                 });
@@ -55,9 +67,11 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
 
             @Override
             public void onError(@NonNull Call call, @NonNull Exception e) {
-                showToast("Error");
+                mBaseActivityHandler.post(() -> {
+                    showToast("Error");
+                });
                 e.printStackTrace();
-                LogUtils.e(TAG, e.toString());
+                Log.e(TAG, "", e);
             }
         });
     }
