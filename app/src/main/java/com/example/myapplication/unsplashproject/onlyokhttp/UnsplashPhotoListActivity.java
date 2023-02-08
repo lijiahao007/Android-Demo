@@ -10,6 +10,7 @@ import com.example.myapplication.BaseActivity;
 import com.example.myapplication.databinding.ActivityUsplashPhotoListBinding;
 import com.example.myapplication.unsplashproject.onlyokhttp.entity.UnsplashPhoto;
 import com.example.myapplication.unsplashproject.onlyokhttp.adapter.UnsplashPhotoAdapter;
+import com.example.myapplication.unsplashproject.onlyokhttp.utls.DataBaseManager;
 import com.example.myapplication.unsplashproject.onlyokhttp.utls.OkHttpUtils;
 import com.macrovideo.sdk.tools.LogUtils;
 
@@ -38,16 +39,17 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
     }
 
     private void loadData() {
-        OkHttpUtils.getRandomPhotos(3, new OkHttpUtils.UnsplashPhotoListCallback() {
+        OkHttpUtils.getRandomPhotos(30,  new OkHttpUtils.UnsplashPhotoListCallback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull List<UnsplashPhoto> photos) {
+                Log.i(TAG, "后去的图片信息 " + photos);
                 mBaseActivityHandler.post(() -> {
+                    // 将这些图片放到数据库中
+                    long res = DataBaseManager.replaceUnsplashPhoto(photos);
+                    Log.i(TAG, "保存结果：size=" + res + "  photos.size=" + photos.size());
+
                     unsplashPhotos.addAll(photos);
                     adapter.notifyDataSetChanged();
-
-                    Log.i(TAG, "photos=" + photos);
-                    // 再将这些图片放到数据库中
-
                 });
             }
 

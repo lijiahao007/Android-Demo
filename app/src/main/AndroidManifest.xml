@@ -108,6 +108,13 @@
         </service>
 
         <activity
+            android:name=".httpdownloader.DownloadDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".languagedemo.LanguageDemoActivity"
             android:exported="false">
             <meta-data
@@ -123,6 +130,13 @@
         </activity>
         <activity
             android:name=".viewstate.ViewStateDemoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".fragment.SwitchDemoActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

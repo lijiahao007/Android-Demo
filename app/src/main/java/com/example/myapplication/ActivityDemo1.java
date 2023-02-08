@@ -18,6 +18,7 @@ import com.example.myapplication.gesture.GestureDemoActivity;
 import com.example.myapplication.glidedemo.GlideDemoActivity;
 import com.example.myapplication.handlerDemo.HandlerDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
+import com.example.myapplication.httpdownloader.DownloadDemoActivity;
 import com.example.myapplication.intent.IntentActivity;
 import com.example.myapplication.jpushdemo.JPushAlarmActivity;
 import com.example.myapplication.languagedemo.LanguageDemoActivity;
@@ -59,6 +60,7 @@ public class ActivityDemo1 extends AppCompatActivity {
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("Glide", GlideDemoActivity.class));
             add(new MenuAdapter.MenuInfo("JPush", JPushAlarmActivity.class));
+            add(new MenuAdapter.MenuInfo("HttpDownloader", DownloadDemoActivity.class));
             add(new MenuAdapter.MenuInfo("语言", LanguageDemoActivity.class));
             add(new MenuAdapter.MenuInfo("Shadow", ShadoeDemoActivity.class));
             add(new MenuAdapter.MenuInfo("ViewState", ViewStateDemoActivity.class));

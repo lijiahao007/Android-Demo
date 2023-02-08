@@ -24,6 +24,7 @@ public class FragmentMenuActivity extends AppCompatActivity {
         recyclerView.setMenuList(new ArrayList<MenuAdapter.MenuInfo>() {{
             add(new MenuAdapter.MenuInfo("FragmentAction", FragmentActionActivity.class));
             add(new MenuAdapter.MenuInfo("FragmentDemo", FragmentDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("SwitchDemo", SwitchDemoActivity.class));
         }});
 
     }
