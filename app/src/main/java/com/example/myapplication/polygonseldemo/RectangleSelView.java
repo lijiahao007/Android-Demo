@@ -1,96 +1,108 @@
 package com.example.myapplication.polygonseldemo;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.View;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.myapplication.R;
 import com.example.myapplication.utils.DimenUtil;
 
-import java.util.LinkedList;
+public class RectangleSelView extends PolygonSelView {
 
-public class RectangleSelView extends View {
-
-    private String TAG = "PolygonSelView";
-    private Paint linePaint;
-    private Paint textPaint;
-    private Paint textBackgroundPaint;
-    private int pointRadius;
-    private int gravityField; // 重力场大小
-    private Rect textRect;
-
-    private LinkedList<PolygonSelView.Point> pointList = new LinkedList<>();
-    private Paint fillPaint;
-    private Path pointPath;
-    private boolean isDeleteMode = false;
-    private boolean isEditMode = false;
-
-    boolean isDragging = false;
-    int draggingIndex = -1;
-
+    private String TAG = "RectangleSelView";
+    private Paint cornerPaint;
+    private float cornerLength;
+    private Path cornerPath;
+    private Drawable deleteDrawable;
+    private float cornerLineWidth;
 
     public RectangleSelView(Context context) {
         super(context);
+        initView();
     }
 
     public RectangleSelView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initView();
     }
 
     public RectangleSelView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView();
     }
 
     private void initView() {
-        int lineColor = getResources().getColor(R.color.Red);
-        int textColor = getResources().getColor(R.color.white);
-        int textBg = getResources().getColor(R.color.Red);
+        pointList.clear();
 
-        float lineWidth = DimenUtil.dp2px(getContext(), 1);
+        // 左上角
+        pointList.add(new Point(100, 100, 1));
+        pointList.add(new Point(500, 100, 2));
+        // 右下角
+        pointList.add(new Point(500, 500, 3));
+        pointList.add(new Point(100, 500, 4));
 
-        linePaint = new Paint();
-        linePaint.setColor(lineColor);
-        linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setStrokeWidth(lineWidth);
 
-        textPaint = new Paint();
-        textPaint.setTextSize(DimenUtil.sp2px(getContext(), 12));
-        textPaint.setColor(textColor);
-        textPaint.setFakeBoldText(true);
+        cornerPaint = new Paint();
+        cornerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        cornerLineWidth = DimenUtil.dp2px(getContext(), 5);
+        cornerPaint.setStrokeWidth(cornerLineWidth);
 
-        textBackgroundPaint = new Paint();
-        textBackgroundPaint.setColor(textBg);
-        textBackgroundPaint.setStyle(Paint.Style.FILL);
+        cornerLength = DimenUtil.dp2px(getContext(), 10);
+        cornerPath = new Path();
 
-        pointRadius = (int) DimenUtil.dp2px(getContext(), 10);
-        gravityField = (int) DimenUtil.dp2px(getContext(), 10);
-        textRect = new Rect();
+        setEditMode(true);
 
-        fillPaint = new Paint();
-        fillPaint.setColor(getResources().getColor(R.color.TrunsRed));
-        fillPaint.setStyle(Paint.Style.FILL);
-
-        pointPath = new Path();
-
-        pointList.add(new PolygonSelView.Point(100, 100, 1));
-        pointList.add(new PolygonSelView.Point(100, 400, 2));
-        pointList.add(new PolygonSelView.Point(300, 500, 3));
-        pointList.add(new PolygonSelView.Point(400, 350, 4));
-        pointList.add(new PolygonSelView.Point(400, 200, 5));
-        pointList.add(new PolygonSelView.Point(200, 50, 6));
+        deleteDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.preview_btn_closeyt_multi, null);
     }
+
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    protected void drawPoint(Canvas canvas, float x, float y, int index) {
+        Log.i(TAG, "drawPoint");
+        Point leftTopPoint = pointList.get(0);
+        Point rightBottomPoint = pointList.get(2);
+
+        // 1. 左上角
+        cornerPath.reset();
+        cornerPath.moveTo(leftTopPoint.x + cornerLength, leftTopPoint.y);
+        cornerPath.lineTo(leftTopPoint.x - cornerLineWidth / 2, leftTopPoint.y);
+        cornerPath.moveTo(leftTopPoint.x, leftTopPoint.y);
+        cornerPath.lineTo(leftTopPoint.x, leftTopPoint.y + cornerLength);
+        canvas.drawPath(cornerPath, cornerPaint);
+
+        // 2. 左下角
+        cornerPath.reset();
+        cornerPath.moveTo(leftTopPoint.x + cornerLength, rightBottomPoint.y);
+        cornerPath.lineTo(leftTopPoint.x - cornerLineWidth / 2, rightBottomPoint.y);
+        cornerPath.moveTo(leftTopPoint.x, rightBottomPoint.y);
+        cornerPath.lineTo(leftTopPoint.x, rightBottomPoint.y - cornerLength);
+        canvas.drawPath(cornerPath, cornerPaint);
+
+        // 3. 右下角
+        cornerPath.reset();
+        cornerPath.moveTo(rightBottomPoint.x - cornerLength, rightBottomPoint.y);
+        cornerPath.lineTo(rightBottomPoint.x + cornerLineWidth / 2, rightBottomPoint.y);
+        cornerPath.moveTo(rightBottomPoint.x, rightBottomPoint.y);
+        cornerPath.lineTo(rightBottomPoint.x, rightBottomPoint.y - cornerLength);
+        canvas.drawPath(cornerPath, cornerPaint);
 
 
-
+        // 4. 右上角
+        deleteDrawable.setBounds(
+                (int) (rightBottomPoint.x - pointRadius),
+                (int) (leftTopPoint.y - pointRadius),
+                (int) (rightBottomPoint.x + pointRadius),
+                (int) (leftTopPoint.y + pointRadius));
+        deleteDrawable.draw(canvas);
     }
+
 }

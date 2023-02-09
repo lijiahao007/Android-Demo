@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.example.myapplication.R;
 import com.example.myapplication.utils.DimenUtil;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -26,11 +28,13 @@ public class PolygonSelView extends View {
     private Paint linePaint;
     private Paint textPaint;
     private Paint textBackgroundPaint;
-    private int pointRadius;
-    private int gravityField; // 重力场大小
+    protected int pointRadius;
+    protected int gravityField; // 重力场大小
     private Rect textRect;
 
-    private LinkedList<Point> pointList = new LinkedList<>();
+    protected LinkedList<Point> pointList = new LinkedList<>();
+    private ArrayList<LinkedList<Point>> regionList = new ArrayList<>();
+
     private Paint fillPaint;
     private Path pointPath;
 
@@ -130,7 +134,8 @@ public class PolygonSelView extends View {
         }
     }
 
-    private void drawPoint(Canvas canvas, float x, float y, int index) {
+    protected void drawPoint(Canvas canvas, float x, float y, int index) {
+        Log.i(TAG, "drawPoint");
         canvas.drawCircle(x, y, pointRadius, textBackgroundPaint);
         String indexStr = String.valueOf(index);
         textPaint.getTextBounds(indexStr, 0, indexStr.length(), textRect);
