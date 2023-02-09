@@ -113,6 +113,7 @@ public class PolyGonSelectView extends View {
         }
     }
 
+
     abstract class SelectShape {
         protected ArrayList<Point> pointList = new ArrayList<>();
         protected boolean isRegionSelect = false;
@@ -172,7 +173,6 @@ public class PolyGonSelectView extends View {
             return (float) (Math.sqrt(Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)));
         }
     }
-
 
     class Polygon extends SelectShape {
         private final Paint textBackgroundPaint;
