@@ -33,12 +33,6 @@ public class UnsplashPhotoListActivity extends BaseActivity<ActivityUsplashPhoto
         super.onCreate(savedInstanceState);
         initRecyclerView();
         loadData();
-
-        try {
-            throw new RuntimeException("这里发生了异常");
-        } catch (Exception e) {
-            Log.e(TAG, "异常", e);
-        }
     }
 
     private void initRecyclerView() {

@@ -20,9 +20,6 @@ import com.example.myapplication.R;
 import com.example.myapplication.utils.DimenUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 public class PolyGonSelectView extends View {
@@ -68,6 +65,9 @@ public class PolyGonSelectView extends View {
 
     boolean isDragging = false;
     int draggingPointIndex = -1;
+    float lastX = -1;
+    float lastY = -1;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -85,12 +85,16 @@ public class PolyGonSelectView extends View {
                     // 不为空则进入拖拽状态
                     isDragging = true;
                     draggingPointIndex = pointIndex;
+                    lastX = x;
+                    lastY = y;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 Log.i(TAG, "ACTION_MOVE 【" + draggingPointIndex + "】");
                 if (isDragging && draggingPointIndex != -1) {
-                    selectRegion.movePointTo(draggingPointIndex, x, y);
+                    selectRegion.movePoint(draggingPointIndex, x - lastX, y - lastY);
+                    lastX = x;
+                    lastY = y;
                     invalidate();
                 }
                 break;
@@ -172,6 +176,47 @@ public class PolyGonSelectView extends View {
         private float calPointDis(float x1, float y1, float x2, float y2) {
             return (float) (Math.sqrt(Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)));
         }
+
+        private double calPointLineDis(float x0, float y0, float x1, float y1, float x2, float y2) {
+            double space = 0;
+            double a, b, c;
+            a = calPointDis(x1, y1, x2, y2);// 线段的长度
+            b = calPointDis(x1, y1, x0, y0);// (x1,y1)到点的距离
+            c = calPointDis(x2, y2, x0, y0);// (x2,y2)到点的距离
+            if (c <= 0.000001 || b <= 0.000001) {
+                space = 0;
+                return space;
+            }
+            if (a <= 0.000001) {
+                space = b;
+                return space;
+            }
+            if (c * c >= a * a + b * b) {
+                space = b;
+                return space;
+            }
+            if (b * b >= a * a + c * c) {
+                space = c;
+                return space;
+            }
+            double p = (a + b + c) / 2;// 半周长
+            double s = Math.sqrt(p * (p - a) * (p - b) * (p - c));// 海伦公式求面积
+            space = 2 * s / a;// 返回点到线的距离（利用三角形面积公式求高）
+            return space;
+        }
+
+        protected boolean isOverLayPoint(int index, float x, float y) {
+            Point point = pointList.get(index);
+            for (Point p : pointList) {
+                if (point == p) {
+                    continue;
+                }
+                if (calPointDis(p.getX(), p.getY(), x, y) <= pointRadius * 2) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     class Polygon extends SelectShape {
@@ -242,6 +287,10 @@ public class PolyGonSelectView extends View {
 
         @Override
         public void movePointTo(int index, float dstX, float dstY) {
+            if (isOverLayPoint(index, dstX, dstY)) {
+                return;
+            }
+
             Point point = pointList.get(index);
             point.x = dstX;
             point.y = dstY;
@@ -249,9 +298,17 @@ public class PolyGonSelectView extends View {
 
         @Override
         public void movePoint(int index, float distanceX, float distanceY) {
+
             Point point = pointList.get(index);
-            point.x += distanceX;
-            point.y += distanceY;
+
+            float newX = point.getX() + distanceX;
+            float newY = point.getY() + distanceY;
+            if (isOverLayPoint(index, newX, newY)) {
+                return;
+            }
+
+            point.x = newX;
+            point.y = newY;
         }
 
         @Override

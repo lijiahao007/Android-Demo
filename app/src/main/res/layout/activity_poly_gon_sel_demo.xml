@@ -7,11 +7,11 @@
     android:orientation="vertical"
     tools:context=".polygonseldemo.PolyGonSelDemoActivity">
 
-<!--    <com.example.myapplication.polygonseldemo.PolyGonSelectView-->
-<!--        android:id="@+id/poly_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1" />-->
+    <com.example.myapplication.polygonseldemo.PolyGonSelectView
+        android:id="@+id/poly_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 <!--    <View-->
 <!--        android:layout_width="match_parent"-->
@@ -36,9 +36,9 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="观察模式" />-->
 
-    
-    <com.example.myapplication.polygonseldemo.VirtualFenceView
-        android:id="@+id/virtual_fence_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    -->
+<!--    <com.example.myapplication.polygonseldemo.VirtualFenceView-->
+<!--        android:id="@+id/virtual_fence_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 </LinearLayout>
