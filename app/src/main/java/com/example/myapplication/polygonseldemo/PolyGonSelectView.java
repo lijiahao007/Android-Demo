@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -404,10 +405,10 @@ public class PolyGonSelectView extends View {
         protected boolean isIntersection(float x1, float y1, float x2, float y2,
                                          float x3, float y3, float x4, float y4) {
             //快速排斥实验
-            if ((x1 > x2 ? x1 : x2) < (x3 < x4 ? x3 : x4) ||
-                    (y1 > y2 ? y1 : y2) < (y3 < y4 ? y3 : y4) ||
-                    (x3 > x4 ? x3 : x4) < (x1 < x2 ? x1 : x2) ||
-                    (y3 > y4 ? y3 : y4) < (y1 < y2 ? y1 : y2)) {
+            if ((Math.max(x1, x2)) < (Math.min(x3, x4)) ||
+                    (Math.max(y1, y2)) < (Math.min(y3, y4)) ||
+                    (Math.max(x3, x4)) < (Math.min(x1, x2)) ||
+                    (Math.max(y3, y4)) < (Math.min(y1, y2))) {
                 return false;
             }
             //跨立实验
@@ -420,6 +421,7 @@ public class PolyGonSelectView extends View {
             return true;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "SelectShape{" +
@@ -661,7 +663,6 @@ public class PolyGonSelectView extends View {
                 tempData.add(data.get(minAngleIndex));
                 data.remove(minAngleIndex);
             }
-            data.clear();
 
             //以x坐标最小的点作为第一个点
             if (tempData.size() > 0) {
@@ -693,12 +694,12 @@ public class PolyGonSelectView extends View {
         private final Paint linePaint;
         private final Paint textPaint;
         private final Paint selectRegionPaint;
-        private Paint cornerPaint;
-        private float cornerLength;
-        private Path cornerPath;
+        private final Paint cornerPaint;
+        private final float cornerLength;
+        private final Path cornerPath;
         private float cornerLineWidth;
-        private Drawable deleteDrawable;
-        private int deleteDrawableSize = (int) DimenUtil.dp2px(getContext(), 10);
+        private final Drawable deleteDrawable;
+        private final int deleteDrawableSize = (int) DimenUtil.dp2px(getContext(), 10);
         private boolean isAddPoint = false;
         Point draggingPoint = null;
         boolean isDragWholeRegion = false;
@@ -928,12 +929,8 @@ public class PolyGonSelectView extends View {
                 return false;
             }
 
-            if (x >= pointList.get(0).getX() && x <= pointList.get(2).getX()
-                    && y >= pointList.get(0).getY() && y <= pointList.get(2).getY()) {
-                return true;
-            }
-
-            return false;
+            return x >= pointList.get(0).getX() && x <= pointList.get(2).getX()
+                    && y >= pointList.get(0).getY() && y <= pointList.get(2).getY();
         }
 
         public void moveAllPoint(float distanceX, float distanceY) {
@@ -1088,6 +1085,7 @@ public class PolyGonSelectView extends View {
             isEdit = edit;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "Point{" +
