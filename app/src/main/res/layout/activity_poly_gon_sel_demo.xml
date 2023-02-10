@@ -13,32 +13,39 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="2dp"-->
-<!--        android:background="@color/blue" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-<!--    <com.example.myapplication.polygonseldemo.RectangleSelView-->
-<!--        android:id="@+id/poly_view"-->
+        <Button
+            android:id="@+id/add_poly_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add poly"
+            android:textAllCaps="false" />
 
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1" />-->
+        <Button
+            android:id="@+id/add_rectangle_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add rect"
+            android:textAllCaps="false" />
 
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="2dp"-->
-<!--        android:background="@color/blue" />-->
+        <Button
+            android:id="@+id/delete_curRegion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="delete"
+            android:textAllCaps="false" />
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_chanMode"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="观察模式" />-->
+        <Button
+            android:id="@+id/change_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="change->"
+            android:textAllCaps="false" />
 
-<!--    -->
-<!--    <com.example.myapplication.polygonseldemo.VirtualFenceView-->
-<!--        android:id="@+id/virtual_fence_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"/>-->
+
+    </LinearLayout>
 </LinearLayout>

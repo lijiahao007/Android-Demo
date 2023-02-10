@@ -45,32 +45,33 @@ public class PolyGonSelectView extends View {
     }
 
     private void initView() {
-        Polygon polygon = new Polygon();
-        polygon.addPoint(100, 100);
-        polygon.addPoint(100, 400);
-        polygon.addPoint(300, 500);
-        polygon.addPoint(400, 350);
-        polygon.addPoint(400, 200);
-        polygon.addPoint(200, 50);
-        polygon.setRegionSelect(true);
-
-        Polygon polygon1 = new Polygon();
-        polygon1.setRegionSelect(false);
-
-
-        Rectangle rectangle = new Rectangle();
-        rectangle.setRegionSelect(false);
-        rectangle.addPoint(400, 400);
-        rectangle.addPoint(500, 600);
-
-        Rectangle rectangle1 = new Rectangle();
-        rectangle1.setRegionSelect(false);
-
-
-        regionList.add(polygon);
-        regionList.add(polygon1);
-        regionList.add(rectangle);
-        regionList.add(rectangle1);
+        // add for test
+//        Polygon polygon = new Polygon();
+//        polygon.addPoint(100, 100);
+//        polygon.addPoint(100, 400);
+//        polygon.addPoint(300, 500);
+//        polygon.addPoint(400, 350);
+//        polygon.addPoint(400, 200);
+//        polygon.addPoint(200, 50);
+//        polygon.setRegionSelect(true);
+//
+//        Polygon polygon1 = new Polygon();
+//        polygon1.setRegionSelect(false);
+//
+//
+//        Rectangle rectangle = new Rectangle();
+//        rectangle.setRegionSelect(false);
+//        rectangle.addPoint(400, 400);
+//        rectangle.addPoint(500, 600);
+//
+//        Rectangle rectangle1 = new Rectangle();
+//        rectangle1.setRegionSelect(false);
+//
+//
+//        regionList.add(polygon);
+//        regionList.add(polygon1);
+//        regionList.add(rectangle);
+//        regionList.add(rectangle1);
     }
 
 
@@ -92,8 +93,8 @@ public class PolyGonSelectView extends View {
      */
     public void addPolygonRegionByUser() {
         Polygon polygonRegion = new Polygon();
-        selectRegion(polygonRegion);
         regionList.add(polygonRegion);
+        selectRegion(polygonRegion);
         invalidate();
     }
 
@@ -102,16 +103,18 @@ public class PolyGonSelectView extends View {
      */
     public void addRectangleRegionByUser() {
         Rectangle rectangleRegion = new Rectangle();
-        selectRegion(rectangleRegion);
         regionList.add(rectangleRegion);
+        selectRegion(rectangleRegion);
         invalidate();
     }
+
 
     public void addPolyRegion(List<Point> points) {
         Polygon polygon = new Polygon();
         for (Point point : points) {
             polygon.addPoint(point.getX(), point.getY());
         }
+        selectRegion(polygon);
         invalidate();
     }
 
@@ -119,8 +122,8 @@ public class PolyGonSelectView extends View {
         Rectangle rectangleRegion = new Rectangle();
         rectangleRegion.addPoint(leftTopX, leftTopY);
         rectangleRegion.addPoint(rightBottomX, rightBottomY);
-        selectRegion(rectangleRegion);
         regionList.add(rectangleRegion);
+        selectRegion(rectangleRegion);
         invalidate();
     }
 
@@ -160,6 +163,20 @@ public class PolyGonSelectView extends View {
         }
     }
 
+    public void selectNextRegion() {
+        for (int i = 0; i < regionList.size(); i++) {
+            SelectShape region = regionList.get(i);
+            if (region.isRegionSelect()) {
+                region.setRegionSelect(false);
+                SelectShape nextRegion = regionList.get(i == regionList.size() - 1 ? 0 : i + 1);
+                nextRegion.setRegionSelect(true);
+                invalidate();
+                break;
+            }
+        }
+
+    }
+
 
     private void selectRegion(SelectShape region) {
         for (int i = 0; i < regionList.size(); i++) {
@@ -197,7 +214,7 @@ public class PolyGonSelectView extends View {
         protected boolean isRegionSelect = false;
         protected Path regionPath = new Path();
         private final RectF regionRectF = new RectF();
-        private int index = -1;
+        int index = -1;
 
         boolean isDragging = false;
         float lastX = -1;
@@ -728,7 +745,6 @@ public class PolyGonSelectView extends View {
             Point point = new Point(x, y);
             if (pointList.size() == 0) {
                 pointList.add(point);
-                return point;
             } else if (pointList.size() == 1) {
                 Point leftTop = pointList.get(0);
                 // 右上角
@@ -897,6 +913,7 @@ public class PolyGonSelectView extends View {
             data.addAll(Arrays.asList(res));
         }
 
+        boolean isDragWholeRegion = false;
 
         @Override
         boolean onTouchEvent(MotionEvent event) {
@@ -922,10 +939,15 @@ public class PolyGonSelectView extends View {
                         // 添加点
                         addPoint(x, y);
                         isAddPoint = true;
+                    } else if (isPointInShape(x, y)) {
+                        // 整体拖动
+                        isDragWholeRegion = true;
+                        lastX = x;
+                        lastY = y;
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    Log.i(TAG, "ACTION_MOVE 【" + draggingPoint + "】  isAddPoint=" + isAddPoint + " isDragging=" + isDragging);
+                    Log.i(TAG, "ACTION_MOVE 【" + draggingPoint + "】  isAddPoint=" + isAddPoint + " isDragging=" + isDragging + " isDragWholeRegion=" + isDragWholeRegion);
                     if (isDragging && draggingPoint != null) {
                         // 拖拽中
                         movePoint(draggingPoint, x - lastX, y - lastY);
@@ -942,14 +964,19 @@ public class PolyGonSelectView extends View {
                             }
                             isAddPoint = false;
                             isDragging = true;
-                            draggingPoint = addPoint(x, y);
-                            ;
+                            draggingPoint = point;
                             lastX = x;
                             lastY = y;
                             beforeDraggingX = x;
                             beforeDraggingY = y;
                             invalidate();
                         }
+                    } else if (isDragWholeRegion) {
+                        // 整体拖动
+                        moveAllPoint(x - lastX, y - lastY);
+                        lastX = x;
+                        lastY = y;
+                        invalidate();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -957,7 +984,7 @@ public class PolyGonSelectView extends View {
                     isDragging = false;
                     isAddPoint = false;
                     draggingPoint = null;
-
+                    isDragWholeRegion = false;
                     break;
             }
             return true;
