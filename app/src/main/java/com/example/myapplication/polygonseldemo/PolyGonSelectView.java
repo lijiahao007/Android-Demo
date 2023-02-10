@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,7 +18,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.utils.DimenUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -212,8 +210,6 @@ public class PolyGonSelectView extends View {
     abstract class SelectShape {
         protected ArrayList<Point> pointList = new ArrayList<>();
         protected boolean isRegionSelect = false;
-        protected Path regionPath = new Path();
-        private final RectF regionRectF = new RectF();
         int index = -1;
 
         boolean isDragging = false;
@@ -249,12 +245,6 @@ public class PolyGonSelectView extends View {
             isRegionSelect = regionSelect;
         }
 
-        public void moveAllPoint(float distanceX, float distanceY) {
-            for (int i = 0; i < pointList.size(); i++) {
-                movePoint(i, distanceX, distanceY);
-            }
-        }
-
         public Point getEditPoint() {
             for (Point point : pointList) {
                 if (point.isEdit()) {
@@ -264,7 +254,7 @@ public class PolyGonSelectView extends View {
             return null;
         }
 
-        protected int getNearPointFromPos(float x, float y) {
+        protected int getNearPointIndex(float x, float y) {
             ListIterator<Point> iterator = pointList.listIterator(pointList.size());
             while (iterator.hasPrevious()) {
                 int index = iterator.previousIndex();
@@ -287,37 +277,19 @@ public class PolyGonSelectView extends View {
             return null;
         }
 
-        // 判断某个点是否在该形状中
-        protected boolean isPointInShape(float x, float y) {
-            regionPath.computeBounds(regionRectF, true);
-            Region region = new Region();
-            region.setPath(regionPath, new Region((int) regionRectF.left, (int) regionRectF.top, (int) regionRectF.right, (int) regionRectF.bottom));
-            return region.contains((int) x, (int) y);
-        }
-
         protected float calPointDis(float x1, float y1, float x2, float y2) {
             return (float) (Math.sqrt(Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)));
         }
 
-        protected boolean isOverLayPoint(int index, float x, float y) {
+        protected boolean isOverLayPoint(int index, float newX, float newY, float oldX, float oldY) {
             Point point = pointList.get(index);
             for (Point p : pointList) {
                 if (point == p) {
                     continue;
                 }
-                if (calPointDis(p.getX(), p.getY(), x, y) <= pointRadius * 2) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        protected boolean isOverLayPoint(Point point, float x, float y) {
-            for (Point p : pointList) {
-                if (point == p) {
-                    continue;
-                }
-                if (calPointDis(p.getX(), p.getY(), x, y) <= pointRadius * 2) {
+                float newDis = calPointDis(p.getX(), p.getY(), newX, newY);
+                float oldDis = calPointDis(p.getX(), p.getY(), oldX, oldY);
+                if (newDis <= pointRadius * 2 && newDis <= oldDis) {
                     return true;
                 }
             }
@@ -325,14 +297,30 @@ public class PolyGonSelectView extends View {
         }
 
 
-        protected boolean isTouchBorder(float x, float y) {
+        protected boolean canMoveHorizon(float newX, float oldX) {
             int width = getWidth();
-            int height = getHeight();
-            if (x > pointRadius && x < (width - pointRadius)
-                    && y > pointRadius && y < (height - pointRadius)) {
-                return false;
+            if (newX > pointRadius && newX < (width - pointRadius)) {
+                return true;
             }
-            return true;
+            Log.i(TAG, "canMoveHorizon newX=" + newX + " oldX=" + oldX + " radius=" + pointRadius + " width=" + width);
+            if ((newX <= pointRadius && newX >= oldX)
+                    || (newX >= width - pointRadius && newX <= oldX)) {
+                return true;
+            }
+            return false;
+        }
+
+        protected boolean canMoveVertical(float newY, float oldY) {
+            int height = getHeight();
+            if (newY > pointRadius && newY < (height - pointRadius)) {
+                return true;
+            }
+
+            if ((newY <= pointRadius && newY >= oldY)
+                    || (newY >= height - pointRadius && newY <= oldY)) {
+                return true;
+            }
+            return false;
         }
 
 
@@ -448,6 +436,7 @@ public class PolyGonSelectView extends View {
         private final Paint selectRegionPaint;
         private final Rect textRect;
         int draggingPointIndex = -1;
+        protected Path regionPath = new Path();
 
 
         public Polygon() {
@@ -497,13 +486,19 @@ public class PolyGonSelectView extends View {
 
         @Override
         public void movePointTo(int index, float dstX, float dstY) {
-            if (isOverLayPoint(index, dstX, dstY) || isTouchBorder(dstX, dstY)) {
+            Point point = pointList.get(index);
+
+            if (isOverLayPoint(index, dstX, dstY, point.getX(), point.getY())) {
                 return;
             }
 
-            Point point = pointList.get(index);
-            point.setX(dstX);
-            point.setY(dstY);
+            if (canMoveHorizon(dstX, point.getX())) {
+                point.setX(dstX);
+            }
+
+            if (canMoveVertical(dstY, point.getY())) {
+                point.setY(dstY);
+            }
         }
 
         @Override
@@ -513,12 +508,18 @@ public class PolyGonSelectView extends View {
 
             float newX = point.getX() + distanceX;
             float newY = point.getY() + distanceY;
-            if (isOverLayPoint(index, newX, newY) || isTouchBorder(newX, newY)) {
+            if (isOverLayPoint(index, newX, newY, point.getX(), point.getY())) {
                 return;
             }
 
-            point.setX(newX);
-            point.setY(newY);
+
+            if (canMoveHorizon(newX, point.getX())) {
+                point.setX(newX);
+            }
+
+            if (canMoveVertical(newY, point.getY())) {
+                point.setY(newY);
+            }
         }
 
         @Override
@@ -575,7 +576,7 @@ public class PolyGonSelectView extends View {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    int pointIndex = getNearPointFromPos(x, y);
+                    int pointIndex = getNearPointIndex(x, y);
                     Log.i(TAG, "ACTION_DOWN " + "pointIndex = " + pointIndex);
                     if (pointIndex != -1) {
                         selectPoint(pointList.get(pointIndex));
@@ -697,11 +698,10 @@ public class PolyGonSelectView extends View {
         private Path cornerPath;
         private float cornerLineWidth;
         private Drawable deleteDrawable;
-
         private int deleteDrawableSize = (int) DimenUtil.dp2px(getContext(), 10);
-
         private boolean isAddPoint = false;
         Point draggingPoint = null;
+        boolean isDragWholeRegion = false;
 
 
         public Rectangle() {
@@ -710,7 +710,7 @@ public class PolyGonSelectView extends View {
             int selectRegionColor = getResources().getColor(R.color.TrunsRed);
             float lineWidth = DimenUtil.dp2px(getContext(), 2);
             cornerLineWidth = DimenUtil.dp2px(getContext(), 5);
-            pointRadius = (int) DimenUtil.dp2px(getContext(), 5);
+            pointRadius = (int) DimenUtil.dp2px(getContext(), 3);
 
             linePaint = new Paint();
             linePaint.setColor(lineColor);
@@ -790,13 +790,21 @@ public class PolyGonSelectView extends View {
 
             float newX = point.getX() + distanceX;
             float newY = point.getY() + distanceY;
-            if (isTouchBorder(newX, newY)) {
-                return;
+
+            boolean isChange = false;
+            if (canMoveHorizon(newX, point.getX())) {
+                point.setX(newX);
+                isChange = true;
             }
 
-            point.setX(newX);
-            point.setY(newY);
-            sortPoint(pointList);
+            if (canMoveVertical(newY, point.getY())) {
+                point.setY(newY);
+                isChange = true;
+            }
+
+            if (isChange) {
+                sortPoint(pointList);
+            }
         }
 
         @Override
@@ -805,18 +813,22 @@ public class PolyGonSelectView extends View {
                 return;
             }
 
-            regionPath.reset();
-            for (int i = 0; i < pointList.size(); i++) {
-                Point point = pointList.get(i);
-                if (i == 0) {
-                    regionPath.moveTo(point.getX(), point.getY());
-                } else {
-                    regionPath.lineTo(point.getX(), point.getY());
-                }
-            }
-            regionPath.close();
-            canvas.drawPath(regionPath, linePaint);
-            canvas.drawPath(regionPath, selectRegionPaint);
+            canvas.drawRect(
+                    pointList.get(0).getX(),
+                    pointList.get(0).getY(),
+                    pointList.get(2).getX(),
+                    pointList.get(2).getY(),
+                    linePaint
+            );
+
+            canvas.drawRect(
+                    pointList.get(0).getX(),
+                    pointList.get(0).getY(),
+                    pointList.get(2).getX(),
+                    pointList.get(2).getY(),
+                    selectRegionPaint
+            );
+
 
             if (!isRegionSelect) {
                 return;
@@ -870,50 +882,88 @@ public class PolyGonSelectView extends View {
          * @param data data[0]-左上角   data[1]-右上角   data[2]-左下角   data[3]-右下角
          */
         private void sortPoint(ArrayList<Point> data) {
+            if (data.size() != 4) {
+                return;
+            }
+
+            // 对角点
+            Point leftTop = data.get(0);
+            Point rightBottom = data.get(2);
+
+            if (leftTop.getX() < rightBottom.getX() && leftTop.getY() < rightBottom.getY()) {
+                return;
+            }
+
+
+            if (leftTop.getX() < rightBottom.getX() && leftTop.getY() > rightBottom.getY()) {
+                Collections.reverse(data);
+                return;
+            }
+
+            ArrayList<Point> tmp = new ArrayList<>();
+            if (leftTop.getX() > rightBottom.getX() && leftTop.getY() < rightBottom.getY()) {
+                tmp.add(data.get(1));
+                tmp.add(data.get(0));
+                tmp.add(data.get(3));
+                tmp.add(data.get(2));
+                data.clear();
+                data.addAll(tmp);
+                return;
+            }
+
+            if (leftTop.getX() > rightBottom.getX() && leftTop.getY() > rightBottom.getY()) {
+                tmp.add(data.get(2));
+                tmp.add(data.get(3));
+                tmp.add(data.get(0));
+                tmp.add(data.get(1));
+                data.clear();
+                data.addAll(tmp);
+                return;
+            }
+        }
+
+        // 判断某个点是否在该形状中
+        protected boolean isPointInShape(float x, float y) {
+            if (pointList.size() != 4) {
+                return false;
+            }
+
+            if (x >= pointList.get(0).getX() && x <= pointList.get(2).getX()
+                    && y >= pointList.get(0).getY() && y <= pointList.get(2).getY()) {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void moveAllPoint(float distanceX, float distanceY) {
+            // 只用整对角
             if (pointList.size() != 4) {
                 return;
             }
-            float minX = Float.MAX_VALUE;
-            float maxX = Float.MIN_VALUE;
-            float minY = Float.MAX_VALUE;
-            float maxY = Float.MIN_VALUE;
 
-            for (Point point : pointList) {
-                if (point.getX() >= maxX) {
-                    maxX = point.getX();
-                }
+            Point leftTop = pointList.get(0);
+            Point rightBottom = pointList.get(2);
 
-                if (point.getX() <= minX) {
-                    minX = point.getX();
-                }
+            float newLeftTopX = leftTop.getX() + distanceX;
+            float newLeftTopY = leftTop.getY() + distanceY;
+            float newRightBottomX = rightBottom.getX() + distanceX;
+            float newRightBottomY = rightBottom.getY() + distanceY;
 
-                if (point.getY() >= maxY) {
-                    maxY = point.getY();
-                }
+            if (canMoveHorizon(newLeftTopX, leftTop.getX()) && canMoveHorizon(newRightBottomX, rightBottom.getX())) {
+                Log.i(TAG, "canMoveHorizon(newLeftTopX, leftTop.getX())=" + canMoveHorizon(newLeftTopX, leftTop.getX()));
+                Log.i(TAG, "canMoveHorizon(newRightBottomX, rightBottom.getX())" + canMoveHorizon(newRightBottomX, rightBottom.getX()));
 
-                if (point.getY() <= minY) {
-                    minY = point.getY();
-                }
+                leftTop.setX(newLeftTopX);
+                rightBottom.setX(newRightBottomX);
             }
 
-            Point[] res = new Point[4];
-
-            for (Point point : pointList) {
-                if (point.getX() == minX && point.getY() == minY) {
-                    res[0] = point;
-                } else if (point.getX() == maxX && point.getY() == minY) {
-                    res[1] = point;
-                } else if (point.getX() == maxX && point.getY() == maxY) {
-                    res[2] = point;
-                } else if (point.getX() == minX && point.getY() == maxY) {
-                    res[3] = point;
-                }
+            if (canMoveVertical(newLeftTopY, leftTop.getY()) && canMoveVertical(newRightBottomY, rightBottom.getY())) {
+                leftTop.setY(newLeftTopY);
+                rightBottom.setY(newRightBottomY);
             }
-            data.clear();
-            data.addAll(Arrays.asList(res));
         }
 
-        boolean isDragWholeRegion = false;
 
         @Override
         boolean onTouchEvent(MotionEvent event) {
