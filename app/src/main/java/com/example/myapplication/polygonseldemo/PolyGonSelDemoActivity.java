@@ -1,6 +1,7 @@
 package com.example.myapplication.polygonseldemo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.myapplication.BaseActivity;
@@ -44,6 +45,13 @@ public class PolyGonSelDemoActivity extends BaseActivity<ActivityPolyGonSelDemoB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding.polyView.setOnRectDeleteClickListener(new PolyGonSelectView.OnRectDeleteClickListener() {
+            @Override
+            public void onDelete(int index, PolyGonSelectView.Rectangle rectangle) {
+                Log.i(TAG, "index=" + index + "  rectangle=" + rectangle);
+            }
+        });
 
 
     }
