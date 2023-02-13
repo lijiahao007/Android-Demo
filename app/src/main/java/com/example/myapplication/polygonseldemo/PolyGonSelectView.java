@@ -612,6 +612,9 @@ public class PolyGonSelectView extends View {
                             point.setX(beforeDraggingX);
                             point.setY(beforeDraggingY);
                             invalidate();
+                            if (onButtonEnabledListener != null) {
+                                onButtonEnabledListener.onIsIntersection();
+                            }
                         }
                         draggingPointIndex = -1;
                         beforeDraggingX = -1;
