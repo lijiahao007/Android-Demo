@@ -28,6 +28,8 @@ public class PolyGonSelectView extends View {
     private String TAG = "PolyGonSelectView";
 
     private final ArrayList<SelectShape> regionList = new ArrayList<>();
+    private OnButtonEnabledListener onButtonEnabledListener;
+    private OnRectDeleteClickListener onRectDeleteClickListener;
 
     public PolyGonSelectView(Context context) {
         super(context);
@@ -73,9 +75,6 @@ public class PolyGonSelectView extends View {
 //        regionList.add(rectangle);
 //        regionList.add(rectangle1);
     }
-
-
-    private OnButtonEnabledListener onButtonEnabledListener;
 
 
     public SelectShape getSelectRegion() {
@@ -204,9 +203,6 @@ public class PolyGonSelectView extends View {
         }
     }
 
-    public void setOnButtonEnabledListener(OnButtonEnabledListener onButtonEnabledListener) {
-        this.onButtonEnabledListener = onButtonEnabledListener;
-    }
 
 
     abstract class SelectShape {
@@ -617,6 +613,9 @@ public class PolyGonSelectView extends View {
                             point.setX(beforeDraggingX);
                             point.setY(beforeDraggingY);
                             invalidate();
+                            if (onButtonEnabledListener != null) {
+                                onButtonEnabledListener.onIsIntersection();
+                            }
                         }
                         draggingPointIndex = -1;
                         beforeDraggingX = -1;
@@ -704,6 +703,8 @@ public class PolyGonSelectView extends View {
         private boolean isAddPoint = false;
         Point draggingPoint = null;
         boolean isDragWholeRegion = false;
+        boolean isClickDeleteButton = false;
+        Point deletePoint = null;
 
 
         public Rectangle() {
@@ -976,13 +977,19 @@ public class PolyGonSelectView extends View {
 
                     Log.i(TAG, "ACTION_DOWN " + "pointIndex = " + nearPoint + " size=" + pointList.size());
                     if (nearPoint != null) {
-                        // 开始拖拽
-                        isDragging = true;
-                        draggingPoint = nearPoint;
-                        lastX = x;
-                        lastY = y;
-                        beforeDraggingX = nearPoint.getX();
-                        beforeDraggingY = nearPoint.getY();
+                        if (pointList.size() == 4 && nearPoint == pointList.get(1)) {
+                            // 点击右上角
+                            isClickDeleteButton = true;
+                            deletePoint = nearPoint;
+                        } else {
+                            // 开始拖拽
+                            isDragging = true;
+                            draggingPoint = nearPoint;
+                            lastX = x;
+                            lastY = y;
+                            beforeDraggingX = nearPoint.getX();
+                            beforeDraggingY = nearPoint.getY();
+                        }
                     } else if (pointList.size() == 0) {
                         // 添加点
                         addPoint(x, y);
@@ -1029,10 +1036,21 @@ public class PolyGonSelectView extends View {
                     break;
                 case MotionEvent.ACTION_UP:
                     Log.i(TAG, "ACTION_UP" + "  size= " + pointList.size());
+
+                    if (isClickDeleteButton && onRectDeleteClickListener != null) {
+                        float distance = calPointDis(deletePoint.getX(), deletePoint.getY(), x, y);
+                        if (distance <= deleteDrawableSize) {
+                            // 点击右上角的删除按钮
+                            int index = regionList.indexOf(this);
+                            onRectDeleteClickListener.onDelete(index, this);
+                        }
+                    }
+
                     isDragging = false;
                     isAddPoint = false;
                     draggingPoint = null;
                     isDragWholeRegion = false;
+                    isClickDeleteButton = false;
                     break;
             }
             return true;
@@ -1136,5 +1154,15 @@ public class PolyGonSelectView extends View {
         void onIsIntersection();
     }
 
+    public void setOnButtonEnabledListener(OnButtonEnabledListener onButtonEnabledListener) {
+        this.onButtonEnabledListener = onButtonEnabledListener;
+    }
 
+    public interface OnRectDeleteClickListener {
+        void onDelete(int index, Rectangle rectangle);
+    }
+
+    public void setOnRectDeleteClickListener(OnRectDeleteClickListener onRectDeleteClickListener) {
+        this.onRectDeleteClickListener = onRectDeleteClickListener;
+    }
 }
