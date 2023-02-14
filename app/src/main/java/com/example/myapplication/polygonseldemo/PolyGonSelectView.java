@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -1003,7 +1004,7 @@ public class PolyGonSelectView extends View {
                         invalidate();
                     } else if (isAddPoint && pointList.size() == 1) {
                         Point firstPoint = pointList.get(0);
-                        if (calPointDis(x, y, firstPoint.getX(), firstPoint.getY()) >= 10f) {
+                        if (calPointDis(x, y, firstPoint.getX(), firstPoint.getY()) >= ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
                             // 设置第二个点，并开始拖拽
                             Point point = addPoint(x, y);
                             if (point == null) {
