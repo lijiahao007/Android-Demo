@@ -161,6 +161,17 @@ public class VirtualFenceInfo {
             return true;
         }
 
+        public LineInfo() {
+        }
+
+        public LineInfo(int alarmtype, int startX, int startY, int endX, int endY) {
+            this.alarmtype = alarmtype;
+            this.startX = startX;
+            this.startY = startY;
+            this.endX = endX;
+            this.endY = endY;
+        }
+
         public int getStartX() {
             return startX;
         }

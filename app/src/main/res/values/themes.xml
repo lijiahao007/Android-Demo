@@ -69,8 +69,8 @@
     </style>
 
     <style name="Theme.ThemeNoActionBar.FullScreenActivityTheme">
-<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
-<!--        <item name="android:enforceNavigationBarContrast">false</item>-->
+        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:enforceNavigationBarContrast">false</item>-->
     </style>
 
 </resources>

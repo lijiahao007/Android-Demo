@@ -20,6 +20,7 @@
 
     <string name="str_viewing">Viewing：%1$s</string>
     <string name="str_album_share_image">Share selected %1$d image(s)？</string>
+    <string name="title_activity_line_sel_demo">LIneSelDemoActivity</string>
 
 
 </resources>

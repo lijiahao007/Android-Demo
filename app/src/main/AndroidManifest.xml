@@ -66,6 +66,15 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".polygonseldemo.LineSelDemoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_line_sel_demo"
+            android:theme="@style/Theme.MyApplication.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".polygonseldemo.PolyGonSelDemoActivity"
             android:exported="false">
             <meta-data
