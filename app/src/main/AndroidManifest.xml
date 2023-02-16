@@ -75,6 +75,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".customview1.CustomViewDemo1Activity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".polygonseldemo.PolyGonSelDemoActivity"
             android:exported="false">
             <meta-data
