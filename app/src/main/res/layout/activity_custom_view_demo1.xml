@@ -33,6 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/scroll_view_1" />
 
     <LinearLayout
+        android:id="@+id/ll_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/media_item_decoration_end_color"
@@ -47,6 +48,14 @@
             android:background="@color/blue" />
 
     </LinearLayout>
+
+    <com.example.myapplication.customview1.MyTouchEventView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toEndOf="@+id/scroll_view"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

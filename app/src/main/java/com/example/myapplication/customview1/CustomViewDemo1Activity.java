@@ -1,12 +1,10 @@
 package com.example.myapplication.customview1;
 
-import static androidx.constraintlayout.widget.ConstraintLayout.*;
-
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -61,6 +59,10 @@ public class CustomViewDemo1Activity extends BaseActivity<ActivityCustomViewDemo
             Log.i(TAG, "myDraggingView OnClickListener");
             showToast("OnClickListener");
         });
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 }
