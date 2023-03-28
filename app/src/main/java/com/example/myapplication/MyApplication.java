@@ -12,6 +12,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.myapplication.unsplashproject.onlyokhttp.utls.DataBaseManager;
+import com.igexin.sdk.IUserLoggerInterface;
+import com.igexin.sdk.PushManager;
 import com.macrovideo.sdk.SDKHelper;
 import com.tencent.mmkv.MMKV;
 
@@ -24,6 +26,7 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends Application {
 
     static final String TAG = "MyApplication";
+    static final String PUSH_TAG = "GE_TUI_PUSH";
     public ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
@@ -36,6 +39,17 @@ public class MyApplication extends Application {
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        initGeTuiInterface();
+    }
+
+    private void initGeTuiInterface() {
+        PushManager.getInstance().initialize(this.getApplicationContext());
+        PushManager.getInstance().setDebugLogger(this, new IUserLoggerInterface() {
+            @Override
+            public void log(String s) {
+                Log.i(PUSH_TAG, "log: " + s);
+            }
+        });
     }
 
     @Override

@@ -18,6 +18,8 @@ android {
                 JPUSH_PKGNAME : applicationId,
                 JPUSH_APPKEY : "eb1f8763ad517766d80a7739", //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+
+                GETUI_APPID : "XyKENJHs2f9wkYiF38m1b", // 个推上注册的包名对应的 Appkey.
         ]
     }
 
@@ -122,6 +124,7 @@ dependencies {
 
 
     testImplementation 'org.json:json:20180813'
-
+    implementation 'com.getui:gtsdk:3.2.15.0'  //个推SDK
+    implementation 'com.getui:gtc:3.2.1.0'  //个推核心组件
 }
 
