@@ -9,6 +9,9 @@ pluginManagement {
         google()
         mavenCentral()
         maven { url 'https://developer.huawei.com/repo/' }
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+        }
     }
 }
 dependencyResolutionManagement {
@@ -20,6 +23,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://developer.huawei.com/repo/' }
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+        }
     }
 }
 rootProject.name = "My Application"

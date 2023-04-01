@@ -53,6 +53,31 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 设备列表更新IP用到 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" /> <!-- 个推必须要的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="getui.permission.GetuiService.${applicationId}" />
+
+    <permission
+        android:name="getui.permission.GetuiService.com.example.myapplication"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" /> <!-- 适配Android11以上 -->
+    <queries>
+        <intent>
+            <action android:name="com.getui.sdk.action" />
+        </intent>
+    </queries> <!-- 个推可选权限（电子围栏功能） -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -64,17 +89,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".customview1.MyViewPagerDemoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".customview1.TouchDelegateDemoActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:name=".getui.GTOpenActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="com.example.getuipush"
+                    android:path="/detail"
+                    android:scheme="gtpushscheme" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".getui.GeTuiSettingActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".getui.MyGTIntentService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".getui.DemoPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice" />
+
         <activity
             android:name=".polygonseldemo.LineSelDemoActivity"
             android:exported="false"

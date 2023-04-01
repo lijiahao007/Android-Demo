@@ -12,12 +12,11 @@ import com.example.myapplication.broadcast.BroadcastDemoActivity1;
 import com.example.myapplication.contentprovider.ContentProviderDemoActivity;
 import com.example.myapplication.customview.CustomViewMenuActivity;
 import com.example.myapplication.customview1.CustomViewDemo1Activity;
-import com.example.myapplication.customview1.MyViewPagerDemoActivity;
-import com.example.myapplication.customview1.TouchDelegateDemoActivity;
 import com.example.myapplication.dialog.DialogActivity;
 import com.example.myapplication.eventbus.EventBusDemoActivity;
 import com.example.myapplication.fragment.FragmentMenuActivity;
 import com.example.myapplication.gesture.GestureDemoActivity;
+import com.example.myapplication.getui.GeTuiSettingActivity;
 import com.example.myapplication.glidedemo.GlideDemoActivity;
 import com.example.myapplication.handlerDemo.HandlerDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
@@ -63,8 +62,7 @@ public class ActivityDemo1 extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         ArrayList<MenuAdapter.MenuInfo> menuList = new ArrayList<MenuAdapter.MenuInfo>() {{
-            add(new MenuAdapter.MenuInfo("MyViewPagerDemo", MyViewPagerDemoActivity.class));
-            add(new MenuAdapter.MenuInfo("TouchDelegate", TouchDelegateDemoActivity.class));
+            add(new MenuAdapter.MenuInfo("个推设置", GeTuiSettingActivity.class));
             add(new MenuAdapter.MenuInfo("LineSelView", LineSelDemoActivity.class));
             add(new MenuAdapter.MenuInfo("自定义View", CustomViewDemo1Activity.class));
             add(new MenuAdapter.MenuInfo("PolySelView", PolyGonSelDemoActivity.class));
