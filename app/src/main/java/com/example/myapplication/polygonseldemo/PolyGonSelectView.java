@@ -1,5 +1,6 @@
 package com.example.myapplication.polygonseldemo;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -564,7 +565,6 @@ public class PolyGonSelectView extends View {
             float textX = x - width / 1.7f;
             float textY = y + textRect.height() / 2f;
             canvas.drawText(indexStr, textX, textY, textPaint);
-
             // TODO: 增加编辑状态点的绘画。
         }
 

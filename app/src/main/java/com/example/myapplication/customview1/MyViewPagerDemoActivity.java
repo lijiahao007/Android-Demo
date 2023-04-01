@@ -1,16 +1,14 @@
 package com.example.myapplication.customview1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import com.example.myapplication.R;
+import com.example.myapplication.BaseActivity;
+import com.example.myapplication.databinding.ActivityMyViewPagerDemoBinding;
 
-public class MyViewPagerDemoActivity extends AppCompatActivity {
+public class MyViewPagerDemoActivity extends BaseActivity<ActivityMyViewPagerDemoBinding> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_view_pager_demo);
     }
 }

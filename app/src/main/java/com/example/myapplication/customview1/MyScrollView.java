@@ -36,6 +36,7 @@ public class MyScrollView extends View {
         mScroller = new Scroller(getContext());
         paint = new Paint();
         paint.setColor(getResources().getColor(R.color.Red));
+        postInvalidate();
     }
 
 
