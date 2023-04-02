@@ -92,19 +92,23 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".customdns.CustomDnsActivity"
+            android:exported="false" />
+        <activity
             android:name=".getui.GTOpenActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="com.example.getuipush"
                     android:path="/detail"
                     android:scheme="gtpushscheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".getui.GeTuiSettingActivity"
             android:exported="false" />

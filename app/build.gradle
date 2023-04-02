@@ -126,5 +126,9 @@ dependencies {
     testImplementation 'org.json:json:20180813'
     implementation 'com.getui:gtsdk:3.2.15.0'  //个推SDK
     implementation 'com.getui:gtc:3.2.1.0'  //个推核心组件
+
+    // https://mvnrepository.com/artifact/dnsjava/dnsjava
+    implementation 'dnsjava:dnsjava:3.5.2'
+
 }
 
