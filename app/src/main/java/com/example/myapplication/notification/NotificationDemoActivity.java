@@ -9,29 +9,18 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityNotificationDemoBinding;
-// 参考 https://llw-study.blog.csdn.net/article/details/125446355?spm=1001.2014.3001.5502
-public class NotificationDemoActivity extends AppCompatActivity {
-    private ActivityNotificationDemoBinding binding;
 
-    // 1. channel Id
-    private String channelId = "test";
-    // 2. channel 名称
-    private String channelName = "测试通知";
-    // 3. channel 重要级别
-    private int channelImportant = NotificationManagerCompat.IMPORTANCE_HIGH;
-    // 4. 通知管理者
-    private NotificationManager notificationManager;
-    // 5. 通知
-    private Notification notification;
-    // 6. 通知id
-    private int notificationId = 1;
+public class NotificationDemoActivity extends BaseActivity<ActivityNotificationDemoBinding> {
+    private ActivityNotificationDemoBinding binding;
 
 
     @Override
@@ -40,44 +29,98 @@ public class NotificationDemoActivity extends AppCompatActivity {
         binding = ActivityNotificationDemoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // 1. 获取系统通知服务
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        // 2. 初始化通知
-        initNotification();
-
         // 3. 显示通知
         binding.btnNormalNotification.setOnClickListener(v -> {
+            Notification notification = createNotification(null, "Helloworld");
 
+            // 通知Id
+            int notificationId = 1;
+            showNotification(notificationId, notification);
+        });
+
+        binding.btnForegroundService.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AutoPushService.class);
+            startService(intent);
+        });
+
+        binding.btnCloseForegroundService.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AutoPushService.class);
+            stopService(intent);
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createNotificationChannel(String channelId, String channelName, int channelImportant) {
-        // 1. 创建通知渠道
-        NotificationChannel channel = new NotificationChannel(channelId, channelName, channelImportant);
-        notificationManager.createNotificationChannel(channel);
-    }
 
-    private void initNotification() {
-        NotificationCompat.Builder builder;
+    // 渠道Id
+    private String channelId = "test";
+    // 渠道名
+    private String channelName = "测试通知";
+    // 通知管理者
+    private NotificationManagerCompat notificationManager;
+    // 通知
+    private int index = 1;
+
+    private Notification createNotification(Intent intent, String msg) {
+        // 1. 获取通知管理器
+        if (notificationManager == null) {
+            notificationManager = NotificationManagerCompat.from(this);
+        }
+        NotificationCompat.Builder builder = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // 1. Android 8.0以上，需要创建通道，并向通知构建者
-            createNotificationChannel(channelId, channelName, channelImportant);
+            // 2. 对于Android 8以上, 创建channelID
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH));
             builder = new NotificationCompat.Builder(this, channelId);
         } else {
-            // 2. Android 8.0以下，不需要创建通道，直接创建通知构建者
             builder = new NotificationCompat.Builder(this);
         }
 
-        // 3. 设置通知属性
-        builder.setSmallIcon(R.drawable.ic_note)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_note))
-                .setContentTitle("title:note")
-                .setContentText("text:搞钱");
+        // 3. 创建PendingIntent
+        PendingIntent pendingIntent = intent == null ? null : PendingIntent.getActivity(this, 0, intent, 0);
 
-        // 4. 构建通知
-        notification = builder.build();
+        String content = "测试的内容是报警消息跳转测试的内容是报警消息跳转测试的内容是报警消息跳转测试的内容是报警消息跳转测试的内容是报警消息跳转";
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle("【" + msg + "】这是一个测试的通知" + index++) // 通知标题
+                .setContentText(content) // 通知内容
+                .setContentIntent(pendingIntent) // 内容Intent
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(content));  // 内容过长时可折叠、展开
+
+        return builder.build();
+    }
+
+
+    private void showNotification(int notificationId, Notification notification) {
+        if (notification == null || notificationManager == null) {
+            return;
+        }
+        // 显示时一个notificationId 对应通知栏上的一个通知。
+        notificationManager.notify(notificationId, notification);
+    }
+
+
+    private String channelIdFore = "test_foreground";
+    // 渠道名
+    private String channelNameFore = "前台通知";
+
+    private Notification createForegroundService() {
+        // 1. 获取通知管理器
+        if (notificationManager == null) {
+            notificationManager = NotificationManagerCompat.from(this);
+        }
+
+        NotificationCompat.Builder builder = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // 2. 对于Android 8以上, 创建channelID
+            notificationManager.createNotificationChannel(new NotificationChannel(channelIdFore, channelNameFore, NotificationManager.IMPORTANCE_HIGH));
+            builder = new NotificationCompat.Builder(this, channelIdFore);
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle("这是一个前台服务"); // 通知标题
+
+        return builder.build();
     }
 
 

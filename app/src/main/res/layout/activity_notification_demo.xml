@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:text="显示通知"/>
     <Button
-        android:id="@+id/btn_popup_notification"
+        android:id="@+id/btn_foreground_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开启提醒式通知"/>
+        android:text="开启前台服务"/>
     <Button
-        android:id="@+id/btn_lock_notification"
+        android:id="@+id/btn_close_foreground_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开启锁屏通知"/>
+        android:text="结束前台服务"/>
 
 </LinearLayout>
