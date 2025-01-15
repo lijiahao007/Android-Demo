@@ -19,6 +19,7 @@ import com.example.myapplication.fragment.FragmentMenuActivity;
 import com.example.myapplication.gesture.GestureDemoActivity;
 import com.example.myapplication.getui.GeTuiSettingActivity;
 import com.example.myapplication.glidedemo.GlideDemoActivity;
+import com.example.myapplication.groupconstraint.ConstraintGroupActivity;
 import com.example.myapplication.handlerDemo.HandlerDemoActivity;
 import com.example.myapplication.hotupdate.HotUpdateDemoActivity;
 import com.example.myapplication.httpdownloader.DownloadDemoActivity;
@@ -108,6 +109,7 @@ public class ActivityDemo1 extends AppCompatActivity {
             add(new MenuAdapter.MenuInfo("Navigation", FragmentMenuActivity.class));
             add(new MenuAdapter.MenuInfo("Dialog", DialogActivity.class));
             add(new MenuAdapter.MenuInfo("三方登录", LoginMenuActivity.class));
+            add(new MenuAdapter.MenuInfo("ConstraintLayout", ConstraintGroupActivity.class));
 
         }};
         recyclerView.setMenuList(menuList);
